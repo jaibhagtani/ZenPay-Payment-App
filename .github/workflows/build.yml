@@ -20,7 +20,7 @@ jobs:
           cache: 'npm'
           
       - name: Install Dependencies
-        run: nnpm install forever -g
+        run: npm install forever -g
 
       - name: Install Turbo
         run: npm install turbo --global

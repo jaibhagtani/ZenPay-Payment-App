@@ -19,6 +19,6 @@ jobs:
           node-version: '20'
           cache: 'npm'
       - name: Install Dependencies
-        run: npm install npm@latest -g
+        run: npm install npm@latest -g && npm install turbo --save-dev
       - name: Run Build
         run: npm run build

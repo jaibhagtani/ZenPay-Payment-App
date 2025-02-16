@@ -18,10 +18,9 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
-        
+
       - name: Install Dependencies
         run: npm install forever -g
-
       - name: Run Build
         run: npm run build
  

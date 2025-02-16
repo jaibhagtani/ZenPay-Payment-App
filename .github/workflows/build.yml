@@ -22,8 +22,8 @@ jobs:
       - name: Install Dependencies
         run: npm install forever -g
 
-      - name: Install Turbo
-        run: npm install turbo --global
-
       - name: Run Build
         run: npm run build
+
+      - name: Run Test
+        run: npm run test

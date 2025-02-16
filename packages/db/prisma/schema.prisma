@@ -1,0 +1,76 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+model User {
+  id         Int       @id   @default(autoincrement())
+  email      String?   @unique
+  name       String?
+  number     String    @unique
+  password   String
+  OnRampTransaction     OnRampTransaction[]
+  Balance               Balance[]
+  sentTransfers         p2pTransfer[]         @relation(name: "fromUserRelation")
+  receivedTransfers     p2pTransfer[]     @relation(name: "toUserRelation")
+}
+
+model Merchant {
+  id          Int     @id   @default(autoincrement())
+  email       String @unique
+  name        String?
+  auth_type   AuthType
+}
+
+model OnRampTransaction {
+  id          Int     @id    @default(autoincrement())
+  status      OnRampStatus
+  token       String  @unique
+  provider    String
+  amount      Int
+  startTime   DateTime
+  userId      Int  
+  user        User   @relation(fields: [userId], references: [id])
+}
+
+model Balance {
+  id          Int     @id @default(autoincrement())
+  userId      Int     @unique
+  amount      Int
+  locked      Int
+  user        User    @relation(fields: [userId], references: [id])
+}
+
+model p2pTransfer {
+  id          Int     @id @default(autoincrement())
+  amount      Int     
+  timestamp   DateTime
+  fromUserId  Int
+  fromUser    User     @relation(name: "fromUserRelation", fields: [fromUserId], references: [id])
+  toUserId    Int
+  toUser      User     @relation(name: "toUserRelation", fields: [toUserId], references: [id])
+}
+
+// Only this can be the types of ramp status not any thing else
+// *******************************************
+// These will be in pending when the request will go,
+// This will get updated to Success or Failure when the
+// HDFC bank server will hit the WebHOOK SERVER
+enum OnRampStatus {
+  Success
+  Failure
+  Processing
+}
+
+enum AuthType {
+  Google
+  Github
+}

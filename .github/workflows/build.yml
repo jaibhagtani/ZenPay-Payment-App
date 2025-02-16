@@ -22,7 +22,7 @@ jobs:
         run: npm install npm@latest -g
 
       - name: Install Turbo
-        run: npm install turbo --global
+        run: cd.. && npm install turbo --global
 
       - name: Run Build
         run: cd.. && npm run build

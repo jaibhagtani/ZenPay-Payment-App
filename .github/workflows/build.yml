@@ -9,7 +9,7 @@ jobs:
     name: Build and Test
     timeout-minutes: 15
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Check out code
         uses: actions/checkout@v4
@@ -23,7 +23,7 @@ jobs:
           cache: 'npm'
  
       - name: Install dependencies
-        run: npm install
+        run: npm install -g
  
       - name: Build
         run: npm run build

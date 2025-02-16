@@ -2,7 +2,7 @@
   "name": "with-tailwind",
   "private": true,
   "scripts": {
-    "build": "turbo run build",
+    "build": "npx tailwindcss -i src/css/tailwind.css -o dist/css/tailwind.css turbo run build",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
     "check-types": "turbo run check-types",

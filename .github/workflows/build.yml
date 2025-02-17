@@ -1,24 +1,37 @@
+# https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+
 name: Build on PR
 
 on:
+  push:
+    branches: [ "master" ]
   pull_request:
-    branches:
-      - master
+    branches: [ "master" ]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Use Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '20'
-      
-      - name: Install Dependencies
-        run: npm install npm@latest -g
 
-      - run: npm ci
-      
-      - name: Run Build
-        run: npm run build
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ windows-latest, macos-latest, ubuntu-latest ]
+      fail-fast: false  # Don't cancel other jobs when one job fails
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install zsh
+      run: sudo apt install zsh
+      if: ${{ runner.os == 'Linux' }}
+
+    - name: Use Node.js 20
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+
+    - name: Install packages
+      run: npm install --no-optional
+
+    - name: Run Build
+      run: npm run build

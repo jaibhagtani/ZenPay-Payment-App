@@ -1,37 +1,31 @@
-# https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
 
-name: Build on PR
+name: Node.js CI
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ $default-branch ]
   pull_request:
-    branches: [ "master" ]
+    branches: [ $default-branch ]
 
 jobs:
   build:
 
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        os: [ windows-latest, macos-latest, ubuntu-latest ]
-      fail-fast: false  # Don't cancel other jobs when one job fails
+        node-version: [18.x, 20.x, 22.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
     - uses: actions/checkout@v4
-
-    - name: Install zsh
-      run: sudo apt install zsh
-      if: ${{ runner.os == 'Linux' }}
-
-    - name: Use Node.js 20
+    - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v4
       with:
-        node-version: '20'
-
-    - name: Install packages
-      run: npm install npm@latest -g && npm install turbo-windows-64
-
-    - name: Run Build
-      run: npm run build
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    - run: npm ci
+    - run: npm run build --if-present
+    - run: npm test

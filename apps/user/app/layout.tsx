@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   description: "A wallet app",
 };
 
-
+// Hello ji
 
 export default function RootLayout({
   children,

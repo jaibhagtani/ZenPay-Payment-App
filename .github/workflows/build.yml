@@ -1,4 +1,6 @@
-name: CI
+
+name: Build on PR
+
  
 on:
   pull_request:

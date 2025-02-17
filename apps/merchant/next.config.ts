@@ -4,6 +4,7 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  transpilePackages: ["@repo/ui"],
   eslint: {
     ignoreDuringBuilds: true,
   },

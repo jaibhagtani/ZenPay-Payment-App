@@ -17,6 +17,6 @@ jobs:
       
       - name: Install Dependencies
         run: npm install npm@latest -g
-        
+
       - name: Run Build
         run: npm run build

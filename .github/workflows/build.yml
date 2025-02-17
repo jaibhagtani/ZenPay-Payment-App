@@ -16,7 +16,7 @@ jobs:
           node-version: '20'
       
       - name: Install Dependencies
-        run: npm install -g
+        run: nnpm install npm@latest -g
         
       - name: Run Build
         run: npm run build

@@ -20,3 +20,6 @@ jobs:
  
       - name: Install dependencies
         run: npm install npm@latest -g
+ 
+      - name: Build
+        run: npm run build

@@ -29,10 +29,10 @@ jobs:
         run: npx next --version || echo "Next.js is missing!"
 
       - name: Build Docs Manually (Debugging)
-        run: cd apps/docs && npx next build
+        run: cd apps/merchant && npx next build
 
       - name: Build Webs Manually (Debugging)
-        run: cd apps/web && npx next build
+        run: cd apps/user && npx next build
 
       - name: Build with Turbo (Debug Mode)
         run: npx turbo run build --debug

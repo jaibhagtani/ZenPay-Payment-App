@@ -22,9 +22,6 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
-      - name: Verify Next.js Installation
-        run: npx next --version
-
       - name: Generate prisma client
         run: npm run db:generate
 

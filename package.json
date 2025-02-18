@@ -2,7 +2,7 @@
   "name": "with-tailwind",
   "private": true,
   "scripts": {
-    "build": "with-tailwind@1.0.0 build turbo run build",
+    "build": "turbo run build",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
     "check-types": "turbo run check-types",

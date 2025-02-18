@@ -22,11 +22,17 @@ jobs:
           node-version: 20
           cache: 'npm'
 
-      - name: Install dependencies
-        run: npm install
+      - name: Install Dependencies
+        run: npm install --legacy-peer-deps
 
-      - name: Check Next.js installation
+      - name: Verify Next.js Installation
         run: npx next --version || echo "Next.js is missing!"
 
-      - name: Build with Turbo
-        run: npx turbo run build --force
+      - name: Build Docs Manually (Debugging)
+        run: cd apps/docs && npx next build
+
+      - name: Build Webs Manually (Debugging)
+        run: cd apps/web && npx next build
+
+      - name: Build with Turbo (Debug Mode)
+        run: npx turbo run build --debug

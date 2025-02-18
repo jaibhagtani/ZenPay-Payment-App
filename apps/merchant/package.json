@@ -11,10 +11,20 @@
     "check-types": "tsc --noEmit"
   },
   "dependencies": {
+    "@repo/db": "*",
+    "@repo/store": "*",
     "@repo/ui": "*",
+    "@types/bcrypt": "^5.0.2",
+    "bcrypt-ts": "^5.0.3",
+    "install": "^0.13.0",
+    "jsonwebtoken": "^9.0.2",
     "next": "^15.1.6",
+    "next-auth": "^4.24.11",
+    "npm": "^11.1.0",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-router-dom": "^7.1.5",
+    "recoil": "^0.7.7"
   },
   "devDependencies": {
     "@next/eslint-plugin-next": "^15.1.6",
@@ -29,5 +39,10 @@
     "postcss": "^8.5.1",
     "tailwindcss": "^3.4.17",
     "typescript": "5.7.3"
-  }
+  },
+  "description": "First, run the development server:",
+  "main": "eslint.config.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }

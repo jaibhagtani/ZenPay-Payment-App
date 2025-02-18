@@ -26,9 +26,9 @@
     "recoil": "^0.7.7"
   },
   "devDependencies": {
+    "next": "^15.1.6",
     "@next/eslint-plugin-next": "^15.1.6",
     "@repo/eslint-config": "*",
-    "next": "^15.1.6",
     "@repo/tailwind-config": "*",
     "@repo/typescript-config": "*",
     "@types/node": "^22.12.0",

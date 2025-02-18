@@ -13,9 +13,6 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v4
 
-      - name: Enable Corepack
-        run: corepack enable
-
       - name: Setup Node.js environment
         uses: actions/setup-node@v4
         with:
@@ -23,19 +20,13 @@ jobs:
           cache: 'npm'
 
       - name: Install Dependencies
-        run: npm install --legacy-peer-deps
+        run: npm install
 
       - name: Verify Next.js Installation
-        run: npx next --version || echo "Next.js is missing!"
+        run: npx next --version
 
       - name: Generate prisma client
         run: npm run db:generate
 
-      - name: Build Docs Manually (Debugging)
-        run: cd apps/merchant && npx next build
-
-      - name: Build Webs Manually (Debugging)
-        run: cd apps/user && npx next build
-
-      - name: Build with Turbo (Debug Mode)
+      - name: Build with Turbo
         run: npx turbo run build

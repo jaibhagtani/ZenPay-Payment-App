@@ -38,4 +38,4 @@ jobs:
         run: cd apps/user && npx next build
 
       - name: Build with Turbo (Debug Mode)
-        run: npx turbo run build --debug
+        run: npx turbo run build

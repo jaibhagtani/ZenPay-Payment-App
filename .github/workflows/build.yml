@@ -28,6 +28,9 @@ jobs:
       - name: Verify Next.js Installation
         run: npx next --version || echo "Next.js is missing!"
 
+      - name: Verify Next.js Installation
+        run: npx next --version || echo "Next.js is missing!"
+        
       - name: Build Docs Manually (Debugging)
         run: cd apps/merchant && npx next build
 

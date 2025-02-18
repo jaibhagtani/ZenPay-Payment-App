@@ -18,7 +18,6 @@
     "bcrypt-ts": "^5.0.3",
     "install": "^0.13.0",
     "jsonwebtoken": "^9.0.2",
-    "next": "^15.1.6",
     "next-auth": "^4.24.11",
     "npm": "^11.1.0",
     "react": "^19.0.0",
@@ -29,6 +28,7 @@
   "devDependencies": {
     "@next/eslint-plugin-next": "^15.1.6",
     "@repo/eslint-config": "*",
+    "next": "^15.1.6",
     "@repo/tailwind-config": "*",
     "@repo/typescript-config": "*",
     "@types/node": "^22.12.0",

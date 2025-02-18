@@ -23,7 +23,7 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm install
+        run: npm install npm@latest -g
 
       - name: Check Next.js availability
         run: npx next --version

@@ -12,8 +12,8 @@ export const metadata: Metadata = {
 
 export default function({children} : {children: React.ReactNode}) : JSX.Element{
     return ( <>
-            <div className="flex bg-pink-50 w-screen ">
-                <div className="w-72 border-r border-slate-300 border-xs h-screen pt-16">
+            <div className="flex bg-pink-50 w-screen">
+                <div className="min-w-60 max-w-96 border-r border-slate-300 border-xs h-screen pt-16">
                     <div className="pt-3">
                         <SideBarItems href="/dashboard" icon={<HomeIcon/>} title="Home"></SideBarItems>
                     </div>

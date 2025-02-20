@@ -10,6 +10,7 @@ COPY packages ./packages
 # COPY . .
 # We are running npm i after, becoz these apps also has its own packages
 # ideally do them as differently to reduce build time
+ENV DATABASE_URL    $DATABASE_URL
 RUN npm install
 
 RUN npm run db:generate

@@ -13,7 +13,7 @@ COPY packages ./packages
 
 ENV NEXTAUTH_SECRET     $NEXTAUTH_SECRET
 RUN npm install
-ENV DATABASE_URL    $DATABASE_URL
+ENV DATABASE_URL    ${DATABASE_URL}
 RUN npm run db:generate
 
 RUN npm run build

@@ -11,9 +11,9 @@ COPY packages ./packages
 # We are running npm i after, becoz these apps also has its own packages
 # ideally do them as differently to reduce build time
 
-ENV NEXTAUTH_SECRET     ${NEXTAUTH_SECRET}
+ENV NEXTAUTH_SECRET     $NEXTAUTH_SECRET
 RUN npm install
-ENV DATABASE_URL    ${DATABASE_URL}
+ENV DATABASE_URL    $DATABASE_URL
 RUN npm run db:generate
 
 RUN npm run build

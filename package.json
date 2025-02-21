@@ -9,9 +9,10 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "db:generate": "cd packages/db && npx prisma generate",
     "start-user-app": "cd ./apps/user && npm run start",
-    "start-merchant-app": "cd ./apps/merchant && npm run start",
+    "start-merchant-app": "cd ./apps/merchant && npm run start"
   },
   "devDependencies": {
+    "@types/jquery": "^3.5.32",
     "prettier": "^3.5.0",
     "prettier-plugin-tailwindcss": "^0.6.11",
     "turbo": "latest"

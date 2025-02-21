@@ -1,7 +1,6 @@
 import { prisma } from "@repo/db/client";
 import CredentialsProvider from "next-auth/providers/credentials"
 import bcrypt from "bcrypt" 
-import { env } from "process";
 export const NEXT_AUTH = {
     
     providers: [
@@ -75,7 +74,7 @@ export const NEXT_AUTH = {
         },
       })
   ],
-  secret: process.env.NEXTAUTH_SECRET || "SecRet",
+  secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
     // fix the type here
     async session({ token, session }: any) {

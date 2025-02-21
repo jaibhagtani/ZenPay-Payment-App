@@ -1,6 +1,5 @@
 import SideBarItems from "@repo/ui/sidebaritems"
 import { JSX } from "react"
-// import "../styles/globals.css"
 import { Metadata } from "next"; 
 
 

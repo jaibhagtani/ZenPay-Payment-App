@@ -1,6 +1,7 @@
 import { prisma } from "@repo/db/client";
 import CredentialsProvider from "next-auth/providers/credentials"
 import bcrypt from "bcrypt" 
+import { env } from "process";
 export const NEXT_AUTH = {
     
     providers: [

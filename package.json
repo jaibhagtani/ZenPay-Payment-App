@@ -9,7 +9,8 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "db:generate": "cd packages/db && npx prisma generate",
     "start-user-app": "cd ./apps/user && npm run start",
-    "start-merchant-app": "cd ./apps/merchant && npm run start"
+    "start-merchant-app": "cd ./apps/merchant && npm run start",
+    "postinstall": "cd packages/db && prisma generate"
   },
   "devDependencies": {
     "prettier": "^3.5.0",

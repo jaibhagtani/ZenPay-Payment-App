@@ -31,8 +31,8 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/zenpay:latest
 
-    #   - name: Verify Pushed Image
-    #     run: docker run jaibhagtani/zenpay:latest
+      - name: Verify Pushed Image
+        run: docker run jaibhagtani/zenpay:latest
 
       - name: Deploy to production
         uses: johnbeynon/render-deploy-action@v0.0.8

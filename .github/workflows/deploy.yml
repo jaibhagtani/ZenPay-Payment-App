@@ -31,13 +31,17 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/zenpay:latest
 
-      - name: Verify Pushed Image
-        run: docker run jaibhagtani/zenpay:latest
+      # - name: Verify Pushed Image
+      #   run: docker run jaibhagtani/zenpay:latest
 
       - name: Deploy to production
         uses: johnbeynon/render-deploy-action@v0.0.8
         with:
-            service-id: ${{ secrets.RENDER_SERVICE_ID }}
-            api-key: ${{ secrets.RENDER_API_KEY }}
+          scripts: |
+            docker pull jaibhagtani/zenpay:latest
+            docker stop zenpay || true
+            docker rm zenpay || true
+            docker run -d --name zenpay-user -p 3005:3000 jaibhagtani/zenpay:latest
+
 
     

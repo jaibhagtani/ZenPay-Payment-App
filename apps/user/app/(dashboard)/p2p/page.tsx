@@ -21,15 +21,15 @@ async function getTransactions()
             }
         })
 
-        return transactions.map(t => ({
+        transactions.map(t => ({
             amount : t.amount,
             time: t.timestamp,
             toUserId: Number(t.toUserId),
             toUserName: t.toUser.name?.toString() || ""
         })) 
 
+        return [...transactions].reverse();
     }
-    
     return null;
 }
 

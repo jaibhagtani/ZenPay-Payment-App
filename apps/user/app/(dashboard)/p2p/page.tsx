@@ -40,7 +40,7 @@ export default async function()
     const txns = await getTransactions(); 
     return <div className="max-w-full">
             <div>   
-                <div className="text-4xl text-purple-600 pt-8 mb-8 font-bold px-4">
+                <div className="text-4xl text-purple-600 pt-8 mb-8 font-bold px-4 mt-12">
                     P2P Transfer
                 </div>
             </div>

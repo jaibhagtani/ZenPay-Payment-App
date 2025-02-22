@@ -60,7 +60,7 @@ export default async function()
     const txns = await getOnRampTransactions();
     return (
         <div className="max-w-screen">
-            <div className="text-4xl text-purple-600 pt-8 mb-6 font-bold px-4">
+            <div className="text-4xl text-purple-600 pt-8 mb-6 font-bold px-4 mt-12">
                 Transfer
             </div>
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-9 p-2 gap-4">

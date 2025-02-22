@@ -12,17 +12,17 @@ export const metadata: Metadata = {
 export default function({children} : {children: React.ReactNode}) : JSX.Element{
     return ( <>
             <div className="flex bg-pink-50 w-screen">
-                <div className="min-w-60 max-w-96 border-r border-slate-300 border-xs h-screen pt-16">
-                    <div className="pt-3">
+                <div className="min-w-60 max-w-96 border-r border-slate-300 border-sm h-screen mt-16 ">
+                    <div className="pt-4">
                         <SideBarItems href="/dashboard" icon={<HomeIcon/>} title="Home"></SideBarItems>
                     </div>
-                    <div className="pt-3">
+                    <div className="pt-4">
                         <SideBarItems href="/transfer" icon={<Transfer/>} title="Transfer"></SideBarItems>
                     </div>
-                    <div className="pt-3">
+                    <div className="pt-4">
                         <SideBarItems href="/transactions" icon={<Transactions />} title="Transactions"></SideBarItems>
                     </div>
-                    <div className="pt-3">
+                    <div className="pt-4">
                         <SideBarItems href="/p2p" icon={<P2P />} title="P2P Transfer"></SideBarItems>
                     </div>
                 </div>

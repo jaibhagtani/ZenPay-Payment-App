@@ -17,7 +17,7 @@ export function AppBar({
 } : AppbarProps) : JSX.Element
 {
     return(
-        <div className="flex justify-between border-b px-5 py-1 rounded-xl border-indigo-500 opacity-75 inset-shadow-lg">
+        <div className="flex justify-between border-b px-5 py-1 border-slate-400/80 rounded-sm">
             <div className="flex flex-col justify-center">
                 {/* <Link to="/"> */}
                     <div className="text-3xl flex justify-center font-bold">

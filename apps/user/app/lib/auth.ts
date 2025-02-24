@@ -74,7 +74,7 @@ export const NEXT_AUTH = {
         },
       })
   ],
-  secret: process.env.NEXTAUTH_SECRET,
+  secret: process.env.NEXTAUTH_SECRET || "secret",
   callbacks: {
     // fix the type here
     async session({ token, session }: any) {

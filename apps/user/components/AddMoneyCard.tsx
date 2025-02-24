@@ -56,7 +56,7 @@ export function AddMoney() {
                                 // *******************
                                 // Uss time uss URL ko chala rhe hai 
                                 // Can be set, to navigate to the given URL.
-                            }} className="mt-10 bg-black border w-40 h-10 rounded-xl text-white text-center transition delay-100 duration-200 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-slate-800">Add Money</button>
+                            }} className={`mt-10 bg-black border w-40 h-10 rounded-xl text-white text-center transition delay-100 duration-200 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-slate-800 `}>Add Money</button>
                     </div>
                     {boolButton && !bool ?  <div className="text-2xl mt-10 font-semibold flex justify-center text-red-500 pb-16"> Enter the Valid value of Amount !! </div> : <div className="pb-20 mt-10"></div> }
                 </div> 

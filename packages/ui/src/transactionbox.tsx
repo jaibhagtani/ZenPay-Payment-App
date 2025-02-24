@@ -10,7 +10,7 @@ interface TransactionStyleProps {
 export default function TransactionStyle({transaction} : {transaction : TransactionStyleProps})
 {
     return (
-        <div className="min-w-full my-2 px-1 flex flex-row justify-between rounded-lg border border-slate-200 h-10">
+        <div className="w-full my-2 px-1 flex flex-row justify-between rounded-lg border border-slate-200 h-10">
             <div className="flex">
                 <div className="content-center mr-5">
                     {transaction?.status == "Processing" ? <div className="h-6 w-6 rounded-full bg-amber-400"></div> : <div></div>}

@@ -17,7 +17,8 @@
     "./p2ptransactionbox" : "./src/p2ptransactionbox.tsx",
     "./select" : "./src/select.tsx",
     "./sidebaritems" : "./src/sidebaritems.tsx",
-    "./transactionbox" : "./src/transactionbox.tsx"
+    "./transactionbox" : "./src/transactionbox.tsx",
+    "./txbutton" : "./src/txbutton.tsx"
   },
   "license": "MIT",
   "scripts": {

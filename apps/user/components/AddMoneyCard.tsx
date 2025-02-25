@@ -14,7 +14,7 @@ const SUPPORTED_BANKS = [{
     redirectUrl : "https://www.axisbank.com"
 }]
 
-export function AddMoney() {
+export function AddMoney({title, buttonThing} : {title: string, buttonThing: string}) {
 
     const [redirectUrl, setRedirectUrl] = useState(SUPPORTED_BANKS[0]?.redirectUrl);
     const [provider, setProvider] = useState(SUPPORTED_BANKS[0]?.name || "");
@@ -25,7 +25,8 @@ export function AddMoney() {
     return (
         <div className="min-h-fit mx-5">
             {/* {value} */}
-                <Card title="Add Money">
+            <div className="pt-2"></div>
+                <Card title={`${title}`}>
                     <div className="ml-4 mt-10 min-w-96">
                     <LabelledInput label="Amount" placeholder="Amount" onChangeFunc={(val) => {
                         setValue(Number(val));
@@ -50,13 +51,14 @@ export function AddMoney() {
                             setBoolButton(true);
                             if(bool)
                             {
-                                await createOnRampTrans(provider, value);
-                                window.location.href = redirectUrl || "";
+                                // addWithDrawHERE
+                                // await createOnRampTrans(provider, value);
+                                // window.location.href = redirectUrl || "";
                             }
                                 // *******************
                                 // Uss time uss URL ko chala rhe hai 
                                 // Can be set, to navigate to the given URL.
-                            }} className={`mt-10 bg-black border w-40 h-10 rounded-xl text-white text-center transition delay-100 duration-200 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-slate-800 `}>Add Money</button>
+                            }} className={`mt-10 bg-black border w-40 h-10 rounded-xl text-white text-center transition delay-100 duration-200 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-slate-800 `}>{buttonThing}</button>
                     </div>
                     {boolButton && !bool ?  <div className="text-2xl mt-10 font-semibold flex justify-center text-red-500 pb-16"> Enter the Valid value of Amount !! </div> : <div className="pb-20 mt-10"></div> }
                 </div> 

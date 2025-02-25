@@ -12,7 +12,7 @@ export default function BalanceCard({amount, locked} : BalanceCardProps)
 
     return (
         <div>
-            <Card title="Balance">
+            <Card title="Balances">
                 <div className="flex justify-between pt-4 border-b border-pink-100">
                     <div className="mx-4 font-semibold mb-1">
                         Unlocked Balance

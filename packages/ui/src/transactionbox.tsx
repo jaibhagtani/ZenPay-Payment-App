@@ -1,6 +1,7 @@
 
 
 interface TransactionStyleProps {
+    id: number,
     amount: number; 
     time: Date;
     status : string;
@@ -27,14 +28,12 @@ export default function TransactionStyle({transaction} : {transaction : Transact
                         {transaction?.time?.toLocaleDateString()} {transaction?.time.toLocaleTimeString()}
                     </div>
                 </div>
-                <div className="text-lg font-bold content-center ml-10">{transaction?.provider}</div>
             </div>
+            <div className="text-lg font-bold content-center">{transaction?.provider}</div>
             <div className="mx-5 content-center font-semibold">
                 <div>
                     {transaction?.status}
                 </div>
-                
-                
             </div>
             <div className="mx-2 flex flex-col justify-center text-lg font-semibold">
                 + Rs {(transaction?.amount) ? transaction.amount/100 : 0}

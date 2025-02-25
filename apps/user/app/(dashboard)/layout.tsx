@@ -17,10 +17,10 @@ export default function({children} : {children: React.ReactNode}) : JSX.Element{
                         <SideBarItems href="/dashboard" icon={<HomeIcon/>} title="Home"></SideBarItems>
                     </div>
                     <div className="pt-4">
-                        <SideBarItems href="/transfer" icon={<Transfer/>} title="Transfer"></SideBarItems>
+                        <SideBarItems href="/transfer/deposit" icon={<Transfer/>} title="Transfer"></SideBarItems>
                     </div>
                     <div className="pt-4">
-                        <SideBarItems href="/transactions" icon={<Transactions />} title="Transactions"></SideBarItems>
+                        <SideBarItems href="/transactions/deposit" icon={<Transactions />} title="Transactions"></SideBarItems>
                     </div>
                     <div className="pt-4">
                         <SideBarItems href="/p2p" icon={<P2P />} title="P2P Transfer"></SideBarItems>

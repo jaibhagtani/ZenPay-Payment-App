@@ -9,7 +9,7 @@ interface TransactionCardProps {
     provider : string;
 }
 
-export default function TransactionCard({transactions} : {transactions: TransactionCardProps []})
+export default function TransactionCard({transactions, href} : {transactions: TransactionCardProps [], href: string})
 {
     if(!transactions.length)
     {
@@ -27,7 +27,7 @@ export default function TransactionCard({transactions} : {transactions: Transact
     return (
         <div className="min-w-max">
             <Card title="Recent Transactions">
-            <TxButton placeholder={"View all transactions"} href={"/transfer/txns"}></TxButton>
+                <TxButton placeholder={"View all transactions"} href={href}></TxButton>
             </Card>
         </div>
     )

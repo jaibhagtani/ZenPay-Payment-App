@@ -1,9 +1,7 @@
-import { getServerSession } from "next-auth";
-import { NEXT_AUTH } from "../app/lib/auth";
-import { prisma } from "@repo/db/client";
 import TransactionStyle from "@repo/ui/transactionbox";
 
 interface TransactionCardProps {
+    id: number,
     amount: number; 
     time: Date;
     status : string;

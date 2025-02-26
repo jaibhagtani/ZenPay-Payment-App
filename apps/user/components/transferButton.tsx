@@ -1,5 +1,5 @@
 "use client"
-import { redirect, useRouter } from "next/navigation"
+import { redirect, usePathname, useRouter } from "next/navigation"
 
 
 export default function TransferButton({placeholder, path}: {
@@ -8,10 +8,13 @@ export default function TransferButton({placeholder, path}: {
 })
 {
     const router = useRouter();
+    const currpath = usePathname();
+    const selected = currpath === path
+
     return  <div>
         <button onClick={() => {
             // redirect(path)
             router.push(path);
-        }} className="bg-white text-black font-semibold h-10 w-max px-8 rounded-2xl">{placeholder}</button>
+        }} className={`text-black font-semibold h-10 w-max px-12 rounded-2xl ${selected ? "bg-white" : ""} hover:text-gray-600`}>{placeholder}</button>
     </div>
 }

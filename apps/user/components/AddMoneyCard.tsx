@@ -27,7 +27,7 @@ export function AddMoney({title, buttonThing} : {title: string, buttonThing: str
             {/* {value} */}
             <div className="pt-2"></div>
                 <Card title={`${title}`}>
-                    <div className="ml-4 mt-10 min-w-96">
+                    <div className="ml-4 mt-10 w-full pr-4">
                     <LabelledInput label="Amount" placeholder="Amount" onChangeFunc={(val) => {
                         setValue(Number(val));
                         {Number(val) ? setBool(true) : setBool(false)}

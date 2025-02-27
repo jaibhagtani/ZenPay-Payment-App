@@ -8,16 +8,16 @@ interface TransactionCardProps {
     provider : string;
 }
 
-export default async function TxnsPage({transactions} : {transactions: TransactionCardProps[]})
+export default async function TxnsPage({transactions, typeofPayment} : {transactions: TransactionCardProps[], typeofPayment: "deposit" | "withdraw"})
 {
 
 
     return (    <div>
         {transactions ? 
         <div className="flex">
-            <div className="m-2 w-screen">
+            <div className="m-2 w-full">
                 {transactions.map(transaction => (
-                    <TransactionStyle transaction={transaction}></TransactionStyle>
+                    <TransactionStyle transaction={transaction} typeofPayment={typeofPayment}></TransactionStyle>
                 ))}
             </div>
         </div>

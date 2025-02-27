@@ -13,19 +13,19 @@ export const metadata: Metadata = {
 export default function({children} : {children: React.ReactNode}) : JSX.Element{
     return ( <>
         
-        <div className="flex bg-pink-50 w-screen">
-            <div className="mt-16 lg:min-w-60 max-w-96 border-r border-slate-300 border-sm min-h-screen "> 
-                <div className="lg:disable block">
+        <div className="flex bg-pink-50 min-w-screen min-h-screen z-50">
+            <div className="mt-16">
+                <div className="lg:invisible">
                     <SideBarMobile />
                 </div>
-                <div className="invisible lg:visible">
+                <div className="hidden lg:block lg:w-64 border-r border-slate-300 border-sm h-screen">
                     <SidebarPC />
                 </div>
-                </div>
+            </div>
                 
-                    <div className="bg-pink-50">
-                        {children}
-                    </div>
+            <div className="bg-pink-50">
+                {children}
+            </div>
         </div>
     </>
     )

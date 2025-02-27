@@ -15,6 +15,6 @@ export default function TransferButton({placeholder, path}: {
         <button onClick={() => {
             // redirect(path)
             router.push(path);
-        }} className={`text-black font-semibold h-10 w-max px-12 rounded-2xl ${selected ? "bg-white" : ""} hover:text-gray-600`}>{placeholder}</button>
+        }} suppressHydrationWarning={true} className={`text-black font-semibold h-10 w-max px-10 rounded-2xl ${selected ? "bg-white" : ""} hover:text-gray-600`}>{placeholder}</button>
     </div>
 }

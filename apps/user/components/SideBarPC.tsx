@@ -5,7 +5,7 @@ import { HomeIcon, P2P, Transactions, Transfer } from "./Icons";
 
 export default function SidebarPC()
 {
-    return ( <div className="fixed top-40 left-0 z-40 font-medium">
+    return ( <div className="disable lg:fixed top-40 left-0 z-40 font-medium">
             <div className="pt-4">
             <SideBarItems href="/dashboard" icon={<HomeIcon/>} title="Home"></SideBarItems>
             </div>

@@ -58,16 +58,16 @@ export default async function()
     const balance = await getBalance();
     const txns = await getOnRampTransactions();
     return (
-        <div>
-            <div className="grid grid-cols-1 gap-4 lg:grid-cols-9 p-2 gap-4">
-                <div className="mx-10 bg-white max-w-fit lg:min-w-fit rounded-3xl max-h-fit col-span-4">
+        <div className="flex justify-center">
+            <div className="mx-10 grid grid-cols-1 gap-10 lg:grid-cols-12 p-2 gap-4">
+                <div className="bg-white min-w-fit lg:min-w-full rounded-3xl col-span-7">
                     <AddMoney title="Deposit" buttonThing="Deposit Money"></AddMoney>
                 </div>
-                <div className="col-span-5">
-                    <div className="mx-10 bg-white max-w-fit lg:max-w-fit min-w-96 rounded-3xl py-2">
+                <div className="col-span-4">
+                    <div className=" bg-white min-w-fit lg:max-w-full min-w-96 rounded-3xl py-2">
                         <BalanceCard amount={balance ? balance.amount : 0} locked={balance ? balance.locked : 0}></BalanceCard>
                     </div>
-                    <div className="mx-10 bg-white max-w-60 lg:pt-4 min-w-fit rounded-3xl my-5">
+                    <div className="bg-white min-w-fit lg:pt-4 max-w-full rounded-3xl my-5">
                         <TransactionCard transactions={txns ? txns : []} href="/transactions/deposit"></TransactionCard>
                     </div>
                 </div>

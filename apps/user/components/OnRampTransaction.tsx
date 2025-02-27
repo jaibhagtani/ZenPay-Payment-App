@@ -14,9 +14,9 @@ export default function TransactionCard({transactions, href} : {transactions: Tr
     if(!transactions.length)
     {
         return (
-            <div className="min-w-max">
+            <div className="min-w-fit lg:w-full">
                 <Card title="Recent Transactions">
-                    <div key={1} className="mx-4 text-center font-semibold py-8 mx-40 font-sm">
+                    <div key={1} className="mx-4 text-center font-bold py-8 mx-40 font-sm">
                         No Recent transactions
                     </div>
                 </Card>
@@ -25,7 +25,7 @@ export default function TransactionCard({transactions, href} : {transactions: Tr
     }
 
     return (
-        <div className="min-w-max">
+        <div className="min-w-fit flex justify-center lg:w-full">
             <Card title="Recent Transactions">
                 <TxButton placeholder={"View all transactions"} href={href}></TxButton>
             </Card>

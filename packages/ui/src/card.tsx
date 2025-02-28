@@ -8,7 +8,7 @@ export function Card({
   children: ReactNode;
 }) {
   return (
-    <div className="w-full">
+    <div className="min-w-fit w-full">
       <h1 className="font-bold text-xl px-4 border-b pb-2 pt-3">
         {title}
       </h1>

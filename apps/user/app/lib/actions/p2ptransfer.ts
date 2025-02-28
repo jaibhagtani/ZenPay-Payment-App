@@ -121,7 +121,8 @@ export async function transferP2P(to : string, amount : number)
     }
     catch(e) {
         return {
-            msg : "Internal Error Occured"
+            msg : "Internal Error Occured",
+            error: e
         }
     }
     

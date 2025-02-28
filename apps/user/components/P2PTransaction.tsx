@@ -12,9 +12,9 @@ export default function P2PTransactions({transactions} : {transactions: P2PTrans
     if(!transactions.length)
     {
         return (
-            <div>
+            <div className="w-full">
                 <Card title="Recent Transactions">
-                    <div key={1} className="mx-4 text-center font-semibold py-8 w-full">
+                    <div className="mx-4 text-center font-bold py-8 w-full">
                         No Recent transactions
                     </div>
                 </Card>

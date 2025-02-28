@@ -11,7 +11,7 @@ interface P2PTransactionStyleProps {
 export default function P2PTransactionStyle({transaction} : {transaction : P2PTransactionStyleProps})
 {
     return (
-        <div className="min-w-full my-2 px-1 flex flex-row justify-between rounded-lg border border-slate-200 h-10">
+        <div className="w-full my-2 px-1 flex flex-row justify-between rounded-lg border border-slate-200 h-10">
             <div className="flex">
                 <div>
                     <div className="text-sm font-semibold">

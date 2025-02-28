@@ -8,7 +8,7 @@ interface TransactionCardProps {
     provider : string;
 }
 
-export default async function TxnsPage({transactions, typeofPayment} : {transactions: TransactionCardProps[], typeofPayment: "deposit" | "withdraw"})
+export default async function TxnsPage({transactions, typeofPayment} : {transactions: TransactionCardProps[], typeofPayment ?: "deposit" | "withdraw"})
 {
 
 

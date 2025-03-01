@@ -85,5 +85,9 @@ export const NEXT_AUTH = {
       // console.log(session);
       return session;
     }
-  }
+  },
+  // pages: {
+  //   signIn: '/auth/signin',
+  //   signUp: '/auth/signup',
+  // }
 }

@@ -25,7 +25,7 @@ export default function SideBarMobile()
             {isSidebarOpen ? <div className={`flex justify-center ${isSidebarOpen ? "absolute w-64" : "invisible disable"}`}>
 
             <aside id="logo-sidebar" className={`fixed y-40 left-0 z-40 transition-transform -translate-x-full translate-x-0 delay-50 w-64 h-screen`} aria-label="Sidebar">
-            <div className={`h-full px-3 py-4 overflow-y-auto ${isSidebarOpen ? "bg-pink-100 rounded-2xl h-max border-sm py-10" : ""}`}>
+            <div className={`h-full px-3 py-4 overflow-y-auto ${isSidebarOpen ? "bg-pink-200 rounded-2xl h-max border-sm py-10" : ""}`}>
                 <ul className="space-y-2 font-medium">
                     <li className="">
                         <a href="#" className="flex pt-2 hover:text-purple-100">

@@ -43,17 +43,15 @@ export default async function()
                     P2P Transfer
                 </div>
             </div>
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 min-w-fit">
-                <div className="lg:col-span-7 min-w-full">
-                    <div className="ml-10 grid grid-rows-9 h-screen">
-                        <div className="row-start-2">
+            <div className="grid grid-cols-1 max-w-fit lg:grid-cols-12 gap-4 w-full">
+                <div className="min-w-fit h-max my-10 lg:w-full col-span-6">
+                    <div className="ml-5 mt-10">
                             <SendCard></SendCard>
-                        </div>
                     </div>
                 </div>
-                <div className="bg-white h-max rounded-3xl w-full lg:my-6 col-span-3 mt-20">
+                <div className="bg-white h-max rounded-3xl max-w-fit my-10 lg:w-full my-6 col-span-4 ml-5 mt-10 mb-10">
                     <div className="my-5 mx-6">
-                        <div className="max-w-full min-w-fit">
+                        <div className="max-w-fit">
                             <P2PTransactions transactions={txns ? txns : []}></P2PTransactions>
                         </div>
                     </div>

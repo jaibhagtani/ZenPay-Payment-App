@@ -27,12 +27,11 @@ export default function SendCard()
                     <div className="flex justify-center mt-10 pb-8">
                         <Button onClickFunc={async () => {
                             const res = await transferP2P(phoneNumber, Number(value) * 100);
-                            // setResponse(res?.msg || "");
                             if(res?.msg == "User not Loggedin")
                             {
                                 alert("User Not Logged in");
                             }
-                            else if(res?.msg == "User not found")
+                            else if(res?.msg == "User not found" || res.msg == "Transfering to invalid user")
                             {
                                 alert("Receiver User not found");
                             }
@@ -40,14 +39,18 @@ export default function SendCard()
                             {
                                 alert("Insufficient funds");
                             }
-                            else if(res.msg == "Transaction successfull")
+                            else if(res.msg == "Transaction Success")
                             {
-                                alert("Transaction successfull");
+                                alert("Transaction Success");
+                            }
+                            else if(res.msg == "Insufficient Funds")
+                            {
+                                alert("Insufficient Funds")
                             }
                             else{
-                                alert("Internal Error Occured");
+                                alert("Error While p2p");
                             }
-                        }}>Send</Button>
+                        }}>Transfer</Button>
                     </div>
                 </Card>
         </div>

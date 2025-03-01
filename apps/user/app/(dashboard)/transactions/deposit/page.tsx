@@ -35,7 +35,7 @@ export default async function()
 {
     const transactions = await getOnRampTransactions();
     return (
-        <div>
+        <div className="flex justify-center">
             <div className="max-w-fit lg:min-w-fit max-w-screen">
                 <div className="text-2xl flex flex-row justify-center bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 inline-block text-transparent bg-clip-text pt-8 mb-8 font-bold px-4 mt-12">
                     Recent Deposit Transactions
@@ -44,7 +44,7 @@ export default async function()
                     {transactions?.length} Transaction(s)
                 </div> : 
                 <div className="font-semibold m-10 text-xl flex justify-self-center font-bold">No Recent Transactions</div>}
-                <div className="grid grid-cols-9 p-2 gap-4">
+                <div className="grid grid-cols-10 p-2 gap-4">
                     <div className="col-start-1 col-span-7 lg:col-start-2 col-span-8">
                         {transactions && transactions.length > 0 ? <div className="bg-white min-w-full rounded-3xl py-3 px-10 lg:w-full">
                             <TxnsPage transactions = {transactions} typeofPayment="deposit"></TxnsPage>

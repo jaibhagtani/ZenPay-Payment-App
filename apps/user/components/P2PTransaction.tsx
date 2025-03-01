@@ -1,5 +1,6 @@
 import { Card } from "@repo/ui/card";
 import P2PTransactionStyle  from "@repo/ui/p2ptransactionbox"
+import TxButton from "@repo/ui/txbutton";
 interface P2PTransactionsProps {
     amount: number; 
     time: Date;
@@ -27,9 +28,7 @@ export default function P2PTransactions({transactions} : {transactions: P2PTrans
             <Card title="Recent Transactions">
                 <div className="flex">
                     <div className="w-full">
-                        {transactions.map(transaction => (
-                            <P2PTransactionStyle transaction={transaction}></P2PTransactionStyle>
-                        ))}
+                        <TxButton placeholder={"View all transactions"} href={"/transactions/p2p"}></TxButton>
                     </div>
                 </div>
             </Card>

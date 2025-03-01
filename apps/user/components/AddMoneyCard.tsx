@@ -52,8 +52,8 @@ export function AddMoney({title, buttonThing} : {title: string, buttonThing: str
                             if(bool)
                             {
                                 // addWithDrawHERE
-                                // await createOnRampTrans(provider, value);
-                                // window.location.href = redirectUrl || "";
+                                await createOnRampTrans(provider, value);
+                                window.location.href = redirectUrl || "";
                             }
                                 // *******************
                                 // Uss time uss URL ko chala rhe hai 

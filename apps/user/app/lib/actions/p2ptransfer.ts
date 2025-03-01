@@ -30,10 +30,10 @@ export async function transferP2P(to : string, amount : number)
         }
     }
         
-    if(toUser.number == to)
+    if(fromId.number == to)
     {
         return {
-            msg: "Internal Error Occured"
+            msg: "Transfering to invalid user"
         }
     }
         
@@ -88,10 +88,10 @@ export async function transferP2P(to : string, amount : number)
                     amount: {
                         decrement: amount
                     }
-                },
+                }
             })
             
-            await tx.balance.update({
+            const toUserDetails = await tx.balance.update({
                 where: {
                     userId: toUser.id
                 },
@@ -99,9 +99,11 @@ export async function transferP2P(to : string, amount : number)
                     amount: {
                         increment: amount
                     }
+                },
+                select: {
+                    user: true
                 }
             })
-            
             
             await tx.p2pTransfer.create({
                 data: {
@@ -109,19 +111,27 @@ export async function transferP2P(to : string, amount : number)
                     amount: amount,
                     timestamp: new Date(),
                     toUserId: Number(toUser.id),
+                    toUserName: toUserDetails.user.name || ""
                 }
             })
             
         })
         
         return {
-            msg : "Transaction successfull"
+            msg : "Transaction Success"
         }
         
     }
     catch(e) {
+        if(e == "Error: Insufficient funds")
+        {
+            return {
+                msg: "Insufficient Funds"
+            }
+        }
         return {
-            msg : "Internal Error Occured",
+            
+            msg : "Error While p2p",
             error: e
         }
     }

@@ -8,7 +8,7 @@ export default function TransferLayout({ children }: { children: React.ReactNode
                 Transfer
             </div>
 
-            <div className="grid grid-cols-4 gap-4 pt-5">
+            <div className="grid lg:grid-cols-4 gap-4 pt-5">
                 <div className="col-span-1 col-start-2">
                     <TransferButton placeholder="Deposit" path="/transfer/deposit" />
                 </div>

@@ -9,7 +9,7 @@ export default function SideBarMobile()
 {
     const [isSidebarOpen, SetIsSidebarOpen] = useState(false);
 
-    return <div className={`${isSidebarOpen ? "h-screen mr-14 text-purple-300" : "mr-14"}`}>
+    return <div className={`${isSidebarOpen ? "h-screen mr-2 text-purple-300" : "mr-2"}`}>
             <button onClick={() => {
                 SetIsSidebarOpen(!isSidebarOpen);
             }} data-drawer-target="logo-sidebar" data-drawer-toggle="logo-sidebar" aria-controls="logo-sidebar" type="button" className="inline-flex items-center mt-4 p-2.5 text-sm text-purple-500 rounded-lg lg:hidden hover:bg-purple-100">

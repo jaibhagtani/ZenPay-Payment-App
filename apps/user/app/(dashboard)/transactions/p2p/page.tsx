@@ -48,7 +48,7 @@ export default async function()
                 </div> : 
                 <div className="font-semibold m-10 text-xl flex justify-self-center font-bold rounded-xl">No Recent Transactions</div>}
                 {transactions && transactions.length > 0 ? 
-                <div className="grid grid-cols-9 p-2 gap-4 bg-white rounded-3xl lg:px-14 py-6">
+                <div className="grid grid-cols-9 p-2 mr-2 gap-4 bg-white rounded-3xl lg:px-14 py-6">
                     <div className="col-start-1 col-span-5 lg:col-start-1 col-span-9">
                         {transactions.map(transaction => (
                             <P2PTransactionStyle transaction={transaction}></P2PTransactionStyle>

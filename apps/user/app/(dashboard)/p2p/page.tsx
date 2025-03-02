@@ -44,7 +44,7 @@ export default async function()
                 </div>
             </div>
             <div className="grid grid-cols-1 min-w-fit lg:grid-cols-12 gap-4 w-full">
-                <div className="min-w-fit h-max my-10 lg:w-full col-span-6">
+                <div className="min-w-fit h-max mr-2 my-10 lg:w-full col-span-6">
                     <div className="ml-5 mt-10">
                             <SendCard></SendCard>
                     </div>

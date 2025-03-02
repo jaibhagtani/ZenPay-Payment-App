@@ -20,13 +20,15 @@ async function getOnRampTransactions()
         })
     
         // console.log(txns);
-        return txns.map(t => ({
+        var txs = txns.map(t => ({
             id: t.id,
             time: t.startTime,
             amount: t.amount,
             status: t.status,
             provider: t.provider
         }))
+        var tx = [...txs].reverse();
+        return tx;
     }
     return null;
 }

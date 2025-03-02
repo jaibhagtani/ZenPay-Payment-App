@@ -21,13 +21,15 @@ async function getp2pTransactions()
         })
         
         // console.log(txns);
-        return txns.map(t => ({
+        var txs = txns.map(t => ({
             id: t.id,
             time: t.timestamp,
             amount: t.amount,
             toUserId: t.toUserId,
             toUserName: t.toUserName
         }))
+        var tx = [...txs].reverse();
+        return tx;
     }
     return null;
 }

@@ -46,7 +46,7 @@ export default async function()
                 {transactions && transactions.length > 0 ? <div className="flex justify-center text-2xl text-black-600 pt-2 mb-2 font-bold px-4 mt-5 max-w-full">
                     {transactions?.length} Transaction(s)
                 </div> : 
-                <div className="font-semibold m-10 text-xl flex justify-self-center font-bold bg-white rounded-xl">No Recent Transactions</div>}
+                <div className="font-semibold m-10 text-xl flex justify-self-center font-bold rounded-xl">No Recent Transactions</div>}
                 {transactions && transactions.length > 0 ? 
                 <div className="grid grid-cols-9 p-2 gap-4 bg-white rounded-3xl lg:px-14 py-6">
                     <div className="col-start-1 col-span-5 lg:col-start-1 col-span-9">

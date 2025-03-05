@@ -18,7 +18,8 @@
     "./select" : "./src/select.tsx",
     "./sidebaritems" : "./src/sidebaritems.tsx",
     "./transactionbox" : "./src/transactionbox.tsx",
-    "./txbutton" : "./src/txbutton.tsx"
+    "./txbutton" : "./src/txbutton.tsx",
+    "./labelledinputauth" : "./src/labelledinputauth.tsx"
   },
   "license": "MIT",
   "scripts": {

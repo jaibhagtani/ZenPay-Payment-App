@@ -1,8 +1,9 @@
-import SendCard from "../../../components/SendCard";
-import { prisma } from "@repo/db/client";
 import { getServerSession } from "next-auth";
-import { NEXT_AUTH } from "../../lib/auth";
-import P2PTransactions from "../../../components/P2PTransaction";
+import { NEXT_AUTH } from "../../../lib/auth";
+import { prisma } from "@repo/db/client";
+import SendCard from "../../../../components/SendCard";
+import P2PTransactions from "../../../../components/P2PTransaction";
+
 
 
 async function getTransactions()
@@ -49,9 +50,9 @@ export default async function()
                             <SendCard></SendCard>
                     </div>
                 </div>
-                <div className="bg-white h-max rounded-3xl max-w-fit my-10 lg:w-full my-6 col-span-4 ml-5 mt-10 mb-10">
+                <div className="bg-white h-max rounded-3xl max-w-fit my-10 lg:w-full my-6 col-span-4 ml-5 mt-10 mb-10 min-w-96">
                     <div className="my-5 mx-6">
-                        <div className="max-w-fit">
+                        <div className="min-w-fit">
                             <P2PTransactions transactions={txns ? txns : []}></P2PTransactions>
                         </div>
                     </div>

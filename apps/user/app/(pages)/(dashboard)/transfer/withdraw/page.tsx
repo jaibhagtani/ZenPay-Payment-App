@@ -1,9 +1,10 @@
 import { getServerSession } from "next-auth";
-import { NEXT_AUTH } from "../../../lib/auth";
+import { NEXT_AUTH } from "../../../../lib/auth";
 import { prisma } from "@repo/db/client";
-import { AddMoney } from "../../../../components/AddMoneyCard";
-import BalanceCard from "../../../../components/BalanceCard";
-import TransactionCard from "../../../../components/OnRampTransaction";
+import { AddMoney } from "../../../../../components/AddMoneyCard";
+import BalanceCard from "../../../../../components/BalanceCard";
+import TransactionCard from "../../../../../components/OnRampTransaction";
+
 
 async function getBalance()
 {

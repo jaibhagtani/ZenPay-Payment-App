@@ -1,9 +1,9 @@
 import { getServerSession } from "next-auth";
 
 import { prisma } from "@repo/db/client";
-import { NEXT_AUTH } from "../../../lib/auth";
-import TxnsPage from "../../../../components/Txns";
+
 import P2PTransactionStyle from "@repo/ui/p2ptransactionbox";
+import { NEXT_AUTH } from "../../../../lib/auth";
 
 
 

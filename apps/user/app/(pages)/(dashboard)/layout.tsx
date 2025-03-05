@@ -1,7 +1,7 @@
 import { JSX } from "react"
 import { Metadata } from "next"; 
-import SideBarMobile from "../../components/SideBarMobile";
-import SidebarPC from "../../components/SideBarPC";
+import SideBarMobile from "../../../components/SideBarMobile";
+import SidebarPC from "../../../components/SideBarPC";
 
 
 export const metadata: Metadata = {

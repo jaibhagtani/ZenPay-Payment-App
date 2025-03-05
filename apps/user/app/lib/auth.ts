@@ -86,8 +86,9 @@ export const NEXT_AUTH = {
       return session;
     }
   },
-  // pages: {
-  //   signIn: '/auth/signin',
-  //   signUp: '/auth/signup',
-  // }
+  pages: {
+    signIn: '/auth/signin',
+    signUp: '/auth/signup',
+    error: '/auth/error',
+  }
 }

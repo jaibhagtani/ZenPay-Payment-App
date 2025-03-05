@@ -1,8 +1,8 @@
 import { getServerSession } from "next-auth";
 
 import { prisma } from "@repo/db/client";
-import { NEXT_AUTH } from "../../../lib/auth";
-import TxnsPage from "../../../../components/Txns";
+import { NEXT_AUTH } from "../../../../lib/auth";
+import TxnsPage from "../../../../../components/Txns";
 
 
 

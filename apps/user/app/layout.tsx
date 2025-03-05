@@ -1,7 +1,9 @@
-import "./globals.css";
-import type { Metadata } from "next";
+
 import { AppBarClient } from "../components/appbarclient";
 import Providers from "../providers";
+import "./globals.css";
+import type { Metadata } from "next";
+
 
 
 export const metadata: Metadata = {
@@ -21,7 +23,6 @@ export default function RootLayout({
         <Providers>
           <body>
               <div className="min-w-screen bg-pink-50">
-                <AppBarClient />
                 {children}
               </div>
           </body>

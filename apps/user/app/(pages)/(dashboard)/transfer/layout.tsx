@@ -1,5 +1,5 @@
 import React, { JSX } from "react";
-import TransferButton from "../../../components/transferButton";
+import TransferButton from "../../../../components/transferButton";
 
 export default function TransferLayout({ children }: { children: React.ReactNode }): JSX.Element {
     return (

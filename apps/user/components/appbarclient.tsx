@@ -23,7 +23,7 @@ export function AppBarClient() {
 
     return (
         <nav
-            className={`fixed top-0 w-full z-50 transition-shadow duration-300 ${
+            className={`fixed top-0 w-full z-50 transition-shadow duration-300 bg-pink-50 ${
                 isScrolled ? "shadow-xl backdrop-blur-2xl" : "bg-transparent"
             }`}
         >

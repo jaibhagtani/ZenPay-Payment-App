@@ -24,13 +24,12 @@ export function AddMoney({title, buttonThing} : {title: string, buttonThing: str
 
     return (
         <div className="min-h-fit mx-5">
-            {/* {value} */}
             <div className="pt-2"></div>
                 <Card title={`${title}`}>
                     <div className="ml-4 mt-10 w-full pr-4">
                     <LabelledInput label="Amount" placeholder="Amount" onChangeFunc={(val) => {
                         setValue(Number(val));
-                        {Number(val) ? setBool(true) : setBool(false)}
+                        {Number(val) > 0 ? setBool(true) : setBool(false)}
                     }}></LabelledInput>
                     <div className="pb-2 text-sm font-semibold mt-4">
                         Bank

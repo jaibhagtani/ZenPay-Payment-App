@@ -37,6 +37,13 @@ export async function transferP2P(to : string, amount : number)
         }
     }
         
+    if(amount <= 0)
+    {
+        return {
+            msg: "Invalid Amount"
+        }
+    }
+            
         // HERE ************************ V.V.V.V. IMP ************************
         
         // ***********************************************************************

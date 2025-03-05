@@ -47,6 +47,10 @@ export default function SendCard()
                             {
                                 alert("Insufficient Funds")
                             }
+                            else if(res.msg == "Invalid Amount")
+                            {
+                                alert("Invalid Amount")
+                            }
                             else{
                                 alert("Error While p2p");
                             }

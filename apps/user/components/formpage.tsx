@@ -5,6 +5,7 @@ import { Button } from "@repo/ui/button";
 import { useRouter, useSearchParams } from "next/navigation";
 import {signIn} from "next-auth/react"
 import {LoginButton} from "@repo/ui/loginbutton"
+import Link from "next/link";
 
 export default function FormPage() {
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -44,7 +45,7 @@ export default function FormPage() {
         <div className="py-6 font-bold text-4xl">
             Sign in
         </div>
-        <div>
+        <div className="my-20">
             <div className="my-8">
                 <LabelledInputAuth label="Phone Number" placeholder="1231231230" onChangeFunc={(num) => {
                     setPhoneNumber(num)
@@ -61,6 +62,16 @@ export default function FormPage() {
                 <LoginButton  onClickFunc={() => {
                   // console.log("HEllo ji")
                 }}>Sign in</LoginButton>
+            </div>
+
+            <div className="text-base flex justify-center mt-10">
+              <div>
+                don't have an account? 
+              </div>
+              <Link className="pl-1 text-blue-900 hover:underline" href={"/auth/signup"}>
+                Sign up
+              </Link>
+              
             </div>
         </div>
     </form>

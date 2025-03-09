@@ -18,7 +18,7 @@ export default async function RegisterPage() {
         <div className="hidden lg:block lg:visible">
           Picture
         </div>
-        <div className="min-w-fit bg-indigo-200 flex justify-center min-h-screen">
+        <div className="min-w-fit bg-gradient-to-b to-pink-100 from-purple-300 flex justify-center min-h-screen pt-10">
           <FormPage />
         </div>
       </div>

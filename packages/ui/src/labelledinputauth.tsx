@@ -15,7 +15,7 @@ export default function LabelledInputAuth({label, placeholder, onChangeFunc} : L
             </div>
             <input onChange={(e) => {
                 onChangeFunc(e.target.value);
-            }} placeholder={placeholder} id="first_name" className="py-5 border border-gray-300 h-9 rounded-lg w-full bg-gray-50 p-2.5 text-gray-900 text-md focus:ring-blue-500"></input>
+            }} placeholder={placeholder} className="py-5 border border-gray-300 h-9 rounded-lg w-full bg-gray-50 p-2.5 text-gray-900 text-md focus:ring-blue-500"></input>
         </div>
     )
 }

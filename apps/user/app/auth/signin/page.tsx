@@ -13,12 +13,12 @@ export default async function RegisterPage() {
   }
 
   return (
-    <section className="bg-pink-50 h-screen flex items-center justify-center">
-      <div className="lg:grid grid-cols-2 gap-4">
+    <section className="bg-pink-50 h-screen">
+      <div className="lg:grid grid-cols-2">
         <div className="hidden lg:block lg:visible">
           Picture
         </div>
-        <div className="min-w-fit">
+        <div className="min-w-fit bg-indigo-200 flex justify-center min-h-screen">
           <FormPage />
         </div>
       </div>

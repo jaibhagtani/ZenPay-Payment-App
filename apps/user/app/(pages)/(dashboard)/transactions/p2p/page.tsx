@@ -26,7 +26,8 @@ async function getp2pTransactions()
             time: t.timestamp,
             amount: t.amount,
             toUserId: t.toUserId,
-            toUserName: t.toUserName
+            toUserName: t.toUserName,
+            paymentModeP2P: t.paymentModeP2P
         }))
         var tx = [...txs].reverse();
         return tx;
@@ -39,7 +40,7 @@ export default async function()
     const transactions = await getp2pTransactions();
     return (
         <div className="flex justify-center">
-            <div className="max-w-fit h-screen lg:min-w-fit max-w-screen">
+            <div className="max-w-fit min-h-screen lg:min-w-fit max-w-screen">
                 <div className="text-2xl flex flex-row justify-center bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 inline-block text-transparent bg-clip-text pt-8 mb-8 font-bold px-4 mt-12">
                     Recent P2P Transactions
                 </div>

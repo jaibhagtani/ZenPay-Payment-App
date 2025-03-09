@@ -88,7 +88,7 @@ export const NEXT_AUTH = {
   },
   pages: {
     signIn: '/auth/signin',
-    signUp: '/auth/signup',
-    error: '/auth/error',
+    // signUp: '/auth/signup',
+    // error: '/auth/error',
   }
 }

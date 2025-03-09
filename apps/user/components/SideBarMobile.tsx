@@ -9,7 +9,7 @@ export default function SideBarMobile()
 {
     const [isSidebarOpen, SetIsSidebarOpen] = useState(false);
 
-    return <div className={`${isSidebarOpen ? "h-screen mr-2 text-purple-300" : "mr-2"}`}>
+    return <div className={`${isSidebarOpen ? "min-h-screen mr-2 text-purple-300" : "mr-2"}`}>
             <button onClick={() => {
                 SetIsSidebarOpen(!isSidebarOpen);
             }} data-drawer-target="logo-sidebar" data-drawer-toggle="logo-sidebar" aria-controls="logo-sidebar" type="button" className="inline-flex items-center mt-4 p-2.5 text-sm text-purple-500 rounded-lg lg:hidden hover:bg-purple-100">
@@ -24,7 +24,7 @@ export default function SideBarMobile()
             </button>
             {isSidebarOpen ? <div className={`flex justify-center ${isSidebarOpen ? "absolute w-64" : "invisible disable"}`}>
 
-            <aside id="logo-sidebar" className={`fixed y-40 left-0 z-40 transition-transform -translate-x-full translate-x-0 delay-50 w-64 h-screen`} aria-label="Sidebar">
+            <aside id="logo-sidebar" className={`fixed y-40 left-0 z-40 transition-transform -translate-x-full translate-x-0 delay-50 w-64 min-h-screen`} aria-label="Sidebar">
             <div className={`h-full px-3 py-4 overflow-y-auto ${isSidebarOpen ? "bg-pink-200 rounded-2xl h-max border-sm py-10" : ""}`}>
                 <ul className="space-y-2 font-medium">
                     <li className="">

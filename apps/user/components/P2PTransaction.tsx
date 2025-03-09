@@ -6,6 +6,7 @@ interface P2PTransactionsProps {
     time: Date;
     toUserId: number;
     toUserName: string;
+    paymentModeP2P: "paid" | "received"
 }
 
 export default function P2PTransactions({transactions} : {transactions: P2PTransactionsProps []})

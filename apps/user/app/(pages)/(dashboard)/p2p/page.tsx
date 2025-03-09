@@ -13,7 +13,7 @@ async function getTransactions()
     const id = session?.user?.id;
     if(id)
     {
-       const transactions = await prisma.p2pTransfer.findMany({
+       const p2ptransactions = await prisma.p2pTransfer.findMany({
             where: {
                 fromUserId: Number(id)
             },
@@ -22,11 +22,12 @@ async function getTransactions()
             }
         })
 
-        var txns = transactions.map(t => ({
+        var txns = p2ptransactions.map(t => ({
             amount : t.amount,
             time: t.timestamp,
             toUserId: Number(t.toUserId),
-            toUserName: t.toUser.name?.toString() || ""
+            toUserName: t.toUser.name?.toString() || "",
+            paymentModeP2P: t.paymentModeP2P
         })) 
         return txns;
     }
@@ -39,7 +40,7 @@ export default async function()
 {
     const txns = await getTransactions(); 
     return <div className="min-w-fit">
-            <div>   
+            <div>
                 <div className="text-4xl bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 inline-block text-transparent bg-clip-text pt-8 mb-8 font-bold px-4 mt-12">
                     P2P Transfer
                 </div>

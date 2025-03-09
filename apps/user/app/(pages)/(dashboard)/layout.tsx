@@ -18,7 +18,7 @@ export default function({children} : {children: React.ReactNode}) : JSX.Element{
                 <div className="lg:invisible">
                     <SideBarMobile />
                 </div>
-                <div className="hidden lg:block lg:w-64 border-r border-slate-300 border-sm min-h-screen">
+                <div className="hidden lg:block lg:w-64 border-r min-h-screen border-slate-300 border-sm">
                     <SidebarPC />
                 </div>
             </div>

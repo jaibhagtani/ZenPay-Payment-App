@@ -52,7 +52,7 @@ export default function SendCard()
                                 alert("Invalid Amount")
                             }
                             else{
-                                alert("Error While p2p");
+                                alert("Error while p2p");
                             }
                         }}>Transfer</Button>
                     </div>

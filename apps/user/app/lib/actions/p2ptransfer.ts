@@ -56,6 +56,10 @@ export async function transferP2P(to : string, amount : number)
         // Even if user has 200 rupees will be able to share 400 rupees 
         // *************************** IT IS NOT SAFE ***************************
         // TEST IT BY 2 TABS
+
+        // console.log(fromId);
+        // console.log("From here to User");
+        // console.log(toUser);
         try {
             await prisma.$transaction(async (tx) => {
             // make sure user has that much money
@@ -118,10 +122,22 @@ export async function transferP2P(to : string, amount : number)
                     amount: amount,
                     timestamp: new Date(),
                     toUserId: Number(toUser.id),
-                    toUserName: toUserDetails.user.name || ""
+                    toUserName: toUserDetails.user.name || "",
+                    paymentModeP2P: "paid"
                 }
             })
-            
+
+            await tx.p2pTransfer.create({
+                data: {
+                    fromUserId: Number(toUser.id),
+                    amount: amount,
+                    timestamp: new Date(),
+                    toUserId: Number(fromId),
+                    toUserName: fromId,
+                    paymentModeP2P: "received"
+
+                }
+            })
         })
         
         return {
@@ -138,8 +154,7 @@ export async function transferP2P(to : string, amount : number)
         }
         return {
             
-            msg : "Error While p2p",
-            error: e
+            msg : "Error while p2p",
         }
     }
     

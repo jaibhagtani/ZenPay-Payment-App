@@ -28,10 +28,12 @@ export function AppBarClient() {
             }`}
         >
             <AppBar
-                onSignin={signIn}
+                onSignin={() => {
+                    router.push("/auth/signin")
+                }}
                 onSignout={async () => {
                     await signOut();
-                    router.push("/api/auth/signin");
+                    router.push("/auth/signin");
                 }}
                 user={session?.data?.user}
             />

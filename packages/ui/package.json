@@ -19,7 +19,8 @@
     "./sidebaritems" : "./src/sidebaritems.tsx",
     "./transactionbox" : "./src/transactionbox.tsx",
     "./txbutton" : "./src/txbutton.tsx",
-    "./labelledinputauth" : "./src/labelledinputauth.tsx"
+    "./labelledinputauth" : "./src/labelledinputauth.tsx",
+    "./loginbutton" : "./src/loginbutton.tsx"
   },
   "license": "MIT",
   "scripts": {

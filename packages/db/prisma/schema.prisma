@@ -58,6 +58,7 @@ model p2pTransfer {
   toUserId    Int
   toUser      User     @relation(name: "toUserRelation", fields: [toUserId], references: [id])
   toUserName  String
+  paymentModeP2P PaymentTypeP2P
 }
 
 // Only this can be the types of ramp status not any thing else
@@ -74,4 +75,9 @@ enum OnRampStatus {
 enum AuthType {
   Google
   Github
+}
+
+enum PaymentTypeP2P {
+  received
+  paid
 }

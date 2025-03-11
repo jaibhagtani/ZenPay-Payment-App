@@ -5,6 +5,7 @@ export const NEXT_AUTH = {
     
     providers: [
     CredentialsProvider({
+        id: "signin",
         name: 'Credentials',
        
         credentials: {
@@ -43,15 +44,59 @@ export const NEXT_AUTH = {
             // if password is not valid 
             return null;
           }
+          return null;
+        },
+        
+      },
+    ),
+    CredentialsProvider({
+      id:"signup",
+      name: "Credentials",
+     
+      credentials: {
 
+        name: { label: "First Name", type: "string", required: true },
+        phone: { label: "Phone Number", type: "text", placeholder: "1231231231", required: true},
+        password: { label: "Password", type: "password", required: true},
+        email: { label: "Email", type: "email", required: true }
+      },
+
+      // The whole logic will be here 
+      async authorize(credentials: any) {
+
+        // Do Zod validations, OTP validation here
+        // console.log(credentials);
+        // *************************
+        // We don't do like hash this password and compare with the password comming form DB,
+        // because, This will always give you a new Hash
+        console.log(credentials.name)
+        console.log(credentials.phone)
+        console.log(credentials.password)
+        console.log(credentials.email)
+
+        const existingUser = await prisma.user.findFirst({
+          where: {
+            number: credentials.phone
+          }
+        });
+        
+        if(existingUser)
+        {
+          return null;
+        }
+        else 
+        {
+          // you should send the otp to the user's Phone number here
           try {
+            const hashedPassword = await bcrypt.hash(credentials.password, 10);
             const user = await prisma.user.create({
               data: {
                 number: credentials.phone,
-                password: hashedPassword
+                password: hashedPassword,
+                name: credentials.name,
+                email: credentials.email
               }
             });
-            // you should send the otp to the user's Phone number here
             await prisma.balance.create({
               data: {
                 userId: user.id,
@@ -69,10 +114,11 @@ export const NEXT_AUTH = {
           {
             console.error(e);
           }
-
-          return null;
-        },
-      })
+        }
+        return null;
+      },
+    },
+    ),
   ],
   secret: process.env.NEXTAUTH_SECRET || "secret",
   callbacks: {
@@ -88,7 +134,7 @@ export const NEXT_AUTH = {
   },
   pages: {
     signIn: '/auth/signin',
-    // signUp: '/auth/signup',
+    signUp: '/auth/signup',
     // error: '/auth/error',
   }
 }

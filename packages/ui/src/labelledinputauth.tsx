@@ -2,11 +2,12 @@
 interface LabelledInputProps {
     label : string;
     placeholder : string;
-    onChangeFunc : (value : string) => void;
+    onChangeFunc : (value : string) => void,
+    type?: string
 }
 
 
-export default function LabelledInputAuth({label, placeholder, onChangeFunc} : LabelledInputProps)
+export default function LabelledInputAuth({label, placeholder, onChangeFunc, type} : LabelledInputProps)
 {
     return (
         <div>
@@ -15,7 +16,7 @@ export default function LabelledInputAuth({label, placeholder, onChangeFunc} : L
             </div>
             <input onChange={(e) => {
                 onChangeFunc(e.target.value);
-            }} placeholder={placeholder} className="py-5 border border-gray-300 h-9 rounded-lg w-full bg-gray-50 p-2.5 text-gray-900 text-md focus:ring-blue-500"></input>
+            }} placeholder={placeholder} type={type} className="py-5 border border-gray-300 h-9 rounded-lg w-full bg-gray-50 p-2.5 text-gray-900 text-md focus:ring-blue-500"></input>
         </div>
     )
 }

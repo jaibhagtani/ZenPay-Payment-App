@@ -1,8 +1,7 @@
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
-import FormPage from "../../../components/formpage";
 import { NEXT_AUTH } from "../../lib/auth";
-
+import FormPageSignin from "../../../components/formpagesignin";
 
 
 export default async function RegisterPage() {
@@ -13,16 +12,17 @@ export default async function RegisterPage() {
   }
 
   return (
-    <section className="bg-pink-50 h-screen">
+    <div className="bg-pink-50 h-screen">
       <div className="lg:grid grid-cols-2">
-        <div className="hidden lg:block lg:visible">
-          Picture
+        <div className="hidden lg:block lg:visible h-screen w-full">
+          <div className="bg-[url(https://cdn.pixabay.com/photo/2021/03/19/13/15/bill-6107551_1280.png)] min-w-fit h-screen" ></div>
         </div>
-        <div className="min-w-fit bg-gradient-to-b to-pink-100 from-purple-300 flex justify-center min-h-screen pt-10">
-          <FormPage />
+        <div className="min-w-fit bg-gradient-to-b to-pink-200 from-indigo-300 flex justify-center h-screen pt-8">
+          <FormPageSignin />
         </div>
+        
       </div>
       
-    </section>
+    </div>
   );
 }

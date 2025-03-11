@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import { Button } from "./button";
 import { JSX } from "react";
 interface AppbarProps {
@@ -19,11 +18,9 @@ export function AppBar({
     return(
         <div className="flex justify-between border-b px-5 py-1 border-slate-400/80 rounded-sm bg-pink-50">
             <div className="flex flex-col justify-center">
-                {/* <Link to="/"> */}
                     <div className="text-3xl flex justify-center font-bold">
                         ZenPay
                     </div>
-                {/* </Link> */}
             </div>
         
             <div className="flex flex-col justify-center pt-2">

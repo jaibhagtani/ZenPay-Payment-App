@@ -82,7 +82,7 @@ export default function FormPageSignup() {
                 }}></LabelledInputAuth>
             </div>
             <div className="my-8">
-                <LabelledInputAuth label="Phone Number" placeholder="1231231230" onChangeFunc={(num) => {
+                <LabelledInputAuth label="Phone Number" placeholder="1231231230" type="number" onChangeFunc={(num) => {
                     setPhoneNumber(num)
                 }}></LabelledInputAuth>
             </div>

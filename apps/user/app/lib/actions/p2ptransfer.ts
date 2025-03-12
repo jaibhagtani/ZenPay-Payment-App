@@ -8,7 +8,7 @@ export async function transferP2P(to : string, amount : number)
 {
 
     const session = await getServerSession(NEXT_AUTH);
-    // if user is not loggedin 
+    const fromUser = session.user;
     const fromId = session?.user?.id;
     if(!fromId)
     {
@@ -23,14 +23,21 @@ export async function transferP2P(to : string, amount : number)
             number: to
         }
     });
+
+    const fromUserDetails = await prisma.user.findFirst({
+        where: {
+            id: Number(fromId)
+        }
+    })
     if(!toUser)
     {
         return {
             msg: "User not found",
         }
     }
-        
-    if(fromId.number == to)
+
+    // console.log(fromUser.number);
+    if(fromUserDetails && (fromUserDetails.number === to))
     {
         return {
             msg: "Transfering to invalid user"
@@ -133,7 +140,7 @@ export async function transferP2P(to : string, amount : number)
                     amount: amount,
                     timestamp: new Date(),
                     toUserId: Number(fromId),
-                    toUserName: fromId,
+                    toUserName: fromUserDetails?.name || "",
                     paymentModeP2P: "received"
 
                 }

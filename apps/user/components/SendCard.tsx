@@ -31,7 +31,11 @@ export default function SendCard()
                             {
                                 alert("User Not Logged in");
                             }
-                            else if(res?.msg == "User not found" || res.msg == "Transfering to invalid user")
+                            else if(res.msg == "Transfering to invalid user")
+                            {
+                                alert("Transfering to invalid user");
+                            }
+                            else if(res?.msg == "User not found")
                             {
                                 alert("Receiver User not found");
                             }

@@ -54,9 +54,12 @@ export default function FormPageSignin() {
   
   
   return (
-    <form onSubmit={onSubmit} className="w-full py-5 mx-5 px-10 h-screen">
-        <div className="py-6 font-bold text-4xl">
-            Sign in
+    <form onSubmit={onSubmit} className="w-full py-8 mx-5 px-10 h-max bg-white rounded-3xl">
+        <div className="pb-1 font-bold text-4xl flex justify-center">
+            ZenPay
+        </div>
+        <div className="font-bold text-3xl">
+          Sign in
         </div>
         {error && <p className="text-red-500 text-2xl font-bold text-center">{error}</p>}
 
@@ -68,7 +71,7 @@ export default function FormPageSignin() {
             </div>
             
             <div className="my-8">
-                <LabelledInputAuth label="Password" placeholder="1@3/4" type="password" onChangeFunc={(pass) => {
+                <LabelledInputAuth label="Password (min 6 characters)" placeholder="1@3/4*6" type="password" onChangeFunc={(pass) => {
                     setPassword(pass)
                 }}></LabelledInputAuth>
             </div>

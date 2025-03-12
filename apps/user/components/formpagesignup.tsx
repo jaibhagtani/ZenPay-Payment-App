@@ -61,13 +61,16 @@ export default function FormPageSignup() {
   
   
   return (
-    <form onSubmit={onSubmit} className="w-full py-10 mx-5 px-10 h-screen">
-        <div className="font-bold text-4xl">
+    <form onSubmit={onSubmit} className="w-full py-5 mx-5 px-10 h-max bg-white rounded-3xl">
+        <div className="font-bold text-4xl flex justify-center pb-1">
+            ZenPay
+        </div>
+        <div className="font-bold text-3xl">
             Sign up
         </div>
         {error && <p className="pt-1 text-red-500 text-2xl font-bold text-center">{error}</p>}
 
-        <div className="my-10">
+        <div className="my-4">
             <div className="my-8">
                 <LabelledInputAuth label="First Name" placeholder="1231231230" onChangeFunc={(name) => {
                     setName(name)

@@ -1,6 +1,20 @@
 import { prisma } from "@repo/db/client";
 import CredentialsProvider from "next-auth/providers/credentials"
 import bcrypt from "bcrypt" 
+import { z } from "zod"
+
+const signinObj = z.object({
+  phone: z.string().min(10),
+  password: z.string().min(6).max(20)
+})
+
+
+const signupObj = z.object({
+  phone: z.string().min(10),
+  password: z.string().min(6).max(20),
+  name: z.string().min(1),
+  email: z.string().email().min(6)
+})
 export const NEXT_AUTH = {
     
     providers: [
@@ -18,6 +32,11 @@ export const NEXT_AUTH = {
 
           // Do Zod validations, OTP validation here
           // console.log(credentials);
+
+          if(!(signinObj.safeParse(credentials).success))
+          {
+            return null;
+          }
           // *************************
           // We don't do like hash this password and compare with the password comming form DB,
           // because, This will always give you a new Hash
@@ -41,7 +60,6 @@ export const NEXT_AUTH = {
                 email: existingUser.email
               }
             }
-            // if password is not valid 
             return null;
           }
           return null;
@@ -69,11 +87,11 @@ export const NEXT_AUTH = {
         // *************************
         // We don't do like hash this password and compare with the password comming form DB,
         // because, This will always give you a new Hash
-        console.log(credentials.name)
-        console.log(credentials.phone)
-        console.log(credentials.password)
-        console.log(credentials.email)
 
+        if(!(signupObj.safeParse(credentials).success))
+        {
+          return null;
+        }
         const existingUser = await prisma.user.findFirst({
           where: {
             number: credentials.phone
@@ -108,6 +126,7 @@ export const NEXT_AUTH = {
               id: user.id.toString(),
               name: user.name,
               email: user.email,
+              number: user.number
             }
           }
           catch(e)

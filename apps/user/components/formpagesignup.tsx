@@ -87,7 +87,7 @@ export default function FormPageSignup() {
                 }}></LabelledInputAuth>
             </div>
             <div className="my-8">
-                <LabelledInputAuth label="Password" placeholder="1@3/4" type="password" onChangeFunc={(pass) => {
+                <LabelledInputAuth label="Password (min 6 characters)" placeholder="1@3/4" type="password" onChangeFunc={(pass) => {
                     setPassword(pass)
                 }}></LabelledInputAuth>
             </div>

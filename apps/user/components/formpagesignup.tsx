@@ -7,6 +7,11 @@ import {signIn} from "next-auth/react"
 import {LoginButton} from "@repo/ui/loginbutton"
 import Link from "next/link";
 
+
+// https://ethanmick.com/build-a-custom-login-page-with-next-js-tailwind-css-and-next-auth/
+// https://www.ramielcreations.com/nexth-auth-magic-code
+
+
 export default function FormPageSignup() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
@@ -72,12 +77,12 @@ export default function FormPageSignup() {
 
         <div className="my-4">
             <div className="my-8">
-                <LabelledInputAuth label="First Name" placeholder="1231231230" onChangeFunc={(name) => {
+                <LabelledInputAuth label="First Name" placeholder="John Doe" onChangeFunc={(name) => {
                     setName(name)
                 }}></LabelledInputAuth>
             </div>
             <div className="my-8">
-                <LabelledInputAuth label="Email" placeholder="1231231230" onChangeFunc={(email) => {
+                <LabelledInputAuth label="Email" placeholder="johndoe2@gmail.com" onChangeFunc={(email) => {
                     setEmail(email)
                 }}></LabelledInputAuth>
             </div>
@@ -87,13 +92,14 @@ export default function FormPageSignup() {
                 }}></LabelledInputAuth>
             </div>
             <div className="my-8">
-                <LabelledInputAuth label="Password (min 6 characters)" placeholder="1@3/4" type="password" onChangeFunc={(pass) => {
+                <LabelledInputAuth label="Password (min 6 characters)" placeholder="1@3/4*6" type="password" onChangeFunc={(pass) => {
                     setPassword(pass)
                 }}></LabelledInputAuth>
             </div>
             
             <div className="mt-6 flex justify-center">
                 <LoginButton  onClickFunc={() => {
+                  
                 }}>Sign in</LoginButton>
             </div>
 

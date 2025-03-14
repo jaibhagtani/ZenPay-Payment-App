@@ -17,7 +17,7 @@ export default function P2PTransactionStyle({transaction} : {transaction : P2PTr
             <div className="flex col-span-3 ml-2 lg:col-span-1">
                 <div>
                     <div className="text-sm">
-                        Sent INR to 
+                        {transaction.paymentModeP2P == "paid" ? "Sent INR to" : "Received INR from"} 
                     </div>
 
                     <div className="text-slate-600 text-xs flex justify-center">

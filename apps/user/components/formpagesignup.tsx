@@ -10,7 +10,7 @@ import Link from "next/link";
 
 // https://ethanmick.com/build-a-custom-login-page-with-next-js-tailwind-css-and-next-auth/
 // https://www.ramielcreations.com/nexth-auth-magic-code
-
+// https://www.youtube.com/watch?v=bicCg4GxOP8&ab_channel=CandDev
 
 export default function FormPageSignup() {
   const [phoneNumber, setPhoneNumber] = useState("");

@@ -4,6 +4,7 @@ import { Card } from "@repo/ui/card";
 import LabelledInput from "@repo/ui/labelledinput";
 import React, {useState} from "react"
 import { transferP2P } from "../app/lib/actions/p2ptransfer";
+import { redirect } from "next/navigation";
 
 export default function SendCard()
 {
@@ -26,38 +27,40 @@ export default function SendCard()
                     </div>
                     <div className="flex justify-center mt-10 pb-8">
                         <Button onClickFunc={async () => {
-                            const res = await transferP2P(phoneNumber, Number(value) * 100);
-                            if(res?.msg == "User not Loggedin")
-                            {
-                                alert("User Not Logged in");
-                            }
-                            else if(res.msg == "Transfering to invalid user")
-                            {
-                                alert("Transfering to invalid user");
-                            }
-                            else if(res?.msg == "User not found")
-                            {
-                                alert("Receiver User not found");
-                            }
-                            else if(res.msg == "Insufficient funds")
-                            {
-                                alert("Insufficient funds");
-                            }
-                            else if(res.msg == "Transaction Success")
-                            {
-                                alert("Transaction Success");
-                            }
-                            else if(res.msg == "Insufficient Funds")
-                            {
-                                alert("Insufficient Funds")
-                            }
-                            else if(res.msg == "Invalid Amount")
-                            {
-                                alert("Invalid Amount")
-                            }
-                            else{
-                                alert("Error while p2p");
-                            }
+
+                            redirect("/validating-mpin")
+                            // const res = await transferP2P(phoneNumber, Number(value) * 100);
+                            // if(res?.msg == "User not Loggedin")
+                            // {
+                            //     alert("User Not Logged in");
+                            // }
+                            // else if(res.msg == "Transfering to invalid user")
+                            // {
+                            //     alert("Transfering to invalid user");
+                            // }
+                            // else if(res?.msg == "User not found")
+                            // {
+                            //     alert("Receiver User not found");
+                            // }
+                            // else if(res.msg == "Insufficient funds")
+                            // {
+                            //     alert("Insufficient funds");
+                            // }
+                            // else if(res.msg == "Transaction Success")
+                            // {
+                            //     alert("Transaction Success");
+                            // }
+                            // else if(res.msg == "Insufficient Funds")
+                            // {
+                            //     alert("Insufficient Funds")
+                            // }
+                            // else if(res.msg == "Invalid Amount")
+                            // {
+                            //     alert("Invalid Amount")
+                            // }
+                            // else{
+                            //     alert("Error while p2p");
+                            // }
                         }}>Transfer</Button>
                     </div>
                 </Card>

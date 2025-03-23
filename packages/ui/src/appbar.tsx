@@ -1,3 +1,4 @@
+import { redirect } from "next/navigation";
 import { Button } from "./button";
 import { JSX } from "react";
 interface AppbarProps {
@@ -45,7 +46,9 @@ export function AppBar({
             <div className="flex flex-col justify-center pt-2">
                 <div className="flex">
                     
-                    {user ? <div className="rounded-full bg-slate-400 size-11 flex justify-center items-center mr-16 text-2xl">
+                    {user ? <div className="rounded-full bg-slate-400 size-11 flex justify-center items-center mr-16 text-2xl" onClick={() => {
+                        redirect("/account");
+                    } }>
                         {firstch ? firstch : ""}
                         {lastch ? lastch : ""}
                     </div> : ""}

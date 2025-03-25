@@ -182,7 +182,7 @@ export function MpinCard({ title, type }: MpinCardInput) {
             >
               Submit
             </Button>
-          ) : (
+          ) : ( !otp &&
             <Button
               onClickFunc={async () => {
                 if (mpin && confirmedmpin && mpin === confirmedmpin) {

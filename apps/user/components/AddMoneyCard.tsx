@@ -4,6 +4,9 @@ import LabelledInput from "@repo/ui/labelledinput"
 import Select from "@repo/ui/select"
 import {useState} from "react"
 import { createOnRampTrans } from "../app/lib/actions/createOnRampTransactions"
+import { useSession } from "next-auth/react"
+import { Button } from "@repo/ui/button"
+import { InputOTPGroup } from "./inputotpgroup"
 
 const SUPPORTED_BANKS = [{
     name: "HDFC Bank",
@@ -21,6 +24,35 @@ export function AddMoney({title, buttonThing} : {title: string, buttonThing: str
     const [value, setValue] = useState(0);
     const [bool, setBool] = useState(false);
     const [boolButton, setBoolButton] = useState(false);
+    const session = useSession();
+    const [showMpinBar, setShowMpinBar] = useState(false);
+    const [Mpin, setMpin] = useState("");
+
+    async function validateMpin()
+    {
+        if(!session.data?.user)
+        {
+            return Response.json({
+                msg: "User Not Loggedin!!"
+            })
+        }
+
+        const res = await fetch("/api/mpin/validate", {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                Mpin: Mpin,
+                email: session.data.user.email
+            }),
+        })
+        return res.json();
+        
+    }
+
+
 
     return (
         <div className="min-h-fit mx-5">
@@ -44,23 +76,48 @@ export function AddMoney({title, buttonThing} : {title: string, buttonThing: str
                     }))}></Select>
                     {/* The window.location object in JavaScript provides information about the current URL */}
                     <div className="flex flex-row justify-center">
-
-                        <button onClick={async () => {
-                            // const provider:string = SUPPORTED_BANKS.find(x => x.redirectUrl === redirectUrl)?.name || "";
-                            setBoolButton(true);
-                            if(bool)
-                            {
-                                // addWithDrawHERE
-                                await createOnRampTrans(provider, value);
-                                window.location.href = redirectUrl || "";
-                            }
-                                // *******************
-                                // Uss time uss URL ko chala rhe hai 
-                                // Can be set, to navigate to the given URL.
-                            }} className={`mt-10 bg-black border w-40 h-10 rounded-xl text-white text-center transition delay-100 duration-200 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-slate-800 `}>{buttonThing}</button>
-                    </div>
-                    {boolButton && !bool ?  <div className="text-2xl mt-10 font-semibold flex justify-center text-red-500 pb-16"> Enter the Valid value of Amount !! </div> : <div className="pb-20 mt-10"></div> }
+                        <div className="flex justify-center mt-10 pb-8">
+                            {!showMpinBar ? (<Button onClickFunc={async () => {
+                                if(provider !== "" && value !== 0)
+                                {
+                                    setShowMpinBar(true)
+                                }
+                                else 
+                                {
+                                    alert("Invalid Details and Amount")
+                                }
+                                
+                            }}>Next</Button>)
+                        : (
+                            <div> 
+                                <div className="font-sm font-bold flex justify-start py-1 border-b border-lg">Enter MPIN</div>
+                                    <div className="py-2 flex justify-center">
+                                        <InputOTPGroup type="password" onChangeFunc={(pin) => {
+                                            setMpin(pin);
+                                        }}></InputOTPGroup>
+                                    </div>
+                                <div className="flex justify-center py-2 pt-2">
+                                    <Button onClickFunc={async () => {
+        
+                                        const validateRes = await validateMpin();
+                                        if(validateRes.msg === "Valid User")
+                                        {
+                                            // const provider:string = SUPPORTED_BANKS.find(x => x.redirectUrl === redirectUrl)?.name || "";
+                                            await createOnRampTrans(provider, value);
+                                            window.location.href = redirectUrl || "";
+                                        }
+                                        else 
+                                        {
+                                            alert("Invalid MPIN")
+                                        }
+                                        
+                                    }}>Transfer</Button>
+                            </div>
+                        </div>)}
+                    </div> 
                 </div> 
+            </div> 
+
             </Card>
         </div>
     )

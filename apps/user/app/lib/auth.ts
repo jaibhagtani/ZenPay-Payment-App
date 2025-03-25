@@ -112,7 +112,8 @@ export const NEXT_AUTH = {
                 number: credentials.phone,
                 password: hashedPassword,
                 name: credentials.name,
-                email: credentials.email
+                email: credentials.email,
+                MPIN: ""
               }
             });
             await prisma.balance.create({

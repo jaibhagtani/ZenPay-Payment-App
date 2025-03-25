@@ -54,7 +54,7 @@ export default function FormPageSignup() {
   };
 
   const handleVerify = async () => {
-    const res = await fetch("http://localhost:3000/api/auth/otp/verify-otp",
+    const res = await fetch("/api/auth/otp/verify-otp",
       {
         method: "POST",
         headers: {
@@ -86,7 +86,7 @@ export default function FormPageSignup() {
   const handleSendOtp = async () => {
     startTimer();
     setResendClicked(true);
-    const res = await fetch("http://localhost:3000/api/auth/otp/send-otp",
+    const res = await fetch("/api/auth/otp/send-otp",
       {
         method: "POST",
         headers: {
@@ -120,7 +120,7 @@ export default function FormPageSignup() {
         redirect:false,
       })
       // setMPIN
-
+      console.log(JSON.stringify(res))
       if(res?.error)
       {
         setError(`You Already have an Account!!
@@ -129,7 +129,7 @@ export default function FormPageSignup() {
       else 
       {
         setError("Signed Up Successfully!")
-        router.push("/setMPIN");
+        router.push("/mpin/set");
       }
     }
   };

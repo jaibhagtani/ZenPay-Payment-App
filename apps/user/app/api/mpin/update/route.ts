@@ -10,6 +10,9 @@ export async function POST(request: Request) {
     {
         return NextResponse.json({
             msg : "User not Loggedin!"
+        },
+        {
+            status: 404
         })
     }
 
@@ -17,24 +20,29 @@ export async function POST(request: Request) {
     try {
         const { email, mpin } = await request.json();
         // Validate email and mpin here as needed
-
         const hashedMpin = await bcrypt.hash(mpin, 10);
         const user = await prisma.user.update({
             where: {
-                id: session.user.id,
-                email: email,
+                email: email
             },
             data: {
                 MPIN: hashedMpin,
             },
         });
+
+        console.log(user)
         return NextResponse.json({ message: "MPIN updated successfully", user });
-    } catch (error) {
+    } catch (error: any) {
+        // console.error(error);
         return NextResponse.json(
-        { message: "Error occurred during MPIN update", error },
-        { status: 500 }
+          { 
+            message: "Error occurred during MPIN update", 
+            error: error?.message || String(error) 
+          },
+          { status: 500 }
         );
-    }
+      }
+      
 }
 
     

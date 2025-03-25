@@ -36,7 +36,7 @@ export function MpinCard({ title, type }: MpinCardInput) {
         setError("User not logged in!")
         return console.error("User not logged in!");
     }
-    const res = await fetch("http://localhost:3000/api/auth/otp/verify-otp",
+    const res = await fetch("/api/mpin/verify-otp",
       {
         method: "POST",
         headers: {
@@ -61,11 +61,11 @@ export function MpinCard({ title, type }: MpinCardInput) {
     return res.status;
   }
 
-  const resendOTP = () => {
+  const resendOTP = async () => {
     setTimerRunning(false);
     startTimer();
     setResendClicked(true);
-    handleSendOtp();
+    await handleSendOtp();
   };
 
   useEffect(() => {
@@ -91,7 +91,7 @@ export function MpinCard({ title, type }: MpinCardInput) {
     }
     startTimer();
     setResendClicked(true);
-    const res = await fetch("/api/auth/otp/send-otp", {
+    const res = await fetch("/api/mpin/send-otp", {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -191,7 +191,7 @@ export function MpinCard({ title, type }: MpinCardInput) {
               onClickFunc={async () => {
                 if (mpin && confirmedmpin && mpin === confirmedmpin) {
                   setError("");
-                  handleSendOtp();
+                  await handleSendOtp();
                   setFirstTime(false);
                   setOtp(true)
                 }
@@ -269,6 +269,7 @@ export function MpinCard({ title, type }: MpinCardInput) {
 
                     if(res === 200)
                     {
+                        await setMpintoDB();
                         setOTPresponse("OTP Verified!!")
                     }
                     else if(res === 400)

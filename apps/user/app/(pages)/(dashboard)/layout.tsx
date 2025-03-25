@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 export default function({children} : {children: React.ReactNode}) : JSX.Element{
     return ( <>
         
-        <div className="flex bg-pink-50 min-w-screen min-h-screen z-50 static">
+        <div className="flex bg-pink-50/70 min-w-screen min-h-screen z-50 static">
             <div className="pt-16 relative">
                 <div className="lg:invisible">
                     <SideBarMobile />

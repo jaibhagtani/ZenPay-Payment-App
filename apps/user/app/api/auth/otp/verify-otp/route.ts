@@ -1,4 +1,5 @@
 // app/api/auth/otp/send-otp/route.ts
+import Redis from "ioredis";
 import { NextResponse } from "next/server";
 
 const client = require("twilio")(
@@ -7,20 +8,31 @@ const client = require("twilio")(
   { lazyLoading: true }
 );
 
+const redisclient = new Redis(`${process.env.REDIS_URL}`);
 export async function POST(req: Request) {
     const body = await req.json();
-    const {phoneNumber, otp} = body
+    const {email, otp} = body
   
     try {
-        const verifiedResponse = await client.verify.v2.services(process.env.TWILIO_SERVICE_ID)
-        .verificationChecks.create({
-          to: `+91${phoneNumber}`,
-          code: otp,
-        });
-      
+        // const verifiedResponse = await client.verify.v2.services(process.env.TWILIO_SERVICE_ID)
+        // .verificationChecks.create({
+        //   to: `+91${email}`,
+        //   code: otp,
+        // });
+        const redisOTP = await redisclient.get(email)
+        if(otp === redisOTP)
+        {
+          redisclient.del(email);
+          return NextResponse.json({
+              msg : `OTP Verified Successfully!!`
+          })
+        }
         return NextResponse.json({
-            msg : `OTP Verified Successfully!! : ${JSON.stringify(verifiedResponse)}`
-        })
+            msg : "Invalid OTP"
+        }, 
+      {
+        status: 400
+      })
     }
     catch (error) {
         console.error("Invalid OTP:", error);

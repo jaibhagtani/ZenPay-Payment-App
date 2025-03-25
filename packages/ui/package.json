@@ -20,7 +20,8 @@
     "./transactionbox" : "./src/transactionbox.tsx",
     "./txbutton" : "./src/txbutton.tsx",
     "./labelledinputauth" : "./src/labelledinputauth.tsx",
-    "./loginbutton" : "./src/loginbutton.tsx"
+    "./loginbutton" : "./src/loginbutton.tsx",
+    "./inputotpslot": "./src/inputotpslot.tsx"
   },
   "license": "MIT",
   "scripts": {

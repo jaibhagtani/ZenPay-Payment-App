@@ -22,7 +22,7 @@ export default function RootLayout({
       <html lang="en">
         <Providers>
           <body>
-              <div className="min-w-screen bg-pink-50">
+              <div className="min-w-screen bg-pink-50/70">
                 {children}
               </div>
           </body>

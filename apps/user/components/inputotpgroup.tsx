@@ -4,9 +4,10 @@ import { useEffect, useState } from "react"
 
 interface InputOTPGroupProps {
     onChangeFunc: (otp : string) => void ;
+    type: string
   }
 
-export function InputOTPGroup({onChangeFunc} : InputOTPGroupProps)
+export function InputOTPGroup({onChangeFunc, type} : InputOTPGroupProps)
 {
     const [letter1, setLetter1] = useState("");
     const [letter2, setLetter2] = useState("");
@@ -28,22 +29,22 @@ export function InputOTPGroup({onChangeFunc} : InputOTPGroupProps)
             (e : any) => {
                 setLetter1(e);
             }
-        }></InputOTPSlot>
+        } oftype={type}></InputOTPSlot>
         <InputOTPSlot onChangeFunc = {
             (e : any) => {
                 setLetter2(e);
             }
-        }></InputOTPSlot>
+        } oftype={type}></InputOTPSlot>
         <InputOTPSlot onChangeFunc = {
             (e : any) => {
                 setLetter3(e);
             }
-        }></InputOTPSlot>
+        } oftype={type}></InputOTPSlot>
         <InputOTPSlot onChangeFunc = {
             (e : any) => {
                 setLetter4(e);
             }
-        }></InputOTPSlot>
+        } oftype={type}></InputOTPSlot>
 
         
     </div>

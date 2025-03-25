@@ -39,7 +39,6 @@ export default function FormPageSignup() {
   const [email, setEmail] = useState("");
   const [contact, setContact] = useState("");
   const [otp, setOtp] = useState(false);
-  const [otpCode, setOtpCode] = useState("");
   const [receivedOtpCode, setReceivedOtpCode] = useState("");
   const [timeLeft, setTimeLeft] = useState(60);
   const [timerRunning, setTimerRunning] = useState(false);
@@ -164,7 +163,6 @@ export default function FormPageSignup() {
   useEffect(() => {
     if (contact === "" || contact === null) {
       setOtp(false);
-      setOtpCode("");
       setTimeLeft(60);
       setTimerRunning(false);
       setResendClicked(false);
@@ -211,7 +209,7 @@ export default function FormPageSignup() {
           <div className="space-y-2 w-full flex flex-col items-center justify-center my-2">
             {/* For OTP */}
             
-            <InputOTPGroup onChangeFunc = {(e : string) => {
+            <InputOTPGroup type="otp" onChangeFunc = {(e : string) => {
               setReceivedOtpCode(e)
             }}></InputOTPGroup>
             <LabelledInputAuth label="Password (min 6 characters)" placeholder="1@2#3$" type="password" onChangeFunc={(pass) => {

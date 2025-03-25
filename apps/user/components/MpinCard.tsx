@@ -130,10 +130,6 @@ export function MpinCard({ title, type }: MpinCardInput) {
     if (res.ok) {
       redirect("/dashboard");
     } 
-    else {
-      const data = await res.json();
-      console.error(data.message);
-    }
   }
 
   return (

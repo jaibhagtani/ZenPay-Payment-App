@@ -30,10 +30,8 @@ export async function POST(request: Request) {
             },
         });
 
-        console.log(user)
         return NextResponse.json({ message: "MPIN updated successfully", user });
     } catch (error: any) {
-        // console.error(error);
         return NextResponse.json(
           { 
             message: "Error occurred during MPIN update", 

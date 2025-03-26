@@ -5,6 +5,7 @@ import { redirect, useRouter } from "next/navigation";
 import {signIn} from "next-auth/react"
 import {z} from "zod";
 import { InputOTPGroup } from "./inputotpgroup";
+import { prisma } from "@repo/db/client";
 
 
 const nextReqSchema = z.object({
@@ -46,7 +47,6 @@ export default function FormPageSignup() {
   const [password, setPassword] = useState("");
   const [OTPresponse, setOTPresponse] = useState("");
   const router = useRouter()
-  const [error, setError] = useState("")
   const [firstTime, setFirstTime] = useState(true)
   const startTimer = () => {
     setTimeLeft(60);
@@ -107,10 +107,22 @@ export default function FormPageSignup() {
     {
       setOtp(false)
     }
+    return res.status;
   };
 
   const handleLogin = async () => {
     const responseVerification = await handleVerify();
+    const existingUser = await prisma.user.findMany({
+      where: {
+        email: email
+      },
+    })
+
+    if(existingUser)
+    {
+      alert("User Already have an Acccount!!")
+      return;
+    }
     if (responseVerification === 200) {
       const res = await signIn("signup", {
         name: Name,
@@ -123,12 +135,12 @@ export default function FormPageSignup() {
       console.log(JSON.stringify(res))
       if(res?.error)
       {
-        setError(`You Already have an Account!!
-                  Redirecting to Sign In!`);
+        alert(`Error Occured during Sign up`);
+        return;
       }
       else 
       {
-        setError("Signed Up Successfully!")
+        alert("Signed Up Successfully!")
         router.push("/mpin/set");
       }
     }
@@ -178,9 +190,7 @@ export default function FormPageSignup() {
       <div className="font-bold text-3xl">
           Sign up
       </div>
-      {error !== "You Already have an Account!! Redirecting to Sign In!" && <div className="text-3xl flex justify-center text-red-400 font-bold">{error}</div>}
-      {error === "You Already have an Account!! Redirecting to Sign In!" && <div className="text-lg flex justify-center text-red-400 font-bold h-10">{error}</div>}
-      
+     
       <div className="my-4">
         <div className="my-8">
           <LabelledInputAuth label="First Name" placeholder="John Doe" type="text" onChangeFunc={(name) => {
@@ -244,18 +254,30 @@ export default function FormPageSignup() {
         </button>
       ) : (
         <button
-          onClick={() =>  {
+          onClick={async () =>  {
             const nextres =  nextReqSchema.safeParse({Name, contact, email}).success;
             if(nextres && (timeLeft === 0 || firstTime))
             {
-              setError("")
-              handleSendOtp()
+              const res = await handleSendOtp();
+              if(res === 400)
+              {
+                alert("User Already have an Account!!")
+              }
+              else if(res === 500)
+              {
+                alert("Something went wrong!")
+              }
               setFirstTime(false)
+            }
+            else if(nextres)
+            {
+              alert(`Invalid Info!`)
             }
             else if(!nextres)
             {
-              setError("Invalid Info!")
+              alert(`Enter Complete Info!, ${nextres}`)
             }
+            
           }
           }
           className="w-full mt-4 bg-green-500 hover:bg-green-400 rounded-lg h-10"

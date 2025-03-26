@@ -9,7 +9,6 @@ import Link from "next/link";
 export default function FormPageSignin() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState<string | null>(null);
   const router = useRouter()
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -21,7 +20,7 @@ export default function FormPageSignin() {
       const urlParams = new URLSearchParams(new URL(decodedUrl).search);
       const errorParam = urlParams.get("error");
       if (errorParam) {
-        setError(errorParam);
+        alert(errorParam);
       }
     }
   }, [searchParams]);
@@ -41,13 +40,14 @@ export default function FormPageSignin() {
       if (!res?.error)
       {
         router.push('/dashboard')
+        alert("Signed in Successfully!!")
       } 
       else 
       {
-        setError('Invalid phone number or password')
+        alert('Invalid phone number or password')
       }
     } catch (err: any) {
-      setError("Something went wrong. Please try again.");
+      alert("Something went wrong. Please try again.");
     }
     
   }
@@ -61,7 +61,6 @@ export default function FormPageSignin() {
         <div className="font-bold text-3xl">
           Sign in
         </div>
-        {error && <p className="text-red-500 text-2xl font-bold text-center">{error}</p>}
 
         <div className="my-20">
             <div className="my-8">

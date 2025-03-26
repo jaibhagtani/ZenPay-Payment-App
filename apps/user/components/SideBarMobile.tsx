@@ -8,7 +8,11 @@ import { useState } from "react";
 export default function SideBarMobile()
 {
     const [isSidebarOpen, SetIsSidebarOpen] = useState(false);
-
+    // const [clicked ,setClicked] = useState(false);
+    const hideSidebar = () => {
+        SetIsSidebarOpen(false);
+    };
+    
     return <div className={`${isSidebarOpen ? "min-h-screen mr-2 text-purple-300" : "mr-2"}`}>
             <button onClick={() => {
                 SetIsSidebarOpen(!isSidebarOpen);
@@ -30,7 +34,7 @@ export default function SideBarMobile()
                     <li className="">
                         <a href="#" className="flex pt-2 hover:text-purple-100">
                             <span className={`ms-3 whitespace-nowrap ${!isSidebarOpen ? "m-10" : ""}`}>
-                                <SideBarItems href="/dashboard" icon={<HomeIcon/>} title="Home"></SideBarItems>
+                                <SideBarItems setClickFunc={hideSidebar} href="/dashboard" icon={<HomeIcon/>} title="Home"></SideBarItems>
                             </span>
                         </a>
                         
@@ -38,21 +42,21 @@ export default function SideBarMobile()
                     <li>
                         <a href="#" className="flex pt-2 hover:text-purple-100">
                             <span className="ms-3 whitespace-nowrap">
-                                <SideBarItems href="/transfer/deposit" icon={<Transfer/>} title="Transfer"></SideBarItems>
+                                <SideBarItems setClickFunc={hideSidebar} href="/transfer/deposit" icon={<Transfer/>} title="Transfer"></SideBarItems>
                             </span>
                         </a>
                     </li>
                     <li>
                         <a href="#" className="flex pt-2 hover:text-purple-100">
                             <span className="ms-3 whitespace-nowrap">
-                                <SideBarItems href="/transactions/deposit" icon={<Transactions />} title="Transactions"></SideBarItems>
+                                <SideBarItems setClickFunc={hideSidebar} href="/transactions/deposit" icon={<Transactions />} title="Transactions"></SideBarItems>
                             </span>
                         </a>
                     </li>
                     <li>
                         <a href="#" className="flex pt-2 hover:text-purple-100">
                             <span className="ms-3 whitespace-nowrap">
-                                <SideBarItems href="/p2p" icon={<P2P />} title="P2P Transfer"></SideBarItems>
+                                <SideBarItems setClickFunc={hideSidebar} href="/p2p" icon={<P2P />} title="P2P Transfer"></SideBarItems>
                             </span>
                         </a>
                     </li>

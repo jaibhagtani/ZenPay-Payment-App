@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AppBarClient } from "./appbarclient";
 import SideBarItems from "@repo/ui/sidebaritems";
 import { signOut, useSession } from "next-auth/react";
@@ -8,49 +8,20 @@ import { redirect } from "next/navigation";
 export default function DownAccountBar() {
     const [isAccountBar, setIsAccountBar] = useState(false);
     const session = useSession();
+    // const [clicked, setClicked] = useState(false);
+
+    // useEffect(() => {
+    //   setIsAccountBar(!isAccountBar)
+    // }, [clicked])
+    
+    const hideSidebar = () => {
+      setIsAccountBar(false);
+    };
+  
   return (
     <div>
-      <AppBarClient setIsAccountBar={setIsAccountBar} />
-      <button
-        onClick={() => setIsAccountBar(!isAccountBar)}
-        aria-controls="logo-sidebar"
-        type="button"
-        className="inline-flex items-center mt-4 p-2.5 text-sm text-purple-500 rounded-xl lg:hidden hover:bg-purple-100"
-      >
-        <span className="sr-only">Open sidebar</span>
-        {isAccountBar ? (
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 20 20"
-            strokeWidth="1.5"
-            stroke="currentColor"
-            className="size-6"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M3 4.5h14.25M3 9h9.75M3 13.5h5.25m5.25-.75L17.25 9m0 0L21 12.75M17.25 9v12"
-            />
-          </svg>
-        ) : (
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 20 20"
-            strokeWidth="1.5"
-            stroke="currentColor"
-            className="size-6"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M3 4.5h14.25M3 9h9.75M3 13.5h9.75m4.5-4.5v12m0 0-3.75-3.75M17.25 21 21 17.25"
-            />
-          </svg>
-        )}
-      </button>
-
+      <AppBarClient setIsAccountBar={setIsAccountBar} isAccountBar={isAccountBar} />
+      
       {isAccountBar && (
         <div className="flex justify-center absolute w-64">
           <aside
@@ -66,9 +37,9 @@ export default function DownAccountBar() {
                 Hello {session.data?.user?.name},
               </div>
               <ul className="space-y-2 font-medium">
-                <SideBarItems href="/profile" icon={<ProfileIcon />} title="Profile" />
-                <SideBarItems href="/mpin/update" icon={<MPINIcon />} title="MPIN" />
-                <SideBarItems href="/balance" icon={<BalanceIcon />} title="Balance" />
+                <SideBarItems href="/profile" icon={<ProfileIcon />} title="Profile" setClickFunc={hideSidebar} />
+                <SideBarItems href="/mpin/update" icon={<MPINIcon />} title="MPIN" setClickFunc={hideSidebar} />
+                <SideBarItems href="/balance" icon={<BalanceIcon />} title="Balance" setClickFunc={hideSidebar} />
                 <LogOut></LogOut>
               </ul>
             </div>

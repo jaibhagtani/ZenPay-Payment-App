@@ -8,23 +8,27 @@ interface AppbarProps {
     // figure out what the type should be here ?
     onSignin : any,
     onSignout : any,
-    setIsAccountBar: (e : boolean) => void
+    setIsAccountBar: (e : boolean) => void,
+    isAccountBar: boolean
 }
 
 export function AppBar({
     user,
     onSignin,
     onSignout,
-    setIsAccountBar
+    setIsAccountBar,
+    isAccountBar
 } : AppbarProps) : JSX.Element
 {
     const [downAccountBar, setDownAccountBar] = useState(false)
     let firstch;
     let lastch;
 
-    useEffect(() => {
-        setIsAccountBar(downAccountBar);
-    }, [downAccountBar]);
+    // useEffect(() => {
+    //     if (typeof setIsAccountBar === "function") {
+    //         setIsAccountBar(downAccountBar);
+    //     }
+    // }, [downAccountBar]);
 
     if(user && user.name && user.name.length > 0)
     {
@@ -54,17 +58,22 @@ export function AppBar({
                 <div className="flex justify-center">
                     
                     {user ? <div>
-                        <div className="rounded-full bg-slate-400 size-11 flex justify-center items-center mr-16 text-2xl cursor-pointer hover:border-2 border-solid border-black" onClick={() => {
-                            setDownAccountBar(!downAccountBar);
+                        <div className="hidden lg:block lg:rounded-full text-center bg-slate-400 size-11 pt-1 flex justify-center items-center mr-16 text-2xl cursor-pointer hover:border-2 border-solid border-black" onClick={() => {
+                            setIsAccountBar(!isAccountBar);
                         } }>
                             {firstch ? firstch : ""}
                             {lastch ? lastch : ""}
                         </div>
                     </div>
                          : ""}
-                    <button onClick={() => {
-                        setDownAccountBar(!downAccountBar);
-                    }} className="mr-10 items-center flex justify-center text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 transition delay-100 duration-200 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-slate-700">
+
+                    <button
+                        onClick={() =>setIsAccountBar(!isAccountBar)}
+                        aria-controls="logo-sidebar"
+                        type="button"
+                        className="mr-10 items-center flex justify-center text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 transition delay-100 duration-200 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-slate-700"
+                    >
+                        <span className="sr-only">Open sidebar</span>
                         Account Details
                     </button>
                     <Button onClickFunc={user ? onSignout : onSignin}>{user ? <div className="flex">

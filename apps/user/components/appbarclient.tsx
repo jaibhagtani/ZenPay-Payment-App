@@ -4,7 +4,11 @@ import { signIn, signOut, useSession } from "next-auth/react"
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-export function AppBarClient() {
+interface AppBarClient {
+    setIsAccountBar: (e: boolean) => void
+}
+
+export function AppBarClient({setIsAccountBar} : AppBarClient) {
 
     const session = useSession();
     const router = useRouter();
@@ -36,6 +40,7 @@ export function AppBarClient() {
                     router.push("/auth/signin");
                 }}
                 user={session?.data?.user}
+                setIsAccountBar={setIsAccountBar}
             />
         </nav>
     )

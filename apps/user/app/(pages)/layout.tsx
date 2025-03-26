@@ -1,6 +1,5 @@
-
-import { AppBarClient } from "../../components/appbarclient";
 import type { Metadata } from "next";
+import DownAccountBar from "../../components/downAccount";
 
 
 
@@ -18,7 +17,7 @@ export default function RootLayout({
 }) {
   return (
     <div className="min-w-screen bg-pink-50/70">
-    <AppBarClient />
+    <DownAccountBar />
     {children}
     </div>
   );

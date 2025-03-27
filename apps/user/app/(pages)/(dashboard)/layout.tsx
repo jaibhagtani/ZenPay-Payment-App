@@ -16,10 +16,10 @@ export default function({children} : {children: React.ReactNode}) : JSX.Element{
         <div className="flex bg-pink-50/70 min-w-screen min-h-screen z-50 static">
             <div className="pt-16 relative">
                 <div className="lg:invisible">
-                    <SideBarMobile />
+                    <SideBarMobile type="Dashboard" />
                 </div>
                 <div className="hidden lg:block lg:w-64 border-r h-full min-h-screen border-slate-300 border-sm">
-                    <SidebarPC />
+                    <SidebarPC type="Dashboard" />
                 </div>
             </div>
                 

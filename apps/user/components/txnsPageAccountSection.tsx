@@ -1,4 +1,3 @@
-import TransactionStyle from "@repo/ui/transactionbox";
 import TransactionStyleAccountSection from "./transactionStyleAccountSection";
 
 interface TxnsPageAccountSectionInput {
@@ -9,7 +8,7 @@ interface TxnsPageAccountSectionInput {
     provider : string;
 }
 
-export default async function TxnsPageAccountSection({transactions, typeofPayment} : {transactions: TxnsPageAccountSectionInput [], typeofPayment ?: "deposit" | "withdraw"})
+export default function TxnsPageAccountSection({transactions, typeofPayment} : {transactions: TxnsPageAccountSectionInput [], typeofPayment ?: "deposit" | "withdraw"})
 {
 
 

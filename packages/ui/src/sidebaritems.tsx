@@ -6,7 +6,7 @@ interface sidebarProps {
     href : string;
     title ?: string;
     icon ?: React.ReactNode,
-    setClickFunc: any
+    setClickFunc?: any
 }
 
 export default function SideBarItems({href, title, icon, setClickFunc} : sidebarProps)

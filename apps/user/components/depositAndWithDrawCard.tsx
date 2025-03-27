@@ -1,7 +1,7 @@
 "use client"
 import Select from "@repo/ui/select";
-import TxnsPageAccountSection from "./txnsPageAccountSection";
 import { useState } from "react";
+import TxnsPageAccountSection from "./txnsPageAccountSection";
 
 interface DepositAndWithDrawCardInput {
     depositTransactions ?: {
@@ -42,7 +42,6 @@ export default function DepositAndWithDrawCard({depositTransactions, withdrawTra
                             value: option.name,
                             key: option.key
                         }))} onSelect={(e) => {
-                            // console.log(e)
                             setdepositOrWithdraw(options.find(x => x.key === e)?.key || "");
                         }}></Select>
                     </div>
@@ -75,7 +74,7 @@ export default function DepositAndWithDrawCard({depositTransactions, withdrawTra
                         <div className="grid grid-cols-10 p-2 gap-4">
                             <div className="col-start-1 col-span-7 lg:col-span-10">
                                 {withdrawTransactions && withdrawTransactions.length > 0 ? <div className="bg-white w-full rounded-3xl py-3 px-2 lg:w-full">
-                                    <TxnsPageAccountSection transactions = {withdrawTransactions} typeofPayment="deposit"></TxnsPageAccountSection>
+                                    <TxnsPageAccountSection transactions = {withdrawTransactions} typeofPayment="withdraw"></TxnsPageAccountSection>
                                 </div> : <div></div>}
                             </div>
                         </div>

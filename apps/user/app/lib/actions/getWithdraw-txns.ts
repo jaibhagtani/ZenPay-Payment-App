@@ -1,22 +1,26 @@
+"use server"
 import { getServerSession } from "next-auth";
 import { NEXT_AUTH } from "../../lib/auth";
 import { prisma } from "@repo/db/client";
-import { NextResponse } from "next/server";
 
-export async function GET() {
+export async function getWithdrawTxns() {
   try {
     const session = await getServerSession(NEXT_AUTH);
     const id = session?.user?.id;
     if (id) {
+
       const txns = await prisma.onRampTransaction.findMany({
         where: { userId: Number(id) }
       });
-      let totalDepositAmount = 0;
+
+      let totalWithdrawalAmount = 0;
+
       txns.forEach(t => {
         if (t.status === "Success") {
-          totalDepositAmount += t.amount;
+          totalWithdrawalAmount += t.amount;
         }
       });
+
       const txs = txns.map(t => ({
         id: t.id,
         time: t.startTime,
@@ -24,13 +28,22 @@ export async function GET() {
         status: t.status,
         provider: t.provider
       }));
+
       const tx = [...txs].reverse();
       
-      return Response.json({ tx, totalDepositAmount }, { status: 200 });
+        return { 
+            tx, totalWithdrawalAmount 
+        }
     }
-    return Response.json({ error: "Unauthorized" }, { status: 401 });
-  } catch (e) {
-    console.error("Error Occurred in Deposit", e);
-    return Response.json({ error: "Internal Server Error" }, { status: 500 });
+    return { 
+        error: "Unauthorized"
+    }
+  } 
+  catch (e) 
+  {
+    console.error("Error Occurred in Withdrawal", e);
+    return { 
+        error: "Internal Server Error" 
+    };
   }
 }

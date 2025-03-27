@@ -1,31 +1,25 @@
-import React from "react";
-import BalanceCardAccount from "../../../../../components/balanceCardAccount";
-import WithdrawalAndDepositeCard from "../../../../../components/withdrawalAndDepositeCard";
-import P2PCardAccount from "../../../../../components/p2pCardAccount";
-import P2PTransactionStyleAccountSection from "../../../../../components/p2pTransactionStyleAccountSection";
-import DepositAndWithDrawCard from "../../../../../components/depositAndWithDrawCard";
+import BalanceCardAccount from "./balanceCardAccount"
+import DepositAndWithDrawCard from "./depositAndWithDrawCard"
+import P2PCardAccount from "./p2pCardAccount"
+import P2PTransactionStyleAccountSection from "./p2pTransactionStyleAccountSection"
+import WithdrawalAndDepositeCard from "./withdrawalAndDepositeCard"
 
-export default async function Page() {
-  const balanceRes = await fetch("/api/balance");
-  const withdrawRes = await fetch("/api/withdraw-transactions");
-  const depositRes = await fetch("/api/deposit-transactions");
-  const p2pRes = await fetch("/api/p2p-transactions");
 
-  const balanceData = await balanceRes.json();
-  const withdrawData = await withdrawRes.json();
-  const depositData = await depositRes.json();
-  const p2pData = await p2pRes.json();
+interface AccountSectionInput {
+    withdrawSum: any,
+    depositSum: any, 
+    balance: any,
+    totalPaidAmount: any,
+    totalReceivedAmount: any,
+    depositTransactions: any,
+    withdrawTransactions: any,
+    P2Ptxns: any
+}
 
-  const balance = balanceData.balance || { amount: 0, locked: 0 };
-  const withdrawSum = withdrawData.totalWithdrawalAmount || 0;
-  const withdrawTransactions = withdrawData.tx || [];
-  const depositSum = depositData.totalDepositAmount || 0;
-  const depositTransactions = depositData.tx || [];
-  const totalPaidAmount = p2pData.totalPaid || 0;
-  const totalReceivedAmount = p2pData.totalReceived || 0;
-  const P2Ptxns = p2pData.tx || [];
-
-  return (
+export default function AccountSection({withdrawSum, depositSum, balance,totalPaidAmount, totalReceivedAmount, 
+    depositTransactions, withdrawTransactions, P2Ptxns} : AccountSectionInput)
+{
+    return (
     <div className="max-w-screen">
       <div className="text-4xl bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 inline-block text-transparent bg-clip-text pt-8 mb-8 font-bold px-4 mt-12">
         Balances and Transactions
@@ -49,12 +43,12 @@ export default async function Page() {
         Transactions
       </div>
       <div className="mx-4 min-h-screen w-full grid grid-cols-1 gap-4 lg:grid-cols-2">
-        <div>
+        <div className="flex justify-center">
           <DepositAndWithDrawCard depositTransactions={depositTransactions} withdrawTransactions={withdrawTransactions} />
         </div>
-        <div className="bg-white rounded-xl p-6 h-max shadow-lg my-4 lg:w-full">
+        <div className="bg-white rounded-xl p-6 h-max shadow-lg my-4 lg:w-full flex justify-center">
           <div className="flex justify-center">
-            <div className="max-w-72 lg:min-w-96">
+            <div className="max-w-fit lg:min-w-96">
               <div className="text-2xl flex flex-row justify-center bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 inline-block text-transparent bg-clip-text pt-8 mb-8 font-bold px-4">
                 Recent P2P Transactions
               </div>
@@ -81,5 +75,5 @@ export default async function Page() {
         </div>
       </div>
     </div>
-  );
+    )
 }

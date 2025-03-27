@@ -79,8 +79,13 @@ export default function FormPageSignin() {
                 <LoginButton  onClickFunc={() => {
                 }}>Sign in</LoginButton>
             </div>
-
-            <div className="text-base flex justify-center mt-10">
+            <div className="flex font-semibold justify-center mt-10">
+              <div>
+                don't Remember Password?
+              </div>
+              <Link className="text-blue-900 pl-1 hover:underline " href={"/update/password"}>Forgot password</Link>
+            </div>
+            <div className="text-base flex justify-center mt-2">
               <div>
                 don't have an account? 
               </div>

@@ -57,7 +57,8 @@ export const NEXT_AUTH = {
               return {
                 id: existingUser.id.toString(),
                 name: existingUser.name,
-                email: existingUser.email
+                email: existingUser.email,
+                number: credentials.phone
               }
             }
             return null;

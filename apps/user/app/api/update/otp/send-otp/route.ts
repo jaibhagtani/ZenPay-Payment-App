@@ -58,9 +58,9 @@ export async function POST(req: Request) {
       where: { email },
     });
 
-    if (existingUser) {
+    if (!existingUser) {
       return NextResponse.json(
-        { error: "User already exists" },
+        { error: "User does not exists"},
         { status: 400 }
       );
     } else {

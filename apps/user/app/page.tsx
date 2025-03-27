@@ -15,3 +15,8 @@ export default async function Page() {
     redirect("/auth/signin");
   }
 }
+
+
+// state management
+// Dashboard
+// Dummy Bank

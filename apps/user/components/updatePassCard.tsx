@@ -1,0 +1,277 @@
+"use client";
+
+import { Card } from "@repo/ui/card";
+import { InputOTPGroup } from "./inputotpgroup";
+import { Button } from "@repo/ui/button";
+import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
+import LabelledInputAuth from "@repo/ui/labelledinputauth";
+
+interface UpdatePasswordInput {
+  title: string;
+}
+
+export function UpdatePassword({ title }: UpdatePasswordInput) {
+    const [timerRunning, setTimerRunning] = useState(false);
+    const [otp, setOtp] = useState(false);
+    const [receivedOtpCode, setReceivedOtpCode] = useState("");
+    const [resendClicked, setResendClicked] = useState(false);
+    const [timeLeft, setTimeLeft] = useState(60);
+    const session = useSession();
+    const [error, setError] = useState("");
+    const [firstTime, setFirstTime] = useState(true);
+    const [password, setPassword] = useState("");
+    const [email, setEmail] = useState("");
+    const [contact, setContact] = useState("");
+    const [confirmedpassword, setConfirmedpassword] = useState("");
+    const [OTPresponse, setOTPresponse] = useState("")
+    const startTimer = () => {
+        setTimeLeft(60);
+        setTimerRunning(true);
+    };
+
+  
+  const handleVerify = async () => {
+    if (!session.data?.user) 
+    {
+        setError("User not logged in!")
+        return console.error("User not logged in!");
+    }
+    const res = await fetch("/api/update/otp/verify-otp",
+      {
+        method: "POST",
+        headers: {
+           'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          email: email,
+          otp: receivedOtpCode
+        })
+      }  
+    );
+
+    if(res.status === 200)
+    {
+      setOTPresponse("OTP Verified!!");
+    }
+    else if(res.status === 400)
+    {
+      setOTPresponse("Incorrect OTP. Please try again.");
+    }
+    return res.status;
+  }
+
+  const resendOTP = async () => {
+    setTimerRunning(false);
+    startTimer();
+    setResendClicked(true);
+    await handleSendOtp();
+  };
+
+  useEffect(() => {
+    let timer: any;
+    if (timerRunning) {
+      timer = setTimeout(() => {
+        if (timeLeft > 0) {
+          setTimeLeft((prevTime) => prevTime - 1);
+        } else {
+          setTimerRunning(false);
+        }
+      }, 1000);
+    }
+    return () => clearTimeout(timer);
+  }, [timeLeft, timerRunning]);
+
+
+  const handleSendOtp = async () => {
+
+    if (!session.data?.user) 
+    {
+        setError("User not logged in!")
+        return console.error("User not logged in!");
+    }
+    startTimer();
+    setResendClicked(true);
+    const res = await fetch("/api/update/otp/send-otp", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: email,
+        username: session.data?.user?.name
+      }),
+    });
+    if (res.status === 200) {
+      setOtp(true);
+    } else {
+      alert("Something went Wrong.Please Try again!!")
+      setOtp(false);
+    }
+  };
+
+  async function setPasswordtoDB() {
+
+    if (!session.data?.user) 
+    {
+        setError("User not logged in!")
+        return console.error("User not logged in!");
+    }
+    const res = await fetch(`/api/update/password`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: email,
+        password: password,
+      }),
+    });
+    if (res.ok) {
+      alert("Password Updated Successfully!!")
+      redirect("/profile");
+    } 
+  }
+
+  
+  return (
+    <div className="min-h-fit mx-5">
+      <div className="pt-2"></div>
+      <Card title={title}>
+        <div className="font-2xl font-semibold px-3 py-3">
+        A safer wallet starts with a smarter password—refresh now!
+        </div>
+        {error && <div className="font-sm text-red-500 font-semibold flex justify-center">{error}</div>}
+        {password && email && contact && confirmedpassword && password !== confirmedpassword && (
+          <div className="pt-1 font-semibold flex justify-center font-xl text-red-500 font-sm">
+            Incorrect Password
+          </div>
+        )}
+        <div className="py-6">
+          <LabelledInputAuth label="Enter Email" placeholder="johndoe2@gmail.com" type="email" onChangeFunc={(e) => {
+            setEmail(e);
+          }}/>
+        </div>
+        <div className="py-6">
+          <LabelledInputAuth label="Enter Phone Number" placeholder="1231231231" type="tel" onChangeFunc={(e) => {
+            setContact(e);
+          }}/>
+        </div>
+        <div className="py-6">
+          <LabelledInputAuth label="Enter Password (min. 6 char)" placeholder="1@3$5^" type="password" onChangeFunc={(e) => {
+            setPassword(e);
+          }}/>
+        </div>
+        
+        <div className="py-6">
+          <LabelledInputAuth label="Confirm Password (min. 6 char)" placeholder="1@3$5^" type="password" onChangeFunc={(e) => {
+            setConfirmedpassword(e);
+          }}/>
+        </div>
+        <div className="flex justify-center py-3">
+          { !otp &&
+            <Button
+              onClickFunc={async () => {
+                if (password && contact && email && confirmedpassword && password === confirmedpassword) {
+                  setError("");
+                  await handleSendOtp();
+                  setFirstTime(false);
+                }
+                else
+                {
+                    if(session.data?.user)
+                    {
+                      setError("Invalid credentials")
+                    }
+                    else 
+                    {
+                      setError("User not logged in!")
+                    }
+                }
+              }}
+            >
+              Next
+            </Button>
+          }
+        </div>
+        <div>
+          { otp && password && contact && email &&
+            confirmedpassword &&
+            password === confirmedpassword && (
+              <div className="text-center text-green-500 text-base mt-1 font-semibold">
+                OTP sent successfully on your email. Please enter OTP below.
+              </div>
+            )}
+          { otp && password && contact && email &&
+            confirmedpassword &&
+            password === confirmedpassword && (
+              <div className="space-y-2 w-full flex flex-col items-center justify-center my-2">
+                <InputOTPGroup
+                  type="otp"
+                  onChangeFunc={(e: string) => {
+                    setReceivedOtpCode(e);
+                  }}
+                />
+                <div>
+                  {resendClicked && timeLeft > 0 ? (
+                    <p className="text-sm">
+                      Resend OTP available in{" "}
+                      <span className="text-blue-500">
+                        {timeLeft > 0 ? `${timeLeft}` : ""}
+                      </span>
+                    </p>
+                  ) : (
+                    <button onClick={resendOTP} className="text-blue-500">
+                      Resend OTP
+                    </button>
+                  )}
+                </div>
+              </div>
+            )}
+        </div>
+        {OTPresponse === "OTP Verified!!" ? (
+            <p className="text-green-500 text-sm text-center mt-2">
+            {OTPresponse}
+            </p>
+        ) : 
+        <p className="text-red-500 text-sm text-center mt-2">
+            {OTPresponse}
+        </p>}
+          { otp && password && contact && email &&
+            confirmedpassword &&
+            password === confirmedpassword ? 
+            <button
+              onClick={async () => {
+                
+                if(password && contact && email && confirmedpassword && password === confirmedpassword && session)
+                {
+                    const res = await handleVerify();
+
+                    if(res === 200)
+                    {
+                        await setPasswordtoDB();
+                        setOTPresponse("OTP Verified!!")
+                    }
+                    else if(res === 400)
+                    {
+                        setOTPresponse("Incorrect OTP. Please try again.")
+                    }
+                    else 
+                    {
+                        setOTPresponse("Something went Wrong. Please try again.")
+                    }
+                }
+            }}
+              className="w-full mt-4 bg-green-500 hover:bg-green-400 rounded-lg h-10 my-6"
+            >
+              Update password
+            </button> : ""
+        }
+      </Card>
+    </div>
+  );
+}

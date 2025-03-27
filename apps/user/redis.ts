@@ -1,6 +1,10 @@
-import dotenv from "dotenv";
-import Redis from "ioredis";
-dotenv.config();
+import { createClient } from "redis"
 
-export const redisclient = new Redis(process.env.REDIS_URL || "");
+const redisUrl = process.env.REDIS_URL;
+export const redisclient = createClient ({
+  url : redisUrl
+});
 
+redisclient.on("error", function(err :any) {
+  throw err;
+});

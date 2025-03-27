@@ -2,9 +2,7 @@
 import { prisma } from "@repo/db/client";
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
-import Redis from "ioredis"
-
-const client = new Redis(`${process.env.REDIS_URL}`);
+import { redisclient } from "../../../../../redis";
 
 let OTPFinal;
 const generateOTP = (): string => {
@@ -40,7 +38,7 @@ const sendVerificationEmail = async (email: string, otp: string, username: strin
 
               ZenPay | Safe. Fast. Effortless.`,
     });
-    client.set(email, otp);
+    redisclient.set(email, otp);
     return info.messageId;
   } catch (error) {
     console.error("Error sending email:", error);

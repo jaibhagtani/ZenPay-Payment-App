@@ -2,9 +2,7 @@
 import { prisma } from "@repo/db/client";
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
-import Redis from "ioredis"
-
-const redisclient = new Redis(`${process.env.REDIS_URL}`);
+import { redisclient } from "../../../../redis";
 
 let OTPFinal;
 const generateOTP = (): string => {

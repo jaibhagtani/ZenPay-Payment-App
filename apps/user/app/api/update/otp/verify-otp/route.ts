@@ -1,6 +1,6 @@
 // app/api/auth/otp/send-otp/route.ts
-import Redis from "ioredis";
 import { NextResponse } from "next/server";
+import { redisclient } from "../../../../../redis";
 
 const client = require("twilio")(
   process.env.TWILIO_ACCOUNT_SID,
@@ -8,7 +8,6 @@ const client = require("twilio")(
   { lazyLoading: true }
 );
 
-const redisclient = new Redis(`${process.env.REDIS_URL}`);
 export async function POST(req: Request) {
     const body = await req.json();
     const {email, otp} = body

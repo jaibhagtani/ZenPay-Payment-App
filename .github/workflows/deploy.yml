@@ -24,6 +24,8 @@ jobs:
 
       - name: Build and push Docker Image
         uses: docker/build-push-action@v6
+        env:
+          REDIS_URL: ${{ secrets.REDIS_URL }}
         with:
           context: .
           platforms: linux/amd64,linux/arm64

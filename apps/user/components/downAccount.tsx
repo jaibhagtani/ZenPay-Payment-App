@@ -39,7 +39,7 @@ export default function DownAccountBar() {
               <ul className="space-y-2 font-medium">
                 <SideBarItems href="/profile" icon={<ProfileIcon />} title="Profile" setClickFunc={hideSidebar} />
                 <SideBarItems href="/mpin/update" icon={<MPINIcon />} title="MPIN" setClickFunc={hideSidebar} />
-                <SideBarItems href="/balance" icon={<BalanceIcon />} title="Balance" setClickFunc={hideSidebar} />
+                <SideBarItems href="/balance" icon={<BalanceIcon />} title="Balances & Transfers" setClickFunc={hideSidebar} />
                 <LogOut></LogOut>
               </ul>
             </div>

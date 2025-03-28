@@ -1,7 +1,7 @@
 "use client"
 import { AppBar } from "@repo/ui/appbar"
 import { signIn, signOut, useSession } from "next-auth/react"
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 interface AppBarClient {
@@ -10,7 +10,7 @@ interface AppBarClient {
 }
 
 export function AppBarClient({setIsAccountBar, isAccountBar} : AppBarClient) {
-
+    const router = useRouter();
     const session = useSession();
     const [isScrolled, setIsScrolled] = useState(false);
 
@@ -33,11 +33,11 @@ export function AppBarClient({setIsAccountBar, isAccountBar} : AppBarClient) {
         >
             <AppBar
                 onSignin={() => {
-                    redirect("/auth/signin")
+                    
                 }}
                 onSignout={async () => {
                     await signOut();
-                    redirect("/auth/signin");
+                    router.push("/auth/signin");
                 }}
                 user={session?.data?.user}
                 setIsAccountBar={setIsAccountBar}

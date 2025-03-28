@@ -5,7 +5,7 @@ import { InputOTPGroup } from "./inputotpgroup";
 import { Button } from "@repo/ui/button";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 interface MpinCardInput {
   title: string;
@@ -24,6 +24,7 @@ export function MpinCard({ title, type }: MpinCardInput) {
     const [mpin, setmpin] = useState("");
     const [confirmedmpin, setConfirmedmpin] = useState("");
     const [OTPresponse, setOTPresponse] = useState("")
+    const router = useRouter();
     const startTimer = () => {
         setTimeLeft(60);
         setTimerRunning(true);
@@ -128,7 +129,14 @@ export function MpinCard({ title, type }: MpinCardInput) {
       }),
     });
     if (res.ok) {
-      redirect("/dashboard");
+      if(type === "set")
+      {
+        router.push("/dashboard");
+      }
+      else 
+      {
+        router.push("/profile")
+      }
     } 
   }
 

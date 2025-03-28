@@ -1,7 +1,7 @@
 "use client"
 import React, { useEffect, useState } from "react";
 import LabelledInputAuth from "@repo/ui/labelledinputauth"
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import {signIn} from "next-auth/react"
 import {z} from "zod";
 import { InputOTPGroup } from "./inputotpgroup";
@@ -296,7 +296,7 @@ export default function FormPageSignup() {
 
       <div className="pt-3 flex justify-center">already have an account?
         <button className="pl-1 text-blue-600 hover:underline" onClick={() => {
-          redirect("/auth/signin")
+          router.push("/auth/signin")
         }}>
           Sign in
         </button>

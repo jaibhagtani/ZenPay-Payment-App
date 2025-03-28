@@ -1,5 +1,4 @@
 import { Card } from "@repo/ui/card";
-import P2PTransactionStyle  from "@repo/ui/p2ptransactionbox"
 import TxButton from "@repo/ui/txbutton";
 interface P2PTransactionsProps {
     amount: number; 

@@ -6,7 +6,7 @@ interface sidebarProps {
     href : string;
     title ?: string;
     icon ?: React.ReactNode,
-    setClickFunc?: any
+    setClickFunc?: () => void
 }
 
 export default function SideBarItems({href, title, icon, setClickFunc} : sidebarProps)
@@ -29,7 +29,10 @@ export default function SideBarItems({href, title, icon, setClickFunc} : sidebar
     return (
         <div className={`flex ml-8 p-3 cursor-pointer text-lg ${selected ? "text-purple-600 font-semibold text-xl" : "text-slate-700"} onclick`} onClick={() => {
             router.push(href);
-            setClickFunc()
+            if(setClickFunc)
+            {
+                setClickFunc()
+            }
           }}>
             <div className="pr-2">
             {icon}

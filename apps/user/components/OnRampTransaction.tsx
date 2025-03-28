@@ -1,6 +1,4 @@
 import { Card } from "@repo/ui/card";
-import TransactionStyle from "@repo/ui/transactionbox"
-import { redirect } from "next/navigation";
 import TxButton from "@repo/ui/txbutton"
 interface TransactionCardProps {
     amount: number; 

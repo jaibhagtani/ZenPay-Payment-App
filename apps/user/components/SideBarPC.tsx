@@ -1,6 +1,5 @@
 import SideBarItems from "@repo/ui/sidebaritems";
 import { HomeIcon, P2P, Transactions, Transfer } from "./Icons";
-import { Button } from "@repo/ui/button";
 import ButtonToRedirect from "./buttonToRedirect";
 
 

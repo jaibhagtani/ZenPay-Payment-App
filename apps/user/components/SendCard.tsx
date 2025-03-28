@@ -4,20 +4,18 @@ import { Card } from "@repo/ui/card";
 import LabelledInput from "@repo/ui/labelledinput";
 import React, {useState} from "react"
 import { transferP2P } from "../app/lib/actions/p2ptransfer";
-import { redirect } from "next/navigation";
 import { InputOTPGroup } from "./inputotpgroup";
-import { prisma } from "@repo/db/client";
-import { getServerSession } from "next-auth";
-import { NEXT_AUTH } from "../app/lib/auth";
-import bcrypt from "bcrypt"
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 export default function SendCard()
 {
+    const router = useRouter();
     const [phoneNumber, setPhoneNumber] = useState("");
     const [value, setValue] = useState(0);
     const [showMpinBar, setShowMpinBar] = useState(false);
     const [Mpin, setMpin] = useState("");
     const session = useSession();
+
     async function validateMpin()
     {
         if(!session.data?.user)
@@ -102,6 +100,7 @@ export default function SendCard()
                                     else if(res.msg == "Transaction Success")
                                     {
                                         alert("Transaction Success");
+                                        router.push("/transactions/p2p");
                                     }
                                     else if(res.msg == "Insufficient Funds")
                                     {

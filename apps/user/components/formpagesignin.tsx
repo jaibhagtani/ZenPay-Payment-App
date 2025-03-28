@@ -1,17 +1,17 @@
 "use client"
 import React, { useEffect, useState } from "react";
 import LabelledInputAuth from "@repo/ui/labelledinputauth"
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import {signIn} from "next-auth/react"
 import {LoginButton} from "@repo/ui/loginbutton"
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 
 export default function FormPageSignin() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
-  const router = useRouter()
   const [searchParams, setSearchParams] = useSearchParams();
-
+  const router = useRouter();
   useEffect(() => {
     if(searchParams)
     {
@@ -39,14 +39,16 @@ export default function FormPageSignin() {
       // console.log('Res', res)
       if (!res?.error)
       {
-        router.push('/dashboard')
         alert("Signed in Successfully!!")
+        router.push("/dashboard")
       } 
       else 
       {
         alert('Invalid phone number or password')
       }
-    } catch (err: any) {
+    } 
+    catch (err: any) {
+      console.log(err);
       alert("Something went wrong. Please try again.");
     }
     

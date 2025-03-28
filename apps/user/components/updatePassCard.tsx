@@ -5,7 +5,7 @@ import { InputOTPGroup } from "./inputotpgroup";
 import { Button } from "@repo/ui/button";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import LabelledInputAuth from "@repo/ui/labelledinputauth";
 
 interface UpdatePasswordInput {
@@ -13,6 +13,7 @@ interface UpdatePasswordInput {
 }
 
 export function UpdatePassword({ title }: UpdatePasswordInput) {
+    const router = useRouter();
     const [timerRunning, setTimerRunning] = useState(false);
     const [otp, setOtp] = useState(false);
     const [receivedOtpCode, setReceivedOtpCode] = useState("");
@@ -133,7 +134,7 @@ export function UpdatePassword({ title }: UpdatePasswordInput) {
     });
     if (res.ok) {
       alert("Password Updated Successfully!!")
-      redirect("/profile");
+      router.push("/profile");
     } 
   }
 

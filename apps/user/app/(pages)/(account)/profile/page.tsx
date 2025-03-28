@@ -29,8 +29,8 @@ export default async function() {
                         <div className="font-semibold">
                             <DetailsCard detailName="Username" details={user.name} to="/update/name" yesRequiredUpdation ={false}></DetailsCard>
                             {/* Add contact */}
-                            <DetailsCard detailName="Contact" details={user.number} to="/update/contact" yesRequiredUpdation ={false}></DetailsCard>
-                            <DetailsCard detailName="E-mail" details={user.email} to="/update/email" yesRequiredUpdation ={false} ></DetailsCard>
+                            <DetailsCard detailName="Contact" details={user.number} to="" yesRequiredUpdation ={false}></DetailsCard>
+                            <DetailsCard detailName="E-mail" details={user.email} to="" yesRequiredUpdation ={false} ></DetailsCard>
                             <DetailsCard detailName="password" details={"*******"} to="/update/password" yesRequiredUpdation={true}></DetailsCard>
                             <DetailsCard detailName="MPIN" details={"****"} to="/mpin/update" yesRequiredUpdation ={true}></DetailsCard>
                         </div>

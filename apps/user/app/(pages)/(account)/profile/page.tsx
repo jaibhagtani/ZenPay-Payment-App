@@ -10,13 +10,13 @@ export default async function() {
     // console.log(user)
     const balance = await getBalance();
     return (
-        <div className="max-w-screen">
+        <div className="lg:max-w-screen">
             <div className="text-4xl bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 inline-block text-transparent bg-clip-text pt-8 mb-8 font-bold px-4 mt-12">
                 Profile
             </div>
             <div className="max-w-72 grid lg:grid-cols-4 gap-4 min-w-max max-w-screen">
-                <div className="px-2 my-8 bg-white min-w-full max-w-72 flex justify-center rounded-lg lg:min-w-max max-w-screen justify-center col-span-2 col-start-2">
-                    <div>
+                <div className="px-2 my-8 bg-white min-w-60 max-w-full mr-10 flex justify-center rounded-lg lg:shadow-xl min-w-max max-w-screen justify-center col-span-2 col-start-2">
+                    <div className="max-w-84 lg:max-w-full">
                         <div className="flex justify-center">
                             <AvatarIcon></AvatarIcon>
                         </div>
@@ -24,7 +24,7 @@ export default async function() {
                             Hey {user.name},
                         </div>
                         <div className="flex justify-center font-bold text-lg pb-6 pt-2">
-                            Balance =  {balance.balance?.amount || 0}
+                            Balance =  {Number(balance.balance?.amount)/100 || 0}
                         </div>
                         <div className="font-semibold">
                             <DetailsCard detailName="Username" details={user.name} to="/update/name" yesRequiredUpdation ={false}></DetailsCard>

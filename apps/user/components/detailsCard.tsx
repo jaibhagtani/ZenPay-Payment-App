@@ -6,12 +6,12 @@ export default function DetailsCard({detailName, details, to, yesRequiredUpdatio
 {
     const router = useRouter();
     return (
-        <div className="flex shadow-sm w-full">
-            <div className="flex justify-between min-h-6 max-h-fit max-w-60 my-4 lg:justify-between px-6 min-w-max min-w-96 max-w-full">
+        <div className="flex shadow-sm max-w-full lg:w-full">
+            <div className="flex justify-between min-h-6 max-h-fit my-4 lg:justify-between px-6 min-w-max min-w-96 max-w-full">
                 <div className="lg:px-6 mr-20">
                     {detailName}
                 </div>
-                <div className="flex justify-center pr-2 lg:px-6 ml-20">
+                <div className={`flex justify-start p-2 lg:px-6 ml-20`}>
                     {details}
                 </div>
                 {yesRequiredUpdation &&

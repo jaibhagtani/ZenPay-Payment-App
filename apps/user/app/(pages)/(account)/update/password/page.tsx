@@ -7,7 +7,7 @@ export default function()
 {
 
     return (
-        <div className="flex justify-center lg:mt-20">
+        <div className="flex justify-center mt-20 lg:mt-20">
             <div>
                 <div className="text-3xl bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 inline-block text-transparent bg-clip-text mb-8 font-bold px-4 mt-8">
                     Update Password

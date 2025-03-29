@@ -18,7 +18,7 @@ export default function DownAccountBar() {
       setIsAccountBar(false);
     };
   return (
-    <div className="static">
+    <div>
       <AppBarClient setIsAccountBar={setIsAccountBar} isAccountBar={isAccountBar} />
       
       {isAccountBar && (
@@ -122,22 +122,9 @@ function LogOutIcon()
 function LogOut()
 {
   const router = useRouter();
-  const [IsDisable, setIsDisable] = useState(false);
-
   return (
     <div className="flex ml-8 p-3 cursor-pointer text-lg text-slate-700 min-w-fit">
-            {IsDisable ? (<button disabled className="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 transition delay-100 duration-200 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-slate-700" onClick={async () => {
-                setIsDisable(true)
-                // await signOut();
-                // router.push("/auth/signin");
-            }}>
-                <div className="flex">
-                    <LogOutIcon /> 
-                    <div className="pl-4">Logout</div>
-                </div> 
-            </button>) : (
-              <button className="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 transition delay-100 duration-200 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-slate-700" onClick={async () => {
-                setIsDisable(true)
+            <button className="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 transition delay-100 duration-200 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-slate-700" onClick={async () => {
                 await signOut();
                 router.push("/auth/signin");
             }}>
@@ -146,8 +133,7 @@ function LogOut()
                     <div className="pl-4">Logout</div>
                 </div> 
             </button>
-            )
-}
+
             
         </div>
     )

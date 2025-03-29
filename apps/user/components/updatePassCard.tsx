@@ -190,7 +190,7 @@ export function UpdatePassword({ title }: UpdatePasswordInput) {
                     }
                     else 
                     {
-                      setError("User not logged in!")
+                      setError("Enter Valid Datails!")
                     }
                 }
               }}

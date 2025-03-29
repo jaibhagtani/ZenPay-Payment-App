@@ -33,7 +33,7 @@ export function AppBarClient({setIsAccountBar, isAccountBar} : AppBarClient) {
         >
             <AppBar
                 onSignin={() => {
-                    
+                    router.push("/auth/signin")
                 }}
                 onSignout={async () => {
                     await signOut();

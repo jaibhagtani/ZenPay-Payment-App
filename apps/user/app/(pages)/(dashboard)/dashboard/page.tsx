@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import React from "react";
 import CardDashBoard from "../../../../components/cardComponentDashboard";
 import ActionCard from "../../../../components/cardsdashboard";

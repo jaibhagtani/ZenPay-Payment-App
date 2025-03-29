@@ -181,7 +181,7 @@ export default function FormPageSignup() {
     }
   }, [contact]);
   
-  const [IsDisable, setIsDisable] = useState(false)
+
   return (
     <div onSubmit={handleLogin} className="w-full py-5 mx-5 px-10 h-max bg-white rounded-3xl">
       <div className="font-bold text-4xl flex justify-center pb-1">
@@ -234,7 +234,7 @@ export default function FormPageSignup() {
                     </span>
                   </p>
                   ) : (
-                  <button 
+                  <button
                     onClick={resendOTP}
                     className="text-blue-500"
                   >
@@ -253,7 +253,7 @@ export default function FormPageSignup() {
           Login
         </button>
       ) : (
-        <button 
+        <button
           onClick={async () =>  {
             const nextres =  nextReqSchema.safeParse({Name, contact, email}).success;
             if(nextres && (timeLeft === 0 || firstTime))
@@ -295,16 +295,11 @@ export default function FormPageSignup() {
       </p>}
 
       <div className="pt-3 flex justify-center">already have an account?
-        {IsDisable ? (<button className="pl-1 text-blue-600 hover:underline" onClick={() => {
+        <button className="pl-1 text-blue-600 hover:underline" onClick={() => {
           router.push("/auth/signin")
         }}>
           Sign in
-        </button>) : (<button className="pl-1 text-blue-400 hover:underline" onClick={() => {
-          router.push("/auth/signin")
-          setIsDisable(true)
-        }}>
-          Sign in
-        </button>)}
+        </button>
       </div>
   </div>
     

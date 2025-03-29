@@ -1,21 +1,23 @@
 import React from "react";
-import {
-  FaRedo,
-  FaMoneyBillWave,
-  FaArrowRight,
-  FaArrowLeft,
-  FaEllipsisH,
-} from "react-icons/fa";
 import CardDashBoard from "../../../../components/cardComponentDashboard";
 import ActionCard from "../../../../components/cardsdashboard";
 import { TbTransferIn } from "react-icons/tb";
 import { FaMoneyBillTransfer } from "react-icons/fa6";
 import { TbTransferOut } from "react-icons/tb";
 import { GrTransaction } from "react-icons/gr";
+import { getBalance } from "../../../lib/actions/getBalance";
+import { getP2PTxns } from "../../../lib/actions/getP2P-txns";
 // import LineChartPC from "../../../../components/chartForPC";
 // import ChartfullComponent from "../../../../components/ChartComponent";
 
-export default function Dashboard() {
+
+
+
+export default async function Dashboard() {
+
+  const balanceData = await getBalance();
+  const p2pData = await getP2PTxns();
+
   return (
     <div className="min-h-screen">
       <div className="w-full max-w-6xl">
@@ -29,19 +31,19 @@ export default function Dashboard() {
           <div className="lg:flex justify-between">
             <CardDashBoard
               title="Total Balance"
-              numberOfTitle={100}
+              numberOfTitle={balanceData.balance?.amount || 0}
               iconType="balance"
               link="/balance"
               />
             <CardDashBoard
-              title="Income"
-              numberOfTitle={89}
+              title="Received"
+              numberOfTitle={p2pData.totalReceived || 0}
               iconType="transaction"
-              link="/transactions/deposit"
+              link="/balance"
               />
             <CardDashBoard
               title="Expenses"
-              numberOfTitle={100}
+              numberOfTitle={p2pData.totalPaid || 0}
               iconType="transfer"
               link="/balance"
               />

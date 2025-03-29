@@ -34,11 +34,11 @@ export function UpdatePassword({ title }: UpdatePasswordInput) {
 
   
   const handleVerify = async () => {
-    if (!session.data?.user) 
-    {
-        setError("User not logged in!")
-        return console.error("User not logged in!");
-    }
+    // if (!session.data?.user) 
+    // {
+    //     setError("User not logged in!")
+    //     return console.error("User not logged in!");
+    // }
     const res = await fetch("/api/update/otp/verify-otp",
       {
         method: "POST",
@@ -88,11 +88,11 @@ export function UpdatePassword({ title }: UpdatePasswordInput) {
 
   const handleSendOtp = async () => {
 
-    if (!session.data?.user) 
-    {
-        setError("User not logged in!")
-        return console.error("User not logged in!");
-    }
+    // if (!session.data?.user) 
+    // {
+    //     setError("User not logged in!")
+    //     return console.error("User not logged in!");
+    // }
     startTimer();
     setResendClicked(true);
     const res = await fetch("/api/update/otp/send-otp", {
@@ -116,11 +116,11 @@ export function UpdatePassword({ title }: UpdatePasswordInput) {
 
   async function setPasswordtoDB() {
 
-    if (!session.data?.user) 
-    {
-        setError("User not logged in!")
-        return console.error("User not logged in!");
-    }
+    // if (!session.data?.user) 
+    // {
+    //     setError("User not logged in!")
+    //     return console.error("User not logged in!");
+    // }
     const res = await fetch(`/api/update/password`, {
       method: "POST",
       headers: {

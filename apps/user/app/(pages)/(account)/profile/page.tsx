@@ -2,6 +2,25 @@ import { getServerSession } from "next-auth";
 import { NEXT_AUTH } from "../../../lib/auth";
 import { getBalance } from "../../../lib/actions/getBalance";
 import DetailsCard from "../../../../components/detailsCard";
+import { prisma } from "@repo/db/client";
+
+
+async function getDetails()
+{
+    const session = await getServerSession(NEXT_AUTH);
+    if(!session?.user)
+    {
+        alert("User not Logged in!!");
+        return;
+    }
+
+    const userDetails = await prisma.user.findUnique({
+        where: {
+            email: session.user.email
+        }
+    })
+    return userDetails;
+}
 
 
 export default async function() {
@@ -9,6 +28,8 @@ export default async function() {
     const user = session?.user;
     // console.log(user)
     const balance = await getBalance();
+    const userDetails = await getDetails();
+    const userNumber = userDetails?.number;
     return (
         <div className="lg:max-w-screen">
             <div className="text-4xl bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 inline-block text-transparent bg-clip-text pt-8 mb-8 font-bold px-4 mt-12">
@@ -29,7 +50,7 @@ export default async function() {
                         <div className="font-semibold">
                             <DetailsCard detailName="Username" details={user.name} to="/update/name" yesRequiredUpdation ={false}></DetailsCard>
                             {/* Add contact */}
-                            <DetailsCard detailName="Contact" details={user.number} to="" yesRequiredUpdation ={false}></DetailsCard>
+                            <DetailsCard detailName="Contact" details={userNumber?.toString() || ""} to="" yesRequiredUpdation ={false}></DetailsCard>
                             <DetailsCard detailName="E-mail" details={user.email} to="" yesRequiredUpdation ={false} ></DetailsCard>
                             <DetailsCard detailName="password" details={"*******"} to="/update/password" yesRequiredUpdation={true}></DetailsCard>
                             <DetailsCard detailName="MPIN" details={"****"} to="/mpin/update" yesRequiredUpdation ={true}></DetailsCard>

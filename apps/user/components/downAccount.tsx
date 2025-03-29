@@ -18,7 +18,7 @@ export default function DownAccountBar() {
       setIsAccountBar(false);
     };
   return (
-    <div>
+    <div className="static">
       <AppBarClient setIsAccountBar={setIsAccountBar} isAccountBar={isAccountBar} />
       
       {isAccountBar && (

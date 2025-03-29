@@ -20,7 +20,7 @@ export default function({children} : {children :React.ReactNode})
                     </div>
                 </div>
                     
-                <div className="bg-pink-50">
+                <div className="bg-pink-50 flex-1 flex justify-center">
                     {children}
                 </div>
             </div>

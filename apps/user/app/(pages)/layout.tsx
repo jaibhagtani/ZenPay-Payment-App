@@ -16,8 +16,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="min-w-screen bg-pink-50/70">
-    <DownAccountBar />
+    <div className="max-w-screen bg-pink-50/70">
+    <div className="static">
+      <DownAccountBar />
+
+    </div>
     {children}
     </div>
   );

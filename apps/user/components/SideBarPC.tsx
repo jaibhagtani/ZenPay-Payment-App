@@ -12,6 +12,19 @@ export default function SidebarPC({type} : {type: "Dashboard" | "Profile"})
             <div className="flex justify-center text-2xl bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 text-transparent bg-clip-text font-bold pb-6 pt-6 pl-5">
                 DASHBOARD
             </div>
+            
+            <div className="pt-4">
+                <SideBarItems href="/dashboard" icon={<HomeIcon/>} title="Home"></SideBarItems>
+            </div>
+            <div className="pt-4">
+                <SideBarItems href="/transfer/deposit" icon={<Transfer/>} title="Transfer"></SideBarItems>
+            </div>
+            <div className="pt-4">
+                <SideBarItems href="/transactions/deposit" icon={<Transactions />} title="Transactions"></SideBarItems>
+            </div>
+            <div className="pt-4">
+                <SideBarItems href="/p2p" icon={<P2P />} title="P2P Transfer"></SideBarItems>
+            </div>
             <div className="flex justify-center py-6 pl-10">
                 <ButtonToRedirect to="/profile">
                     <div className="flex justify-center">
@@ -25,19 +38,6 @@ export default function SidebarPC({type} : {type: "Dashboard" | "Profile"})
                     </div>
                 </ButtonToRedirect>
             </div>
-            <div className="pt-4">
-                <SideBarItems href="/dashboard" icon={<HomeIcon/>} title="Home"></SideBarItems>
-            </div>
-            <div className="pt-4">
-                <SideBarItems href="/transfer/deposit" icon={<Transfer/>} title="Transfer"></SideBarItems>
-            </div>
-            <div className="pt-4">
-                <SideBarItems href="/transactions/deposit" icon={<Transactions />} title="Transactions"></SideBarItems>
-            </div>
-            <div className="pt-4">
-                <SideBarItems href="/p2p" icon={<P2P />} title="P2P Transfer"></SideBarItems>
-            </div>
-            
         </div>
         )
         
@@ -48,7 +48,17 @@ export default function SidebarPC({type} : {type: "Dashboard" | "Profile"})
             <div className="flex justify-center text-2xl bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 text-transparent bg-clip-text font-bold pb-6 pt-6 pl-2">
                 ACCOUNT
             </div>
-            <div className="flex justify-center py-6 pl-6 pl-6">
+            
+            <div className="pt-4">
+                <SideBarItems href="/profile" icon={<ProfileIcon/>} title="Profile"></SideBarItems>
+            </div>
+            <div className="pt-4">
+                <SideBarItems href="/mpin/update" icon={<MPINIcon/>} title="MPIN"></SideBarItems>
+            </div>
+            <div className="pt-4">
+                <SideBarItems href="/balance" icon={<BalanceIcon />} title={`Balances & Txns`}></SideBarItems>
+            </div>
+            <div className="flex justify-center py-6 pl-6 pl-6 mt-16">
                 <ButtonToRedirect to="/dashboard">
                 <div className="flex justify-center">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 22 22" strokeWidth="1.5" stroke="currentColor" className="pr-3 w-10 h-10">
@@ -59,15 +69,6 @@ export default function SidebarPC({type} : {type: "Dashboard" | "Profile"})
                         </div>
                     </div>
                 </ButtonToRedirect>
-            </div>
-            <div className="pt-4">
-                <SideBarItems href="/profile" icon={<ProfileIcon/>} title="Profile"></SideBarItems>
-            </div>
-            <div className="pt-4">
-                <SideBarItems href="/mpin/update" icon={<MPINIcon/>} title="MPIN"></SideBarItems>
-            </div>
-            <div className="pt-4">
-                <SideBarItems href="/balance" icon={<BalanceIcon />} title={`Balances & Txns`}></SideBarItems>
             </div>
         </div>
         )

@@ -2,11 +2,11 @@
 import { NextResponse } from "next/server";
 import { redisclient } from "../../../../../redis";
 
-const client = require("twilio")(
-  process.env.TWILIO_ACCOUNT_SID,
-  process.env.TWILIO_AUTH_TOKEN,
-  { lazyLoading: true }
-);
+// const client = require("twilio")(
+//   process.env.TWILIO_ACCOUNT_SID,
+//   process.env.TWILIO_AUTH_TOKEN,
+//   { lazyLoading: true }
+// );
 
 export async function POST(req: Request) {
     const body = await req.json();

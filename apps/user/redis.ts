@@ -1,14 +1,13 @@
-import { createClient } from "redis"
+import { createClient } from "redis";
 
 const redisUrl = process.env.REDIS_URL;
 
-export const redisclient = createClient ({
-  url : `${process.env.REDIS_URL}'
+export const redisclient = createClient({
+  url: `${redisUrl}`
 });
 
-
-redisclient.on("error", function(err :any) {
+redisclient.on("error", (err: any) => {
   throw err;
 });
 
-await redisclient.connect()
+await redisclient.connect();

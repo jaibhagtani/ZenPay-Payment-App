@@ -17,10 +17,7 @@ export default function RootLayout({
 }) {
   return (
     <div className="max-w-screen bg-pink-50/70">
-    <div className="static">
-      <DownAccountBar />
-
-    </div>
+    <DownAccountBar />
     {children}
     </div>
   );

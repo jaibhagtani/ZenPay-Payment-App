@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <div className="flex bg-pink-50/70 min-w-screen min-h-screen z-50 static">
+      <div className="flex bg-pink-50/70 min-w-screen min-h-screen z-50">
         <div className="pt-16 relative">
           <div className="lg:invisible">
             <SideBarMobile type="Dashboard" />

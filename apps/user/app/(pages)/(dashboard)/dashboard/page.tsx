@@ -1,4 +1,4 @@
-export const dynamic = "force-dynamic";
+// export const dynamic = "force-dynamic";
 import React from "react";
 import CardDashBoard from "../../../../components/cardComponentDashboard";
 import ActionCard from "../../../../components/cardsdashboard";
@@ -16,8 +16,8 @@ import { getP2PTxns } from "../../../lib/actions/getP2P-txns";
 
 export default async function Dashboard() {
 
-  const balanceData = await getBalance();
-  const p2pData = await getP2PTxns();
+  // const balanceData = await getBalance();
+  // const p2pData = await getP2PTxns();
 
   return (
     <div className="min-h-screen">
@@ -32,19 +32,19 @@ export default async function Dashboard() {
           <div className="lg:flex justify-between">
             <CardDashBoard
               title="Total Balance"
-              numberOfTitle={balanceData.balance?.amount || 0}
+              numberOfTitle={0}
               iconType="balance"
               link="/balance"
               />
             <CardDashBoard
               title="Received"
-              numberOfTitle={p2pData.totalReceived || 0}
+              numberOfTitle={0}
               iconType="transaction"
               link="/balance"
               />
             <CardDashBoard
               title="Expenses"
-              numberOfTitle={p2pData.totalPaid || 0}
+              numberOfTitle={0}
               iconType="transfer"
               link="/balance"
               />

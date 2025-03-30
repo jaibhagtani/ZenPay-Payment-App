@@ -1,9 +1,8 @@
 import { createClient } from "redis";
 
-const redisUrl = process.env.REDIS_URL;
 
 export const redisclient = createClient({
-  url: `${redisUrl}`
+  url: "rediss://default:AaJnAAIjcDE0OWIxZTg2YmJkYWY0MzRmOTBmMzA0ZWU3ZjhmNzY2N3AxMA@trusty-lemur-41575.upstash.io:6379"
 });
 
 // redisclient.on("error", (err: any) => {

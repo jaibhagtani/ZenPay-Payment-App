@@ -13,8 +13,7 @@ jobs:
       - name: Check out Repo
         uses: actions/checkout@v4
 
-      - name: Adding an env Varibales
-        env: 
+      - env: 
           REDIS_URL = ${{ secrets.REDIS_URL }}
       
       - name: Login to Docker Hub

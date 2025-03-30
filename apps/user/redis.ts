@@ -1,5 +1,8 @@
+import 'dotenv/config'
 import { createClient } from "redis";
 
+
+require('dotenv').config()
 const redisUrl = process.env.REDIS_URL;
 console.log("REDIS_URL =", redisUrl);
 if (!redisUrl) {

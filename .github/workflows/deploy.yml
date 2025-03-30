@@ -40,8 +40,11 @@ jobs:
       - name: Deploy to production
         uses: johnbeynon/render-deploy-action@v0.0.8
         with:
-        scripts: |
-          docker pull jaibhagtani/zenpay:latest
-          docker stop zenpay || true
-          docker rm zenpay || true
-          docker run -d --name zenpay-user -p 3005:3000 -e REDIS_URL=${{ secrets.REDIS_URL }} jaibhagtani/zenpay:latest
+          scripts: |
+            docker pull jaibhagtani/zenpay:latest
+            docker stop zenpay || true
+            docker rm zenpay || true
+            docker run -d --name zenpay-user -p 3005:3000 -e REDIS_URL=${{ secrets.REDIS_URL }} jaibhagtani/zenpay:latest
+
+
+    

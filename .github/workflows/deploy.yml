@@ -10,7 +10,7 @@ jobs:
   build-and-push:
     runs-on: ubuntu-latest
     env: 
-      REDIS_URL: ${{ secrets.REDIS_URL }}
+      REDIS_URL: ${{ vars.REDIS_URL }}
 
     steps:
       - name: Check out Repo
@@ -26,7 +26,7 @@ jobs:
         uses: docker/setup-buildx-action@v3
 
       - name: Printing REDIS_URL
-        run:  echo "My REDIS_URL is ${{ env.REDIS_URL}}"
+        run:  echo "My REDIS_URL is ${{ vars.REDIS_URL}}"
 
       - name: Build and push Docker Image
         uses: docker/build-push-action@v6
@@ -38,7 +38,7 @@ jobs:
           environment: Production
           tags: ${{ secrets.DOCKER_USERNAME }}/zenpay:latest
           build-args: |
-            REDIS_URL=${{ env.REDIS_URL }}
+            REDIS_URL=${{ vars.REDIS_URL }}
 
       # - name: Verify Pushed Image
       #   run: docker run jaibhagtani/zenpay:latest

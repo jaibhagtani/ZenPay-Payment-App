@@ -2,6 +2,7 @@ import 'dotenv/config'
 import { createClient } from "redis";
 
 require('dotenv').config()
+console.log(process.env)
 
 const redisUrl = process.env.REDIS_URL;
 console.log("REDIS_URL =", redisUrl);

@@ -29,6 +29,7 @@ jobs:
           platforms: linux/amd64,linux/arm64
           file: ./docker/Dockerfile.user
           push: true
+          environment: Production
           tags: ${{ secrets.DOCKER_USERNAME }}/zenpay:latest
           build-args: |
             REDIS_URL=${{ secrets.REDIS_URL }}

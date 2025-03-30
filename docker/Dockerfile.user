@@ -16,7 +16,7 @@ ENV DATABASE_URL=DATABASE_URL
 RUN npm run db:generate
 
 ARG REDIS_URL
-ENV REDIS_URL=${REDIS_URL}
+ENV REDIS_URL=rediss://default:AaJnAAIjcDE0OWIxZTg2YmJkYWY0MzRmOTBmMzA0ZWU3ZjhmNzY2N3AxMA@trusty-lemur-41575.upstash.io:6379
 
 RUN npm run build
 

@@ -6,8 +6,8 @@ export const redisclient = createClient({
   url: `${redisUrl}`
 });
 
-redisclient.on("error", (err: any) => {
-  throw err;
-});
+// redisclient.on("error", (err: any) => {
+//   throw err;
+// });
 
 await redisclient.connect();

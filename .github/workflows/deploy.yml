@@ -21,6 +21,9 @@ jobs:
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
+        
+      - name: Printing REDIS_URL
+        run:  echo "My REDIS_URL is ${{secrets.REDIS_URL}}"
 
       - name: Build and push Docker Image
         uses: docker/build-push-action@v6
@@ -32,7 +35,7 @@ jobs:
           environment: Production
           tags: ${{ secrets.DOCKER_USERNAME }}/zenpay:latest
           build-args: |
-            REDIS_URL=rediss://default:AaJnAAIjcDE0OWIxZTg2YmJkYWY0MzRmOTBmMzA0ZWU3ZjhmNzY2N3AxMA@trusty-lemur-41575.upstash.io:6379
+            REDIS_URL=${{ secrets.REDIS_URL }}
 
       # - name: Verify Pushed Image
       #   run: docker run jaibhagtani/zenpay:latest
@@ -44,7 +47,7 @@ jobs:
             docker pull jaibhagtani/zenpay:latest
             docker stop zenpay || true
             docker rm zenpay || true
-            docker run -d --name zenpay-user -p 3005:3000 -e REDIS_URL=rediss://default:AaJnAAIjcDE0OWIxZTg2YmJkYWY0MzRmOTBmMzA0ZWU3ZjhmNzY2N3AxMA@trusty-lemur-41575.upstash.io:6379 jaibhagtani/zenpay:latest
+            docker run -d --name zenpay-user -p 3005:3000 -e REDIS_URL=${{ secrets.REDIS_URL }} jaibhagtani/zenpay:latest
 
 
     

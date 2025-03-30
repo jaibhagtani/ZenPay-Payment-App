@@ -31,7 +31,7 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/zenpay:latest
           build-args: |
-            REDIS_URL=${{ secrets.REDIS_URL }}
+            REDIS_URL=${{ env.REDIS_URL }}
 
       # - name: Verify Pushed Image
       #   run: docker run jaibhagtani/zenpay:latest
@@ -43,7 +43,7 @@ jobs:
             docker pull jaibhagtani/zenpay:latest
             docker stop zenpay || true
             docker rm zenpay || true
-            docker run -d --name zenpay-user -p 3005:3000 -e REDIS_URL=${{ secrets.REDIS_URL }} jaibhagtani/zenpay:latest
+            docker run -d --name zenpay-user -p 3005:3000 -e REDIS_URL=${{ env.REDIS_URL }} jaibhagtani/zenpay:latest
 
 
     

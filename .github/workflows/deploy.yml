@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       REDIS_URL: ${{ secrets.REDIS_URL }}
-    environment: Production
+
     steps:
       - name: Check out Repo
         uses: actions/checkout@v4

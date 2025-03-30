@@ -24,14 +24,14 @@ jobs:
 
       - name: Build and push Docker Image
         uses: docker/build-push-action@v6
-        env:
-          REDIS_URL: ${{ secrets.REDIS_URL }}
         with:
           context: .
           platforms: linux/amd64,linux/arm64
           file: ./docker/Dockerfile.user
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/zenpay:latest
+          build-args: |
+            REDIS_URL=${{ secrets.REDIS_URL }}
 
       # - name: Verify Pushed Image
       #   run: docker run jaibhagtani/zenpay:latest

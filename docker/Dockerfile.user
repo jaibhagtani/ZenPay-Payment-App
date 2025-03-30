@@ -13,8 +13,10 @@ COPY packages ./packages
 
 RUN npm install
 ENV DATABASE_URL=DATABASE_URL
-ENV REDIS_URL=REDIS_URL
 RUN npm run db:generate
+
+ARG REDIS_URL
+ENV REDIS_URL=${REDIS_URL}
 
 RUN npm run build
 

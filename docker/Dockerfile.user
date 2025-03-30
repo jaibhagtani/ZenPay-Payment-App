@@ -22,3 +22,4 @@ ENV REDIS_URL=${REDIS_URL}
 RUN npm run build
 
 CMD [ "npm", "run", "start-user-app" ]
+

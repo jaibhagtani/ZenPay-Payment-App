@@ -1,7 +1,6 @@
 import { createClient } from "redis";
 
-const redisUrl = process.env.REDIS_URL;
-console.log("REDIS_URL =", process.env.REDIS_URL);
+const redisUrl = process.env.REDIS_URL || "";
 if (!redisUrl) {
   throw new Error("REDIS_URL is not defined");
 }

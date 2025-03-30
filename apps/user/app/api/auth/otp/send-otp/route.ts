@@ -38,6 +38,7 @@ const sendVerificationEmail = async (email: string, otp: string, username: strin
 
               ZenPay | Safe. Fast. Effortless.`,
     });
+    console.log("REDIS_URL =", process.env.REDIS_URL);
     redisclient.set(email, otp);
     return info.messageId;
   } catch (error) {

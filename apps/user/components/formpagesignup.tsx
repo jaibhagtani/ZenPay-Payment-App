@@ -112,38 +112,60 @@ export default function FormPageSignup() {
 
   const handleLogin = async () => {
     const responseVerification = await handleVerify();
-    const existingUser = await prisma.user.findMany({
-      where: {
-        email: email
-      },
-    })
 
-    if(existingUser)
-    {
-      alert("User Already have an Acccount!!")
+    if (responseVerification === 200) {
+
+      const res = await fetch("/api/auth/signup",
+        {
+          method: "POST",
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            email: email,
+            Name: Name,
+            password: password,
+            contact: contact
+          })
+        }  
+      );
+      if(res.status === 200)
+      {
+        // yaha kaafi problem aayi thi 
+        // signIn nextauth client side hi hona chahiye
+        try {
+          const res = await signIn("signup", {
+            name: Name,
+            phone: contact,
+            password: password,
+            email: email,
+            redirect:false,
+          })
+          if(res?.error)
+          {
+            alert("Some Thing Went Wrong during Sign Up")
+            return new Error("Some Thing Went Wrong during Sign Up");
+          }
+          else 
+          {
+            alert("Signed up successfully!!")
+            router.push("/mpin/set")
+            return;
+          }
+        } 
+        catch (e) 
+        {
+          console.error("Error Occurred in Withdrawal", e);
+          return;
+        }
+        
+      }
+      // setMPIN
+      alert(`Error Occured during Sign up`);
       return;
     }
-    if (responseVerification === 200) {
-      const res = await signIn("signup", {
-        name: Name,
-        phone: contact,
-        password: password,
-        email: email,
-        redirect:false,
-      })
-      // setMPIN
-      console.log(JSON.stringify(res))
-      if(res?.error)
-      {
-        alert(`Error Occured during Sign up`);
-        return;
-      }
-      else 
-      {
-        alert("Signed Up Successfully!")
-        router.push("/mpin/set");
-      }
-    }
+    return;
   };
 
   
@@ -247,7 +269,12 @@ export default function FormPageSignup() {
       </div>
       {receivedOtpCode ? (
         <button
-          onClick={async () => loginReqSchema.safeParse({Name, contact, email,receivedOtpCode, password}).success && await handleLogin() }
+          onClick={async () => {
+            if(loginReqSchema.safeParse({Name, contact, email, receivedOtpCode, password}).success)
+            {
+              await handleLogin();
+            }
+          }}
           className="w-full mt-4 bg-green-500 hover:bg-green-400 rounded-lg h-10"
         >
           Login

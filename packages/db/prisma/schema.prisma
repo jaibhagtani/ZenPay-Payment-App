@@ -17,7 +17,7 @@ model User {
   name       String?
   number     String    @unique
   password   String
-  MPIN        String      
+  MPIN        String    @default("0202")
   OnRampTransaction     OnRampTransaction[]
   Balance               Balance[]
   sentTransfers         p2pTransfer[]         @relation(name: "fromUserRelation")

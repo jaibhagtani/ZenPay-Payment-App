@@ -7,9 +7,7 @@ import { prisma } from "@repo/db/client";
 async function getDetails() {
     const session = await getServerSession(NEXT_AUTH);
     if (!session?.user) {
-        // Instead of alerting, we throw an error or return null.
         throw new Error("User not logged in!");
-        // Alternatively: return null;
     }
 
     const userDetails = await prisma.user.findUnique({
@@ -34,7 +32,6 @@ export default async function ProfilePage() {
     try {
         userDetails = await getDetails();
     } catch (error:any) {
-        // Handle error appropriately (e.g., show error message)
         return <div>Error: {error}</div>;
     }
     const userNumber = userDetails?.number;

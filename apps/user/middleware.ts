@@ -6,7 +6,7 @@ export function middleware(request: NextRequest) {
   request.nextUrl.pathname.startsWith('/mpin') || request.nextUrl.pathname.startsWith('/api/mpin') || 
   request.nextUrl.pathname.startsWith('/balance') || request.nextUrl.pathname.startsWith('/profile') )
   {
-    const token = request.cookies.get('next-auth.session-token')?.value
+    const token = (request.cookies.get('next-auth.session-token')?.value) || (request.cookies.get('__Secure-next-auth.session-token')?.value)
     // alert("User not Logged in!!")
     if (!token) {
       return NextResponse.redirect(new URL('/auth/signin', request.url));

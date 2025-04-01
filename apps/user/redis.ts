@@ -1,7 +1,6 @@
 import { createClient } from "redis";
 
 const redisUrl = process.env.REDIS_URL;
-
 if (!redisUrl) {
   throw new Error("REDIS_URL is not defined");
 }
@@ -15,5 +14,6 @@ redisclient.on("error", (err) => {
   throw err;
 });
 
-
-await redisclient.connect();
+(async () => {
+  await redisclient.connect();
+})();

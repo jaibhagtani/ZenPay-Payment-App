@@ -3,7 +3,7 @@ import { prisma } from "@repo/db/client"
 const app = express();
 // This is the endpoint that HDFC bank will hit, when it pays some money
 // To put transfer 
-
+const port = process.env.PORT;
 app.use(express.json())
 
 app.post("/hdfcWebhook", async (req, res) => {
@@ -68,4 +68,4 @@ app.post("/hdfcWebhook", async (req, res) => {
         }
 })  
 
-app.listen(9999);
+app.listen(port);

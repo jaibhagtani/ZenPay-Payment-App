@@ -30,7 +30,7 @@ app.post("/hdfcWebhook", async (req, res) => {
         await prisma.$transaction([
             prisma.balance.update({
                 where: {
-                    userId: Number(paymentInformation.userId)
+                    userId: Number(paymentInformation.userId),
                 },
                 data: {
                     amount: {
@@ -41,6 +41,8 @@ app.post("/hdfcWebhook", async (req, res) => {
             prisma.onRampTransaction.update({
                 where: {
                     token: paymentInformation.token,
+                    amount: Number(paymentInformation.amount),
+                    status: "Processing"
                 },
                 data : {
                     // amount: Number(paymentInformation.amount),

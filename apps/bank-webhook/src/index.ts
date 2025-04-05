@@ -3,9 +3,10 @@ import { prisma } from "@repo/db/client"
 const app = express();
 // This is the endpoint that HDFC bank will hit, when it pays some money
 // To put transfer 
-const port = process.env.PORT;
+const port = 9999;
 app.use(express.json())
 
+// console.log(port)
 app.post("/hdfcWebhook", async (req, res) => {
     // *********************************************************
     // ****************(TODO)*****************
@@ -61,7 +62,7 @@ app.post("/hdfcWebhook", async (req, res) => {
     
         catch(e)
         {
-            console.error(e);
+            // console.error(e);
             res.status(411).json({
                 msg : "Error while processing webhook"
             })

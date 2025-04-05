@@ -83,7 +83,7 @@ export function AddMoney({title, buttonThing} : {title: string, buttonThing: str
                     <div className="flex flex-row justify-center">
                         <div className="flex justify-center mt-10 pb-8">
                             {!showMpinBar ? (<Button onClickFunc={async () => {
-                                if(provider !== "" && value !== 0)
+                                if(provider !== "" && value !== 0 && bool)
                                 {
                                     setShowMpinBar(true)
                                 }

@@ -22,7 +22,7 @@ export default function LabelledInputAuth({label, placeholder, onChangeFunc, typ
             
             <input onChange={(e) => {
                 onChangeFunc(e.target.value);
-            }} placeholder={placeholder} inputMode={"numeric"} type={type} required className="py-5 border border-gray-300 h-9 rounded-lg w-full bg-gray-50 p-2.5 text-gray-900 text-md focus:ring-blue-500"></input>
+            }} placeholder={placeholder} type={type} required className="py-5 border border-gray-300 h-9 rounded-lg w-full bg-gray-50 p-2.5 text-gray-900 text-md focus:ring-blue-500"></input>
             }
             
         </div>

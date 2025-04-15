@@ -215,7 +215,7 @@ export default function FormPageSignup() {
      
       <div className="my-4">
         <div className="my-8">
-          <LabelledInputAuth label="First Name" placeholder="John Doe" type="text" onChangeFunc={(name) => {
+          <LabelledInputAuth label="First Name" placeholder="John Doe" onChangeFunc={(name) => {
               setName(name)
           }}></LabelledInputAuth>
         </div>

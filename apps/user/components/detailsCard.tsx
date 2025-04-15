@@ -11,7 +11,7 @@ export default function DetailsCard({detailName, details, to, yesRequiredUpdatio
                 <div className="lg:px-6 mr-20">
                     {detailName}
                 </div>
-                <div className={`flex justify-start p-2 lg:px-6 ml-20`}>
+                <div className="flex-1 py-1 px-2 break-words text-right lg:text-left">
                     {details}
                 </div>
                 {yesRequiredUpdation &&

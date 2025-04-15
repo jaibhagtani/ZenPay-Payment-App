@@ -4,7 +4,7 @@ import TransferButton from "../../../../components/transferButton";
 export default function TransferLayout({ children }: { children: React.ReactNode }): JSX.Element {
     return (
         <div className="max-w-screen">
-            <div className="text-4xl bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 inline-block text-transparent bg-clip-text pt-8 mb-8 font-bold px-4 mt-12">
+            <div className="mt-10 text-3xl sm:text-4xl bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 inline-block text-transparent bg-clip-text font-bold mb-10">
                 MPIN
             </div>
 

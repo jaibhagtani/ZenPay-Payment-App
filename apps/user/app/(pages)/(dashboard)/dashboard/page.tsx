@@ -11,73 +11,72 @@ import { getP2PTxns } from "../../../lib/actions/getP2P-txns";
 // import LineChartPC from "../../../../components/chartForPC";
 // import ChartfullComponent from "../../../../components/ChartComponent";
 
-
-
-
 export default async function Dashboard() {
-
-  // const balanceData = await getBalance();
-  // const p2pData = await getP2PTxns();
+  const balanceData = await getBalance();
+  const p2pData = await getP2PTxns();
 
   return (
-    <div className="min-h-screen">
-      <div className="w-full max-w-6xl">
-        <h1 className="text-4xl text-center bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 inline-block text-transparent bg-clip-text pt-8 mb-8 font-bold px-4 mt-12">
+    <div className="min-h-screen py-8">
+      <div className="mx-auto px-4 sm:px-6 lg:px-8">
+        <h1 className="mt-10 text-3xl sm:text-4xl bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 inline-block text-transparent bg-clip-text font-bold mb-10">
           Financial Dashboard
         </h1>
 
-        <div className="flex items-center justify-center">
-
-        <div className="bg-white rounded-md py-10 px-4">
-          <div className="lg:flex justify-between">
-            <CardDashBoard
-              title="Total Balance"
-              numberOfTitle={0}
-              iconType="balance"
-              link="/balance"
+        {/* Dashboard Content */}
+        <div className="max-w-6xl">
+          <div className="bg-gray-50 shadow-lg rounded-md py-10 px-6 w-full">
+            <div className="flex flex-col lg:flex-row justify-between items-center gap-6 mb-8">
+              <CardDashBoard
+                title="Total Balance"
+                numberOfTitle={Number(balanceData?.balance?.amount) / 100 || 0}
+                iconType="balance"
+                link="/balance"
               />
-            <CardDashBoard
-              title="Received"
-              numberOfTitle={0}
-              iconType="transaction"
-              link="/balance"
+              <CardDashBoard
+                title="Received"
+                numberOfTitle={Number(p2pData.totalReceived) || 0}
+                iconType="transaction"
+                link="/balance"
               />
-            <CardDashBoard
-              title="Expenses"
-              numberOfTitle={0}
-              iconType="transfer"
-              link="/balance"
+              <CardDashBoard
+                title="Expenses"
+                numberOfTitle={Number(p2pData.totalPaid) || 0}
+                iconType="transfer"
+                link="/balance"
               />
-          </div>
-          <div className="py-10 grid grid-cols-2 lg:grid-cols-4 gap-6 max-w-4xl mx-auto">
-            <ActionCard
-              icon={<FaMoneyBillTransfer size={20} />}
-              label="Send Money"
-              to={"/p2p"}
-              />
-            <ActionCard
-              icon={<TbTransferIn size={20} />}
-              label="Deposit"
-              to={"/transfer/deposit"}
-              />
-            <ActionCard
-              icon={<TbTransferOut size={20} />}
-              label="Withdraw"
-              to={"/transfer/withdraw"}
-              />
-            <ActionCard
-              icon={<GrTransaction size={20} />}
-              label="Transactions"
-              to={"/transactions/deposit"}
-              />
-          </div>
-          </div>
-          {/* Uncomment the section below if you want to display the full chart component */}
-          {/*
-          <div className="lg:grid grid-cols-1 gap-2 max-w-screen">
-            <div>
-              <ChartfullComponent />
             </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <ActionCard
+                icon={<FaMoneyBillTransfer size={20} />}
+                label="Send Money"
+                to="/p2p"
+                className="transition-colors duration-200 hover:bg-purple-100"
+              />
+              <ActionCard
+                icon={<TbTransferIn size={20} />}
+                label="Deposit"
+                to="/transfer/deposit"
+                className="transition-colors duration-200 hover:bg-purple-100"
+              />
+              <ActionCard
+                icon={<TbTransferOut size={20} />}
+                label="Withdraw"
+                to="/transfer/withdraw"
+                className="transition-colors duration-200 hover:bg-purple-100"
+              />
+              <ActionCard
+                icon={<GrTransaction size={20} />}
+                label="Transactions"
+                to="/transactions/deposit"
+                className="transition-colors duration-200 hover:bg-purple-100"
+              />
+            </div>
+          </div>
+
+          {/*
+          <div className="mt-10 w-full transition-opacity duration-300">
+            <ChartfullComponent />
           </div>
           */}
         </div>

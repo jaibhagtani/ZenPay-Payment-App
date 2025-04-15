@@ -20,7 +20,7 @@ export default function CardDashBoard({title, numberOfTitle, iconType, link}: {t
                         {title}
                     </div>
                     <div className="py-4 flex justify-center font-bold font-lg text-[#1F2937]">
-                        {numberOfTitle}
+                        ₹ {numberOfTitle}
                     </div>
                 </div>
                 

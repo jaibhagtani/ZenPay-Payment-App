@@ -9,7 +9,7 @@ export default function()
     return (
         <div className="flex justify-center mt-20 lg:mt-20">
             <div>
-                <div className="text-3xl bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 inline-block text-transparent bg-clip-text mb-8 font-bold px-4 mt-8">
+                <div className="mt-10 text-3xl sm:text-4xl bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 inline-block text-transparent bg-clip-text font-bold mb-10">
                     Update Password
                 </div>
                 <div className="mx-10 grid grid-cols-1 gap-10 lg:grid-cols-6 p-2 gap-4">

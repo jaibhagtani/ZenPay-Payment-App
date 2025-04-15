@@ -40,7 +40,7 @@ export default async function()
 {
     const txns = await getTransactions(); 
     return <div className="min-w-fit">
-            <div className="text-4xl bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 inline-block text-transparent bg-clip-text pt-8 mb-8 font-bold px-4 mt-12">
+            <div className="mt-10 text-3xl sm:text-4xl bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 inline-block text-transparent bg-clip-text font-bold mb-10">
                 P2P Transfer
             </div>
             <div className="grid grid-cols-1 min-w-fit lg:grid-cols-12 gap-4 w-full">

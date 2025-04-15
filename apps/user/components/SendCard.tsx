@@ -42,7 +42,7 @@ export default function SendCard()
     return (
         <div className="h-max bg-white px-5 rounded-2xl">
             <Card title="Send">
-                <div className="w-full mt-8">
+                <div className="w-full max-w-full mt-8">
                     
                     <LabelledInput label="Number" placeholder="1231231231" onChangeFunc={(val) => {
                         setPhoneNumber(val);

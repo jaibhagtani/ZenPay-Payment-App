@@ -5,7 +5,7 @@ import TransferButton from "../../../../components/transferButton";
 export default function({children} : {children: React.ReactNode}) : JSX.Element
 {
     return (  <div className="min-h-screen">
-                <div className="mt-10 text-3xl sm:text-4xl bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 inline-block text-transparent bg-clip-text font-bold mb-10">
+                <div className="px-1 mt-20 text-3xl sm:text-4xl bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 inline-block text-transparent bg-clip-text font-bold mb-10">
                     Transactions
                 </div>
                     {/* add select */}

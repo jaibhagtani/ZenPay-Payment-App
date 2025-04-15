@@ -72,25 +72,16 @@ function Avatar() {
         </div>
     )
   }
+function MPINIcon() {
+  return (
+    <div>
+      <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" className="w-6 h-6">
+        <path d="M12 1a5 5 0 00-5 5v3H5.5A1.5 1.5 0 004 10.5v9A3.5 3.5 0 007.5 23h9a3.5 3.5 0 003.5-3.5v-9A1.5 1.5 0 0018.5 9H17V6a5 5 0 00-5-5zm-3 5a3 3 0 116 0v3h-6V6zm3 8a1.5 1.5 0 110 3 1.5 1.5 0 010-3z" />
+      </svg>
+    </div>
+  );
+}
 
-  function MPINIcon()
-  {
-    
-    return (
-        <div>
-            <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="currentColor"
-                viewBox="0 0 24 24"
-                className="w-6 h-6"
-                >
-                <path d="M6 9V7a6 6 0 1 1 12 0v2h1.5A1.5 1.5 0 0 1 21 10.5v9A3.5 3.5 0 0 1 17.5 23h-11A3.5 3.5 0 0 1 3 19.5v-9A1.5 1.5 0 0 1 4.5 9H6zm2-2v2h8V7a4 4 0 0 0-8 0zm.75 6.25a1.25 1.25 0 1 1-2.5 0 1.25 1.25 0 0 1 2.5 0zm6 0a1.25 1.25 0 1 1-2.5 0 1.25 1.25 0 0 1 2.5 0zm-6-3.5a1.25 1.25 0 1 1-2.5 0 1.25 1.25 0 0 1 2.5 0zm6 0a1.25 1.25 0 1 1-2.5 0 1.25 1.25 0 0 1 2.5 0z" />
-            </svg>
-
-        </div>
-    )
-    
-  }
   
 function LogOutIcon()
 {

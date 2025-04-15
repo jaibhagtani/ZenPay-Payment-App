@@ -37,10 +37,10 @@ export default async function ProfilePage() {
     const userNumber = userDetails?.number;
 
     return (
-        <div className="px-4 sm:px-6 lg:px-16 py-10">
-            <h1 className="mt-10 text-3xl sm:text-4xl bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 inline-block text-transparent bg-clip-text font-bold mb-10">
+        <div className="">
+            <div className="items-start px-2 mt-20 text-3xl sm:text-4xl bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 inline-block text-transparent bg-clip-text font-bold mb-10">
                 Profile
-            </h1>
+            </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 <div className="col-span-1 md:col-span-2 lg:col-start-2 bg-white rounded-lg shadow-md p-6">
@@ -48,7 +48,7 @@ export default async function ProfilePage() {
                         <AvatarIcon />
                     </div>
                     <div className="text-center font-bold text-xl sm:text-2xl pt-4">
-                        Hey {user.name},
+                        Hey {user.name || ""},
                     </div>
                     <div className="font-bold text-center font-semibold text-base sm:text-lg pb-6 pt-2 text-gray-700">
                         Balance: ₹ {Number(balance.balance?.amount) / 100 || 0}

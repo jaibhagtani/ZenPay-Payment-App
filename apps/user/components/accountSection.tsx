@@ -26,10 +26,10 @@ export default function AccountSection({
   P2Ptxns,
 }: AccountSectionInput) {
   return (
-    <div className="mx-auto max-w-screen-xl px-4 py-8">
+    <div className="mx-auto max-w-screen-xl py-8">
       {/* Page Heading */}
-      <div className="mt-12 mb-8 px-2">
-        <h1 className="mt-10 text-3xl sm:text-4xl bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 inline-block text-transparent bg-clip-text font-bold mb-10">
+      <div className="mb-8 px-2">
+        <h1 className="mt-12 text-3xl sm:text-4xl bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 inline-block text-transparent bg-clip-text font-bold mb-10">
           Balances and Transactions
         </h1>
       </div>

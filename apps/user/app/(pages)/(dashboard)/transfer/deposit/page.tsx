@@ -61,14 +61,14 @@ export default async function()
     return (
         <div className="flex justify-center">
             <div className="mx-10 grid grid-cols-1 gap-10 lg:grid-cols-12 p-2 gap-4">
-                <div className="bg-white min-w-fit lg:min-w-full rounded-3xl col-span-7">
+                <div className="bg-white w-full lg:min-w-full rounded-3xl col-span-7">
                     <AddMoney title="Deposit" buttonThing="Deposit Money"></AddMoney>
                 </div>
                 <div className="col-span-4">
-                    <div className=" bg-white min-w-fit lg:max-w-full min-w-96 rounded-3xl py-2">
+                    <div className="bg-white w-full sm:w-full min-w-80 rounded-3xl py-2">
                         <BalanceCard amount={balance ? balance.amount : 0} locked={balance ? balance.locked : 0}></BalanceCard>
                     </div>
-                    <div className="bg-white min-w-fit lg:pt-4 max-w-full rounded-3xl my-5">
+                    <div className="bg-white w-full lg:pt-4 w-full rounded-3xl my-5">
                         <TransactionCard transactions={txns ? txns : []} href="/transactions/deposit"></TransactionCard>
                     </div>
                 </div>

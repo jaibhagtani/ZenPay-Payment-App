@@ -41,7 +41,7 @@ export function AppBar({
             <div className="flex flex-col justify-center pt-2">
                 <div className="flex justify-center items-center space-x-3">
                     {user && (
-                        <div className="hidden lg:flex lg:rounded-full text-center bg-slate-400 size-11 pt-1 justify-center items-center mr-4 text-sm md:text-2xl cursor-pointer pb-1 hover:border-2 border-solid border-black"
+                        <div className="hidden lg:flex lg:rounded-full text-center bg-slate-400 size-11 mb-2 justify-center items-center mr-4 text-sm md:text-2xl cursor-pointer pb-1 hover:border-2 border-solid border-black"
                             onClick={() => setIsAccountBar(!isAccountBar)}
                         >
                             {firstch}{lastch}
@@ -52,7 +52,7 @@ export function AppBar({
                         onClick={() => setIsAccountBar(!isAccountBar)}
                         aria-controls="logo-sidebar"
                         type="button"
-                        className="mr-2 items-center flex justify-center text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 transition delay-100 duration-200 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-slate-700"
+                        className="h-11 mr-2 items-center flex justify-center text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 transition delay-50 duration-200 ease-in-out hover:-translate-y-0.5 hover:scale-105 hover:bg-slate-700"
                     >
                         <span className="sr-only">Open sidebar</span>
                         Account Details

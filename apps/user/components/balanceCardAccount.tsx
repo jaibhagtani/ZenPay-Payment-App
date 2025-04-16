@@ -11,7 +11,7 @@ export default function BalanceCardAccount({amount, locked} : BalanceCardAccount
 {
 
     return (
-        <div className="min-w-fit">
+        <div className="w-full">
             <Card title="Balances">
                 <div className="flex justify-between pt-4 border-b border-pink-100">
                     <div className="mx-4 font-semibold mb-1">

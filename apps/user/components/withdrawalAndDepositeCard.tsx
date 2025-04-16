@@ -11,7 +11,7 @@ export default function WithdrawalAndDepositeCard({totalWithdrawalAmount, totalD
 {
 
     return (
-        <div className="min-w-fit">
+        <div className="w-full">
             <Card title="Deposits and Withdraws">
                 <div className="flex justify-between pt-4 border-b border-pink-100">
                     <div className="mx-4 font-semibold mb-1">

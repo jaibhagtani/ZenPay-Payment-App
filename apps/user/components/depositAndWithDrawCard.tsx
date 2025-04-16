@@ -35,7 +35,7 @@ export default function DepositAndWithDrawCard({depositTransactions, withdrawTra
     const [depositOrWithdraw, setdepositOrWithdraw ] = useState("deposit");
     return (
         <div>
-            <div className="bg-white rounded-xl p-4 h-max shadow-lg my-4 lg:min-w-full max-w-fit">
+            <div className="bg-white rounded-xl p-4 h-max shadow-lg my-4 lg:min-w-full w-full">
                 <div className="h-max">
                     <div>
                         <Select options={options.map(option => ({

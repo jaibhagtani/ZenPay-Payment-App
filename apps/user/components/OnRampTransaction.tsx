@@ -12,9 +12,9 @@ export default function TransactionCard({transactions, href} : {transactions: Tr
     if(!transactions.length)
     {
         return (
-            <div className="min-w-fit lg:w-full">
+            <div className="w-full">
                 <Card title="Recent Transactions">
-                    <div key={1} className="mx-4 text-center font-bold py-8 mx-40 font-sm">
+                    <div key={1} className="mx-4 text-center font-bold py-8">
                         No Recent transactions
                     </div>
                 </Card>
@@ -23,9 +23,11 @@ export default function TransactionCard({transactions, href} : {transactions: Tr
     }
 
     return (
-        <div className="min-w-fit flex justify-center lg:w-full">
+        <div className="w-full">
             <Card title="Recent Transactions">
+                <div className="flex justify-end">
                 <TxButton placeholder={"View all transactions"} href={href}></TxButton>
+                </div>
             </Card>
         </div>
     )

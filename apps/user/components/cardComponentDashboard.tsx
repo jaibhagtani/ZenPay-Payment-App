@@ -6,7 +6,7 @@ import ButtonSeeAllCard from "./buttonSeeAll"
 export default function CardDashBoard({title, numberOfTitle, iconType, link}: {title:string,numberOfTitle: number, iconType: string, link: string})
 {
     return (
-        <div className="h-36 w-72 border-xl bg-[#A088F0] shadow-md rounded-lg mx-10 mb-16 lg:mb-6 max-w-screen">
+        <div className="h-36 w-60 border-xl bg-[#A088F0] shadow-md rounded-lg mx-10 mb-16 lg:w-72 mb-6 max-w-screen">
             <div className="flex justify-between">
                 <div className="bg-[#F9FAFB] my-10 ml-6 p-3 rounded-xl">
                     {iconType === "balance" ? <BalanceSVG></BalanceSVG>: ""}

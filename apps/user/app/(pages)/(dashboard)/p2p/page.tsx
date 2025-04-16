@@ -4,59 +4,51 @@ import { prisma } from "@repo/db/client";
 import SendCard from "../../../../components/SendCard";
 import P2PTransactions from "../../../../components/P2PTransaction";
 
+async function getTransactions() {
+  const session = await getServerSession(NEXT_AUTH);
+  const id = session?.user?.id;
+  if (id) {
+    const p2ptransactions = await prisma.p2pTransfer.findMany({
+      where: { fromUserId: Number(id) },
+      include: {
+        toUser: true
+      }
+    });
 
+    return p2ptransactions.map(t => ({
+      amount: t.amount,
+      time: t.timestamp,
+      toUserId: Number(t.toUserId),
+      toUserName: t.toUser.name?.toString() || "",
+      paymentModeP2P: t.paymentModeP2P
+    }));
+  }
 
-async function getTransactions()
-{
-    const session = await getServerSession(NEXT_AUTH);
-
-    const id = session?.user?.id;
-    if(id)
-    {
-       const p2ptransactions = await prisma.p2pTransfer.findMany({
-            where: {
-                fromUserId: Number(id)
-            },
-            include: {
-                toUser: true
-            }
-        })
-
-        var txns = p2ptransactions.map(t => ({
-            amount : t.amount,
-            time: t.timestamp,
-            toUserId: Number(t.toUserId),
-            toUserName: t.toUser.name?.toString() || "",
-            paymentModeP2P: t.paymentModeP2P
-        })) 
-        return txns;
-    }
-    
-    return null;
+  return null;
 }
 
+export default async function P2PTransferPage() {
+  const txns = await getTransactions();
 
-export default async function()
-{
-    const txns = await getTransactions(); 
-    return <div className="min-w-fit">
-            <div className="mx-4 mt-20 text-3xl sm:text-4xl bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 inline-block text-transparent bg-clip-text font-bold mb-10">
-                P2P Transfer
-            </div>
-            <div className="grid grid-cols-1 min-w-fit lg:grid-cols-12 gap-4 w-full">
-                <div className="min-w-fit h-max mr-2 my-10 lg:w-full col-span-6">
-                    <div className="ml-5 mt-10">
-                            <SendCard></SendCard>
-                    </div>
-                </div>
-                <div className="bg-white h-max rounded-3xl max-w-fit my-10 lg:w-full my-6 col-span-4 ml-5 mt-10 mb-10 min-w-96">
-                    <div className="my-5 mx-6">
-                        <div className="min-w-fit">
-                            <P2PTransactions transactions={txns ? txns : []}></P2PTransactions>
-                        </div>
-                    </div>
-                </div>
-            </div>
+  return (
+    <div className="w-full px-4 sm:px-6">
+      <h1 className="mx-4 mt-20 text-3xl sm:text-4xl bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 inline-block text-transparent bg-clip-text font-bold mb-6">
+        P2P Transfer
+      </h1>
+
+      <div className="my-10 grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <div className="col-span-12 lg:col-span-6">
+          <div className="mb-6 lg:mb-0">
+            <SendCard />
+          </div>
         </div>
 
+        <div className="col-span-12 lg:col-span-6">
+          <div className="bg-white rounded-3xl p-6 w-full shadow-sm">
+            <P2PTransactions transactions={txns || []} />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }

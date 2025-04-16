@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AppBarClient } from "./appbarclient";
 import SideBarItems from "@repo/ui/sidebaritems";
 import { signOut, useSession } from "next-auth/react";
@@ -13,7 +13,14 @@ export default function DownAccountBar() {
     // useEffect(() => {
       //   setIsAccountBar(!isAccountBar)
     // }, [clicked])
-    
+    const [firstName, setFirstName] = useState(session.data?.user?.name);
+    useEffect( () => {
+      if (session.data?.user?.name) {
+        const username = session.data?.user?.name.split(" ");
+        setFirstName(username[0] || "");
+      }
+    }, [])
+
     const hideSidebar = () => {
       setIsAccountBar(false);
     };
@@ -33,7 +40,7 @@ export default function DownAccountBar() {
                 <Avatar />
               </div>
               <div className="flex justify-center pb-2 font-bold text-2xl">
-                Hello {session.data?.user?.name},
+                Hello {firstName},
               </div>
               <ul className="space-y-2 font-medium">
                 <SideBarItems href="/profile" icon={<ProfileIcon />} title="Profile" setClickFunc={hideSidebar} />

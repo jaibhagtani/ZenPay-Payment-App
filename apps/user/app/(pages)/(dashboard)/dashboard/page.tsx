@@ -20,12 +20,12 @@ export default async function Dashboard() {
         Financial Dashboard
       </h1>
 
-      <div className="max-w-6xl mx-auto w-full">
+      <div className="max-w-4xl sm:max-w-6xl mx-auto w-full">
         <div className="bg-gray-50 shadow-lg rounded-md py-8 px-4 sm:px-6 lg:px-8">
           {/* Card Section */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
             <CardDashBoard
-              title="Total Balance"
+              title="Balance"
               numberOfTitle={Number(balanceData?.balance?.amount) / 100 || 0}
               iconType="balance"
               link="/balance"

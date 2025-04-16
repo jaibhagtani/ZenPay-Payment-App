@@ -51,6 +51,7 @@ export default function DepositAndWithDrawCard({depositTransactions, withdrawTra
                         <div className="text-2xl flex flex-row justify-center bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 inline-block text-transparent bg-clip-text pt-8 mb-8 font-bold px-4">
                             Recent Deposit Transactions
                         </div>
+                        
                         {depositTransactions && depositTransactions.length > 0 ? <div className="flex justify-center text-xl text-black-600 pt-1 mb-1 font-bold px-4 min-w-full">
                             {depositTransactions?.length} Transaction(s)
                         </div> : 

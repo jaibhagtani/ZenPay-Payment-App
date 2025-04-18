@@ -32,13 +32,13 @@ export default async function Dashboard() {
             />
             <CardDashBoard
               title="Received"
-              numberOfTitle={Number(p2pData.totalReceived) || 0}
+              numberOfTitle={Number(p2pData.totalReceived)/100 || 0}
               iconType="transaction"
               link="/balance"
             />
             <CardDashBoard
               title="Expenses"
-              numberOfTitle={Number(p2pData.totalPaid) || 0}
+              numberOfTitle={Number(p2pData.totalPaid)/100 || 0}
               iconType="transfer"
               link="/balance"
             />

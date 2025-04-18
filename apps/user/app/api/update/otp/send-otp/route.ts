@@ -27,10 +27,10 @@ const sendVerificationEmail = async (email: string, otp: string, username: strin
     const info = await transporter.sendMail({
       from: `ZenPay Payments <${process.env.EMAIL_ID}>`,
       to: email,
-      subject: "Verification Code to Sign Up",
+      subject: "Verification Code to Update Password",
       text: `Hello ${username},
               Your one-time ZenPay code is [${otp}].
-              Please enter this to securely complete your Sign Up.
+              Please enter this to securely complete your Update Password.
 
               For your safety, never share this code.
               Thank you for trusting ZenPay — seamless payments, made simple.

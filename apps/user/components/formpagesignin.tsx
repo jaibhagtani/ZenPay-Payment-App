@@ -71,7 +71,7 @@ export default function FormPageSignin() {
 
         <div className="my-20">
             <div className="my-8">
-                <LabelledInputAuth label="Phone Number" placeholder="1231231230" onChangeFunc={(num) => {
+                <LabelledInputAuth label="Phone Number" type="tel" placeholder="1231231230" onChangeFunc={(num) => {
                     setPhoneNumber(num)
                 }}></LabelledInputAuth>
             </div>

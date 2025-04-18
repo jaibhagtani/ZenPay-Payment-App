@@ -49,11 +49,14 @@ const sendVerificationEmail = async (email: string, otp: string, username: strin
 export async function POST(req: Request) {
   try {
     const otp = generateOTP();
-    const { email, username } = await req.json();
+    const { email, username, phonenumber } = await req.json();
     // console.log("Email:", email);
 
     const existingUser = await prisma.user.findUnique({
-      where: { email },
+      where: { 
+        email: email,
+        number: phonenumber
+       },
     });
 
     if (!existingUser) {

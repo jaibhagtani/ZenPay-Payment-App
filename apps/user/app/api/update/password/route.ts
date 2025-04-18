@@ -5,11 +5,14 @@ import bcrypt from "bcrypt"
 
 export async function POST(req: Request) {
   try {
-    const { email, password } = await req.json();
+    const { email, password, phonenumber } = await req.json();
     // console.log("Email:", email);
 
     const existingUser = await prisma.user.findUnique({
-      where: { email },
+      where: { 
+        email: email,
+        number: phonenumber
+       },
     });
 
     if (!existingUser) {
@@ -23,7 +26,8 @@ export async function POST(req: Request) {
             const hashedPass = await bcrypt.hash(password, 10);
             const res = await prisma.user.update({
                 where: {
-                    email: email
+                  email: email,
+                  number: phonenumber
                 },
                 data: {
                     password: hashedPass

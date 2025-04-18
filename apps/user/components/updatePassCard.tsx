@@ -106,13 +106,18 @@ export function UpdatePassword({ title }: UpdatePasswordInput) {
       },
       body: JSON.stringify({
         email: email,
-        username: session.data?.user?.name
+        username: session.data?.user?.name,
+        phonenumber: contact
       }),
     });
     if (res.status === 200) {
       setOtp(true);
+    }
+    else if(res.status === 400)
+    { 
+      alert("Please check the Info provided is correct.")
     } else {
-      alert("Something went Wrong.Please Try again!!")
+      alert(`Something went Wrong.Please Try again!!`);
       setOtp(false);
     }
   };
@@ -133,12 +138,17 @@ export function UpdatePassword({ title }: UpdatePasswordInput) {
       body: JSON.stringify({
         email: email,
         password: password,
+        phonenumber: contact
       }),
     });
     if (res.ok) {
       alert("Password Updated Successfully!!")
       router.push("/profile");
     } 
+    else 
+    {
+      alert("Incorrect Information!!");
+    }
   }
 
   

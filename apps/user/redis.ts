@@ -1,9 +1,11 @@
 import { createClient } from "redis";
+import dotenv from "dotenv";
 
-const redisUrl = "rediss://default:AaJnAAIjcDE0OWIxZTg2YmJkYWY0MzRmOTBmMzA0ZWU3ZjhmNzY2N3AxMA@trusty-lemur-41575.upstash.io:6379"
+dotenv.config();
 
+const redisUrl = process.env.REDIS_URL;
 if (!redisUrl) {
-  throw new Error("REDIS_URL is not defined");
+  throw new Error("REDIS_URL is not defined in process.env");
 }
 
 export const redisclient = createClient({
@@ -15,5 +17,8 @@ redisclient.on("error", (err) => {
   throw err;
 });
 
-
 await redisclient.connect();
+
+(async () => {
+  await redisclient.connect();
+})();

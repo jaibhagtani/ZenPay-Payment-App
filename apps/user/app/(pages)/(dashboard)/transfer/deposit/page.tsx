@@ -1,9 +1,9 @@
 import { getServerSession } from "next-auth";
 import { NEXT_AUTH } from "../../../../lib/auth";
 import { prisma } from "@repo/db/client";
-import { AddMoney } from "../../../../../components/AddMoneyCard";
-import BalanceCard from "../../../../../components/BalanceCard";
-import TransactionCard from "../../../../../components/OnRampTransaction";
+import { AddMoney } from "../../../../../components/cards/Pages Cards/AddMoneyCard";
+import { BalanceCard } from "../../../../../components/cards/Pages Cards/BalanceCard";
+import { TransactionCard } from "../../../../../components/transactions folder/Dashboard-Pages/TxnsRedirectingBox";
 
 
 async function getBalance()

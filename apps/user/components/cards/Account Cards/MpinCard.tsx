@@ -1,11 +1,11 @@
 "use client";
 
 import { Card } from "@repo/ui/card";
-import { InputOTPGroup } from "./inputotpgroup";
 import { Button } from "@repo/ui/button";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { InputOTPGroup } from "../../inputotpgroup";
 
 interface MpinCardInput {
   title: string;

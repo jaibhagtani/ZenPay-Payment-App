@@ -3,10 +3,11 @@ import { Card } from "@repo/ui/card"
 import LabelledInput from "@repo/ui/labelledinput"
 import Select from "@repo/ui/select"
 import {useState} from "react"
-import { createOnRampTrans } from "../app/lib/actions/createOnRampTransactions"
 import { useSession } from "next-auth/react"
 import { Button } from "@repo/ui/button"
-import { InputOTPGroup } from "./inputotpgroup"
+import { InputOTPGroup } from "../../inputotpgroup"
+import { createOnRampTrans } from "../../../app/lib/actions/createOnRampTransactions"
+
 
 const SUPPORTED_BANKS = [{
     name: "HDFC Bank",

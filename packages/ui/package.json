@@ -21,7 +21,8 @@
     "./txbutton" : "./src/txbutton.tsx",
     "./labelledinputauth" : "./src/labelledinputauth.tsx",
     "./loginbutton" : "./src/loginbutton.tsx",
-    "./inputotpslot": "./src/inputotpslot.tsx"
+    "./inputotpslot": "./src/inputotpslot.tsx",
+    "./icons" : "./src/icons.tsx"
   },
   "license": "MIT",
   "scripts": {

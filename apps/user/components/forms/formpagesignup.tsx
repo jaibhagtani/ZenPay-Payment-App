@@ -4,8 +4,8 @@ import LabelledInputAuth from "@repo/ui/labelledinputauth"
 import { useRouter } from "next/navigation";
 import {signIn} from "next-auth/react"
 import {z} from "zod";
-import { InputOTPGroup } from "./inputotpgroup";
 import { prisma } from "@repo/db/client";
+import { InputOTPGroup } from "../inputotpgroup";
 
 
 const nextReqSchema = z.object({

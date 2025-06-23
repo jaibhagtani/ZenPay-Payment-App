@@ -1,8 +1,8 @@
 import { getServerSession } from "next-auth";
 import { NEXT_AUTH } from "../../../lib/auth";
 import { prisma } from "@repo/db/client";
-import SendCard from "../../../../components/SendCard";
-import P2PTransactions from "../../../../components/P2PTransaction";
+import SendCard from "../../../../components/cards/Pages Cards/SendMoneyCard";
+import { P2PTransactions } from "../../../../components/transactions folder/Dashboard-Pages/TxnsRedirectingBox";
 
 async function getTransactions() {
   const session = await getServerSession(NEXT_AUTH);

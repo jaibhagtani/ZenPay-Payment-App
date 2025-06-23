@@ -1,9 +1,8 @@
 "use client"
 import SideBarItems from "@repo/ui/sidebaritems";
-import { HomeIcon, P2P, Transactions, Transfer } from "./Icons";
 import { useState } from "react";
-import ButtonToRedirect from "./buttonToRedirect";
-
+import {HomeIcon, P2P, Transactions, Transfer} from "@repo/ui/icons"
+import { ButtonToRedirect } from "./buttons/buttonsUsed";
 
 
 export default function SideBarMobile({type} : {type : "Profile" | "Dashboard"})

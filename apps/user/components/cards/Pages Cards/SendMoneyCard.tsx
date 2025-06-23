@@ -3,10 +3,10 @@ import { Button } from "@repo/ui/button";
 import { Card } from "@repo/ui/card";
 import LabelledInput from "@repo/ui/labelledinput";
 import React, {useState} from "react"
-import { transferP2P } from "../app/lib/actions/p2ptransfer";
-import { InputOTPGroup } from "./inputotpgroup";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { InputOTPGroup } from "../../inputotpgroup";
+import { transferP2P } from "../../../app/lib/actions/p2ptransfer";
 export default function SendCard()
 {
     const router = useRouter();

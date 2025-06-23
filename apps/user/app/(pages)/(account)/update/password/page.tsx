@@ -1,5 +1,4 @@
-import { MpinCard } from "../../../../../components/MpinCard";
-import { UpdatePassword } from "../../../../../components/updatePassCard";
+import { UpdatePassword } from "../../../../../components/cards/Account Cards/UpdatePassCard";
 
 
 

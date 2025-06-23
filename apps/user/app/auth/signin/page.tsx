@@ -1,7 +1,7 @@
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
-import FormPageSignin from "../../../components/formpagesignin";
 import { NEXT_AUTH } from "../../lib/auth";
+import FormPageSignin from "../../../components/forms/formpagesignin";
 
 export default async function RegisterPage() {
   const session = await getServerSession(NEXT_AUTH);

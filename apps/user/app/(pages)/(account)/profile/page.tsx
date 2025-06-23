@@ -1,8 +1,8 @@
 import { getServerSession } from "next-auth";
 import { NEXT_AUTH } from "../../../lib/auth";
 import { getBalance } from "../../../lib/actions/getBalance";
-import DetailsCard from "../../../../components/detailsCard";
 import { prisma } from "@repo/db/client";
+import DetailsCard from "../../../../components/cards/Dashboard Cards/detailsCard";
 
 async function getDetails() {
     const session = await getServerSession(NEXT_AUTH);

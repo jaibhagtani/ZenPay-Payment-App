@@ -1,4 +1,4 @@
-import { MpinCard } from "../../../../../components/MpinCard";
+import { MpinCard } from "../../../../../components/cards/Account Cards/MpinCard";
 
 
 

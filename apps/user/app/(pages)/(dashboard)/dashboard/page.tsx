@@ -1,12 +1,12 @@
 // export const dynamic = "force-dynamic";
 import React from "react";
-import CardDashBoard from "../../../../components/cardComponentDashboard";
-import ActionCard from "../../../../components/cardsdashboard";
 import { TbTransferIn, TbTransferOut } from "react-icons/tb";
 import { FaMoneyBillTransfer } from "react-icons/fa6";
 import { GrTransaction } from "react-icons/gr";
 import { getBalance } from "../../../lib/actions/getBalance";
 import { getP2PTxns } from "../../../lib/actions/getP2P-txns";
+import { CardDashBoard } from "../../../../components/cards/Dashboard Cards/cardComponentDashboard";
+import { ActionCard } from "../../../../components/cards/Dashboard Cards/box";
 // import LineChartPC from "../../../../components/chartForPC";
 // import ChartfullComponent from "../../../../components/ChartComponent";
 

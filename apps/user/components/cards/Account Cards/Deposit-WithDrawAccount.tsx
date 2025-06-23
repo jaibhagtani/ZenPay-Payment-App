@@ -1,7 +1,7 @@
 "use client"
 import Select from "@repo/ui/select";
 import { useState } from "react";
-import TxnsPageAccountSection from "./txnsPageAccountSection";
+import { TxnsPageAccountSection } from "../../transactions folder/Txns";
 
 interface DepositAndWithDrawCardInput {
     depositTransactions ?: {

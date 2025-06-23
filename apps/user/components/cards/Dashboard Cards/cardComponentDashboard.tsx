@@ -1,9 +1,8 @@
-import { redirect } from "next/navigation"
-import ButtonSeeAllCard from "./buttonSeeAll"
+import { ButtonSeeAllCard } from "../../buttons/buttonsUsed"
 
 
 
-export default function CardDashBoard({title, numberOfTitle, iconType, link}: {title:string,numberOfTitle: number, iconType: string, link: string})
+export function CardDashBoard({title, numberOfTitle, iconType, link}: {title:string,numberOfTitle: number, iconType: string, link: string})
 {
     return (
         <div className="h-36 w-60 border-xl bg-[#A088F0] shadow-md rounded-lg mx-10 mb-16 lg:w-72 mb-6 max-w-screen">
@@ -37,6 +36,13 @@ export default function CardDashBoard({title, numberOfTitle, iconType, link}: {t
         </div>
     )
 }
+
+
+
+
+
+
+
 // #4B5563 or #6366F1
 
 function BalanceSVG()

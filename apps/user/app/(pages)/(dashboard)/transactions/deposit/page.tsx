@@ -2,7 +2,7 @@ import { getServerSession } from "next-auth";
 
 import { prisma } from "@repo/db/client";
 import { NEXT_AUTH } from "../../../../lib/auth";
-import TxnsPage from "../../../../../components/Txns";
+import { TxnsPage } from "../../../../../components/transactions folder/Txns";
 
 
 

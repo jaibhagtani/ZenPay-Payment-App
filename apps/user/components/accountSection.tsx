@@ -1,8 +1,8 @@
-import BalanceCardAccount from "./balanceCardAccount";
-import DepositAndWithDrawCard from "./depositAndWithDrawCard";
-import P2PCardAccount from "./p2pCardAccount";
-import P2PTransactionStyleAccountSection from "./p2pTransactionStyleAccountSection";
-import WithdrawalAndDepositeCard from "./withdrawalAndDepositeCard";
+import DepositAndWithDrawCard from "./cards/Account Cards/Deposit-WithDrawAccount";
+import P2PCardAccount from "./cards/Account Cards/DetailsCardAccounts";
+import WithdrawalAndDepositeCard from "./cards/Account Cards/withdrawalAndDepositeCard";
+import { BalanceCardAccount } from "./cards/Pages Cards/BalanceCard";
+import { P2PTransactionStyleAccountSection } from "./transactions folder/Accounts/TransactionShowBox";
 
 interface AccountSectionInput {
   withdrawSum: number;

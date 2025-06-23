@@ -1,6 +1,6 @@
+import { HomeIcon, P2P, Transactions, Transfer } from "@repo/ui/icons";
 import SideBarItems from "@repo/ui/sidebaritems";
-import { HomeIcon, P2P, Transactions, Transfer } from "./Icons";
-import ButtonToRedirect from "./buttonToRedirect";
+import { ButtonToRedirect } from "./buttons/buttonsUsed";
 
 
 

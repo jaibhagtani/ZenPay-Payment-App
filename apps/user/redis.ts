@@ -1,5 +1,5 @@
-import { createClient } from "redis";
 import dotenv from "dotenv";
+import { createClient } from "redis";
 
 dotenv.config();
 
@@ -22,3 +22,4 @@ await redisclient.connect();
 (async () => {
   await redisclient.connect();
 })();
+

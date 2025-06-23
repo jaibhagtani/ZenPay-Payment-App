@@ -72,6 +72,7 @@ export default async function Dashboard() {
             />
           </div>
         </div>
+        
 
         {/* Chart Section (commented for now) */}
         {/*

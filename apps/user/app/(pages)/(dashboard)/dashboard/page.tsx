@@ -1,85 +1,118 @@
-// export const dynamic = "force-dynamic";
 import React from "react";
-import { TbTransferIn, TbTransferOut } from "react-icons/tb";
-import { FaMoneyBillTransfer } from "react-icons/fa6";
+import { FaQrcode, FaUserFriends, FaGift, FaChartLine } from "react-icons/fa";
 import { GrTransaction } from "react-icons/gr";
-import { getBalance } from "../../../lib/actions/getBalance";
 import { getP2PTxns } from "../../../lib/actions/getP2P-txns";
-import { CardDashBoard } from "../../../../components/cards/Dashboard Cards/cardComponentDashboard";
-import { ActionCard } from "../../../../components/cards/Dashboard Cards/box";
-// import LineChartPC from "../../../../components/chartForPC";
-// import ChartfullComponent from "../../../../components/ChartComponent";
+import { ActionCard, MainCardDashboard } from "../../../../components/cards/Dashboard Cards/clientSideDashboard";
+import { getDepositeTxns } from "../../../lib/actions/getDeposite-txns";
+import { FaArrowsDownToLine } from "react-icons/fa6";
+import { FaArrowsUpToLine } from "react-icons/fa6";
+import { ButtonDashboardActionCard } from "../../../../components/buttons/buttonsDashboardActionCards";
+// async function getP2PTransactions() {
+//   const session = await getServerSession(NEXT_AUTH);
+//   const userId = session?.user?.id;
+//   if (!userId) return [];
+//   const txns = await prisma.p2pTransfer.findMany({
+//     where: { fromUserId: Number(userId) },
+//     orderBy: { timestamp: 'desc' },
+//   });
+//   return txns.map(t => ({
+//     id: t.id,
+//     date: t.timestamp.toISOString(),
+//     amount: t.amount,
+//     description: t.paymentModeP2P,
+//     toUserName: t.toUserName,
+//   }));
+// }
 
 export default async function Dashboard() {
-  const balanceData = await getBalance();
   const p2pData = await getP2PTxns();
+  const NumDepositBankTransfers = (await getDepositeTxns()).len;
+  const NumWithdrawBankTransfers = (await getDepositeTxns()).len;
+  const NumP2PTransfers = p2pData.tx?.length || 0
+  const monthlySpending = Number(p2pData.totalPaid)/100 || '0.00';
+  // const friends = p2pData.friends || 0;
+  // const currency = p2pData.currency || "₹";
 
   return (
-    <div className="min-h-screen py-8 px-4 sm:px-6 lg:px-8">
-      <h1 className="mt-12 text-3xl sm:text-4xl bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 inline-block text-transparent bg-clip-text font-bold mb-10 text-center sm:text-left">
-        Financial Dashboard
+    <div className="min-h-screen bg-pink-50 p-6">
+      {/* Header */}
+      <h1 className="mt-14 text-3xl sm:text-4xl bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 inline-block text-transparent bg-clip-text font-bold mb-6">
+        Dashboard
       </h1>
 
-      <div className="max-w-4xl sm:max-w-6xl mx-auto w-full">
-        <div className="bg-gray-50 shadow-lg rounded-md py-8 px-4 sm:px-6 lg:px-8">
-          {/* Card Section */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
-            <CardDashBoard
-              title="Balance"
-              numberOfTitle={Number(balanceData?.balance?.amount) / 100 || 0}
-              iconType="balance"
-              link="/balance"
-            />
-            <CardDashBoard
-              title="Received"
-              numberOfTitle={Number(p2pData.totalReceived)/100 || 0}
-              iconType="transaction"
-              link="/balance"
-            />
-            <CardDashBoard
-              title="Expenses"
-              numberOfTitle={Number(p2pData.totalPaid)/100 || 0}
-              iconType="transfer"
-              link="/balance"
-            />
-          </div>
-
-          {/* Action Buttons */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      {/* Top Section: Balance + Quick Actions */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-10">
+        {/* Balance Card */}
+        
+        <MainCardDashboard></MainCardDashboard>
+        {/* Quick Actions Card */}
+        <div className="bg-white rounded-3xl p-6 shadow-md border border-indigo-100">
+          <h3 className="text-xl font-semibold mb-5 text-indigo-700">Quick Actions</h3>
+          <div className="grid grid-cols-2 gap-5">
             <ActionCard
-              icon={<FaMoneyBillTransfer size={20} />}
+              icon={<GrTransaction size={26} className="text-indigo-600" />}
               label="Send Money"
               to="/p2p"
-              className="transition-colors duration-200 hover:bg-purple-100"
             />
             <ActionCard
-              icon={<TbTransferIn size={20} />}
-              label="Deposit"
-              to="/transfer/deposit"
-              className="transition-colors duration-200 hover:bg-purple-100"
+              icon={<FaQrcode size={26} className="text-indigo-600" />}
+              label="QR Pay"
+              to="/qr-pay"
             />
             <ActionCard
-              icon={<TbTransferOut size={20} />}
-              label="Withdraw"
-              to="/transfer/withdraw"
-              className="transition-colors duration-200 hover:bg-purple-100"
+              icon={<FaUserFriends size={26} className="text-indigo-600" />}
+              label="Request"
+              to="/p2p/request"
             />
             <ActionCard
-              icon={<GrTransaction size={20} />}
-              label="Transactions"
-              to="/transactions/deposit"
-              className="transition-colors duration-200 hover:bg-purple-100"
+              icon={<FaGift size={26} className="text-indigo-600" />}
+              label="Split Bill"
+              to="/split-bill"
             />
           </div>
         </div>
-        
+      </div>
 
-        {/* Chart Section (commented for now) */}
-        {/*
-        <div className="mt-10 w-full transition-opacity duration-300">
-          <ChartfullComponent />
+      {/* Metrics Section */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
+        <ButtonDashboardActionCard c={<FaChartLine className="text-indigo-600" />} to="/transactions/p2p" Num={`₹ ${monthlySpending}`}>Total Spent</ButtonDashboardActionCard>
+        <ButtonDashboardActionCard c={<FaUserFriends className="text-indigo-600" />} to="/transactions/p2p" Num={0}>Friends Paid</ButtonDashboardActionCard>
+        <ButtonDashboardActionCard c={<FaArrowsDownToLine className="text-indigo-600" />} to="/transactions/deposit" Num={NumDepositBankTransfers || 0}>Deposits Bank Transfers</ButtonDashboardActionCard>
+        <ButtonDashboardActionCard c={<FaArrowsUpToLine className="text-indigo-600" />} to="/transactions/withdraw" Num={NumWithdrawBankTransfers || 0}>Withdrew Bank Transfers</ButtonDashboardActionCard>
+        <ButtonDashboardActionCard c={<FaArrowsUpToLine className="text-indigo-600" />} to="/transactions/p2p" Num={NumP2PTransfers}>P2P Transfers</ButtonDashboardActionCard>
+      </div>
+
+      {/* Recent Transactions */}
+      <div className="bg-white p-6 rounded-2xl shadow-md border border-indigo-100">
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-xl font-semibold text-indigo-700">Recent Transactions</h3>
+          <a href="/transactions/deposit" className="text-indigo-600 hover:underline">
+            View All
+          </a>
         </div>
-        */}
+        <ul className="space-y-4">
+          {(p2pData.tx || []).slice(0, 5).map((txn, idx) => (
+            <li key={idx} className="flex items-center justify-between">
+              <div className="flex items-center space-x-3">
+                <div className="p-2 rounded-full bg-indigo-50">
+                  <GrTransaction className="text-indigo-600" />
+                </div>
+                <div>
+                  <p className="font-medium text-gray-800">{txn.toUserId || ""}</p>
+                  <div className="text-sm text-gray-500">{new Date(txn.time).toLocaleString() || 0 }</div>
+                </div>
+              </div>
+              <p
+                className={`font-semibold ₹ {txn.amount > 0 ? "text-green-500" : "text-red-500"}`}
+              >
+                {txn.amount > 0 ? "+" : "-"} ₹ {Math.abs((txn.amount)/100).toFixed(2)}
+              </p>
+            </li>
+          ))}
+          {(!p2pData.tx || p2pData.tx.length === 0) && (
+            <li className="text-center text-gray-400">No recent transactions</li>
+          )}
+        </ul>
       </div>
     </div>
   );

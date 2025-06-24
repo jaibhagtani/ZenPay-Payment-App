@@ -1,42 +1,71 @@
+// components/transaction/TransactionStyle.tsx
+'use client';
+import React from 'react';
+import { MdOutlineArrowDownward, MdOutlineArrowUpward, MdAccessTime } from 'react-icons/md';
+import { motion } from 'framer-motion';
 
-
-interface TransactionStyleProps {
-    id: number,
-    amount: number;
-    time: Date;
-    status: string;
-    provider: string;
+export interface TransactionStyleProps {
+  id: number;
+  amount: number;   // in paise
+  time: Date;
+  status: string;
+  provider: string;
 }
 
-export default function TransactionStyle({ transaction, typeofPayment }: { transaction: TransactionStyleProps, typeofPayment?: "deposit" | "withdraw" }) {
-    return (
-        <div className="w-full my-2 px-1 flex flex-row justify-between rounded-lg border border-slate-200 grid grid-cols-4 gap-2 h-max lg:h-10">
-            <div className="flex col-span-4 lg:col-span-1">
-                <div className="text-center mr-5 mt-2 ">
-                    {transaction?.status == "Processing" ? <div className="h-6 w-6 rounded-full bg-amber-400 lg:h-6 w-6"></div> : <div></div>}
-                    {transaction?.status == "Success" ? <div className="h-6 w-6 rounded-full bg-green-400 lg:h-6 w-6"></div> : <div></div>}
-                    {transaction?.status == "Failure" ? <div className="h-6 w-6 rounded-full bg-red-400 lg:h-6 w-6"></div> : <div></div>}
+export function TransactionStyle({
+  transaction,
+  typeofPayment,
+}: {
+  transaction: TransactionStyleProps;
+  typeofPayment?: string;
+}) {
+  const isDeposit = typeofPayment === 'deposit';
+  const isPending = transaction.status === 'Processing';
+  const isSuccess = transaction.status === 'Success';
+  const Icon = isPending
+    ? MdAccessTime
+    : isDeposit
+    ? MdOutlineArrowDownward
+    : MdOutlineArrowUpward;
 
-                </div>
-                <div>
-                    <div className="text-sm">
-                        {typeofPayment == "deposit" ? "Received INR from" : "Withdrawal INR on"}
-                    </div>
-
-                    <div className="text-slate-600 text-xs">
-                        {transaction?.time?.toLocaleDateString()} {transaction?.time.toLocaleTimeString()}
-                    </div>
-                </div>
-            </div>
-            <div className="text-md font-bold text-center col-span-2 lg:col-span-1 text-lg ml-5">{transaction?.provider}</div>
-            <div className="hidden col-span-0 lg:block lg:mx-5 my-1 text-center font-semibold visible col-span-1">
-                <div>
-                    {transaction?.status}
-                </div>
-            </div>
-            <div className="flex flex-col text-center justify-center text-md font-bold col-span-2 lg:col-span-1 mx-2 text-lg">
-                {typeofPayment == "deposit" ? "+" : "-"} Rs {(transaction?.amount) ? transaction.amount / 100 : 0}
-            </div>
+  return (
+    <motion.div
+      layout
+      whileHover={{ y: -2 }}
+      className="flex items-center justify-between p-4 bg-[#1e293b] rounded-2xl shadow-lg"
+    >
+      {/* Icon */}
+      <div className="flex-shrink-0">
+        <div className="p-3 bg-[#334155] rounded-full">
+          <Icon size={24} className="text-[#facc15]" />
         </div>
-    )
+      </div>
+
+      {/* Details */}
+      <div className="flex-1 px-4">
+        <div className="text-white font-semibold">
+          {isDeposit ? 'Received INR from' : 'Withdrew INR on'}{' '}
+          <span className="font-bold">{transaction.provider}</span>
+        </div>
+        <div className="text-gray-400 text-sm mt-1">
+          {transaction.time.toLocaleDateString()} •{' '}
+          {transaction.time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+        </div>
+      </div>
+
+      {/* Amount & Status */}
+      <div className="flex flex-col items-end space-y-1">
+        <div className={`font-bold text-lg ${isDeposit ? 'text-green-400' : 'text-red-400'}`}> 
+          {isPending ? '--' : `${isDeposit ? '+' : '-'}₹${(transaction.amount / 100).toFixed(2)}`}
+        </div>
+        <div className={`inline-block px-4 py-1 text-xs rounded-full ${
+          isPending
+            ? 'bg-[#fde68a] text-[#92400e]'
+            : isSuccess
+            ? 'bg-[#86efac] text-[#064e3b]'
+            : 'bg-[#fecaca] text-[#7f1d1d]'
+        }`}>{transaction.status}</div>
+      </div>
+    </motion.div>
+  );
 }

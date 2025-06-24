@@ -9,7 +9,7 @@ export default function({children} : {children: React.ReactNode}) : JSX.Element
                     Transactions
                 </div>
                     {/* add select */}
-                <div className="pt-5 self-center text-center w-full">
+                <div className="self-center text-center w-full">
                     <div className="lg:grid grid-cols-5 gap-20">
                         <div className="col-span-1 col-start-2">
                             <TransferButton placeholder="Deposit" path="/transactions/deposit" />

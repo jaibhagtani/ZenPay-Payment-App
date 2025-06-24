@@ -13,6 +13,7 @@ export async function getDepositeTxns() {
       const txns = await prisma.onRampTransaction.findMany({
         where: { userId: Number(userId) }
       });
+      const len = txns.length;
       let totalDepositAmount = 0;
       txns.forEach(t => {
         if (t.status === "Success") {
@@ -29,7 +30,7 @@ export async function getDepositeTxns() {
       const tx = [...txs].reverse();
       
     return { 
-        tx, totalDepositAmount
+        tx, totalDepositAmount, len
     }
     }
     return { 

@@ -1,4 +1,4 @@
-import TransactionStyle from "@repo/ui/transactionbox";
+import {TransactionStyle} from "@repo/ui/transactionbox";
 import { TransactionStyleAccountSection } from "./Accounts/TransactionShowBox";
 
 interface TransactionCardProps {
@@ -24,9 +24,9 @@ export async function TxnsPage({transactions, typeofPayment} : {transactions: Tr
     return (    <div>
         {transactions ? 
         <div className="flex">
-            <div className="m-2 w-full">
-                {transactions.map(transaction => (
-                    <TransactionStyle transaction={transaction} typeofPayment={typeofPayment}></TransactionStyle>
+            <div className="w-full">
+                {transactions.map(tx => (
+                    <TransactionStyle transaction={tx} typeofPayment={typeofPayment}></TransactionStyle>
                 ))}
             </div>
         </div>

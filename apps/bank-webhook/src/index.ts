@@ -7,7 +7,7 @@ const port = process.env.PORT || 9999;
 app.use(express.json())
 
 // console.log(port)
-app.post("/hdfcWebhook", async (req, res) => {
+app.post("/hdfcWebhook", async (req : any, res: any) => {
     // *********************************************************
     // ****************(TODO)*****************
     // 1. Add zod validation here
@@ -23,6 +23,9 @@ app.post("/hdfcWebhook", async (req, res) => {
     // console.log(paymentInformation);
     // Update the userbalance in DB, add txn
     // Single request is more efficient 
+    // console.log(paymentInformation.token);
+    // console.log(paymentInformation.userId);
+    // console.log(paymentInformation.amount);
 
     // Transactions => Either both update should happen or none can happen
     try {

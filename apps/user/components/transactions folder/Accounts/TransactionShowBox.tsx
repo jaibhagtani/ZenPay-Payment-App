@@ -81,36 +81,45 @@ export function P2PTransactionStyleAccountSection({transaction} : {transaction :
 
 
 
+export interface TransactionStyleProps {
+  transaction: {
+    amount: number;
+    time: Date;
+    provider: string;
+    status: "Processing" | "Success" | "Failure";
+  };
+  typeOfPayment: "deposit" | "withdraw";
+}
 
-export function TransactionStyleAccountSection({ transaction, typeofPayment }: { transaction: TransactionStyleAccountSectionInput, typeofPayment?: "deposit" | "withdraw" }) {
-    return (
-        <div className="w-full my-2 px-1 flex flex-row justify-between rounded-lg border border-slate-200 grid grid-cols-4 gap-2 h-max">
-            <div className="flex col-span-4">
-                <div className="text-center mr-5 mt-2 ">
-                    {transaction?.status == "Processing" ? <div className="h-6 w-6 rounded-full bg-amber-400"></div> : <div></div>}
-                    {transaction?.status == "Success" ? <div className="h-6 w-6 rounded-full bg-green-400"></div> : <div></div>}
-                    {transaction?.status == "Failure" ? <div className="h-6 w-6 rounded-full bg-red-400"></div> : <div></div>}
+export function TransactionStyleAccountSection({ transaction, typeOfPayment }: TransactionStyleProps) {
+  // Choose dot color:
+  const dotColor = {
+    Processing: "bg-amber-400",
+    Success: "bg-green-400",
+    Failure: "bg-red-400",
+  }[transaction.status];
 
-                </div>
-                <div>
-                    <div className="text-sm">
-                        {typeofPayment == "deposit" ? "Received INR from" : "Withdrawal INR on"}
-                    </div>
-
-                    <div className="text-slate-600 text-xs">
-                        {transaction?.time?.toLocaleDateString()} {transaction?.time.toLocaleTimeString()}
-                    </div>
-                </div>
-            </div>
-            <div className="text-md font-bold text-center col-span-2">{transaction?.provider}</div>
-            <div className="hidden col-span-0">
-                <div>
-                    {transaction?.status}
-                </div>
-            </div>
-            <div className="flex flex-col text-center justify-center text-md font-bold col-span-2">
-                {typeofPayment == "deposit" ? "+" : "-"} Rs {(transaction?.amount) ? transaction.amount / 100 : 0}
-            </div>
-        </div>
-    )
+  return (
+    <div className="grid grid-cols-12 gap-2 items-center p-4 bg-white rounded-lg shadow-sm">
+      <div className="col-span-1 flex justify-center">
+        <div className={`h-4 w-4 rounded-full ${dotColor}`}></div>
+      </div>
+      <div className="col-span-5">
+        <p className="text-sm text-gray-600">
+          {typeOfPayment === "deposit"
+            ? `Received from ${transaction.provider}`
+            : `Withdrawal to ${transaction.provider}`}
+        </p>
+        <p className="text-xs text-gray-400">
+          {transaction.time.toLocaleDateString()} • {transaction.time.toLocaleTimeString()}
+        </p>
+      </div>
+      <div className="col-span-4 text-center font-medium text-gray-700">
+        {transaction.provider}
+      </div>
+      <div className="col-span-2 text-right font-bold text-gray-800">
+        {typeOfPayment === "deposit" ? '+' : '-'} ₹{(transaction.amount / 100).toFixed(2)}
+      </div>
+    </div>
+  );
 }

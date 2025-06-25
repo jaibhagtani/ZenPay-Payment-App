@@ -151,7 +151,7 @@ export async function transferP2P(to : string, amount : number)
             const entry = await tx.contacts.create({
                 data: {
                     user: {
-                        connect: {id : fromId}
+                        connect: {id : Number(fromId)}
                     },
                     contact: {
                         connect: {id : toUser.id}
@@ -166,6 +166,7 @@ export async function transferP2P(to : string, amount : number)
         
     }
     catch(e) {
+        console.log(e);
         if(e == "Error: Insufficient funds")
         {
             return {

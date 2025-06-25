@@ -13,9 +13,12 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
-    "@types/express": "^5.0.0",
     "@repo/db": "*",
-    "esbuild" : "^0.20.2",
-    "express" : "^4.19.1"
+    "@types/express": "^5.0.3",
+    "esbuild": "^0.20.2",
+    "express": "^4.19.1"
+  },
+  "dependencies": {
+    "prisma": "^6.10.1"
   }
 }

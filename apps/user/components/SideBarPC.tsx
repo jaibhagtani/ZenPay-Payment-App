@@ -20,10 +20,13 @@ export default function SidebarPC({type} : {type: "Dashboard" | "Profile"})
                 <SideBarItems href="/transfer/deposit" icon={<Transfer/>} title="Transfer"></SideBarItems>
             </div>
             <div className="pt-4">
-                <SideBarItems href="/transactions/deposit" icon={<Transactions />} title="Transactions"></SideBarItems>
+                <SideBarItems href="/p2p" icon={<P2P />} title="P2P Transfer"></SideBarItems>
             </div>
             <div className="pt-4">
-                <SideBarItems href="/p2p" icon={<P2P />} title="P2P Transfer"></SideBarItems>
+                <SideBarItems href="/sendnreq" icon={<P2P />} title="Send and Request"></SideBarItems>
+            </div>
+            <div className="pt-4">
+                <SideBarItems href="/transactions/deposit" icon={<Transactions />} title="Transactions"></SideBarItems>
             </div>
             <div className="flex justify-center py-6 pl-10">
                 <ButtonToRedirect to="/profile">

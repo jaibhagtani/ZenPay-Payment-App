@@ -1,4 +1,5 @@
 import { Card } from "@repo/ui/card";
+import P2PTransactionStyle from "@repo/ui/p2ptransactionbox";
 import TxButton from "@repo/ui/txbutton"
 interface TransactionCardProps {
     amount: number; 
@@ -40,33 +41,26 @@ export function TransactionCard({transactions, href} : {transactions: Transactio
     )
 }
 
-
-export function P2PTransactions({transactions} : {transactions: P2PTransactionsProps []})
-{
-    if(!transactions.length)
-    {
-        return (
-            <div className="w-full">
-                <Card title="Recent Transactions">
-                    <div className="mx-4 text-center font-bold py-8 w-full">
-                        No Recent transactions
-                    </div>
-                </Card>
-            </div>
-        )
-    }
-
-    return (
-        <div className="w-full">
-            <Card title="Recent Transactions">
-                <div className="flex">
-                    <div className="w-full">
-                        <TxButton placeholder={"View all transactions"} href={"/transactions/p2p"}></TxButton>
-                    </div>
-                </div>
-            </Card>
-        </div>
-    )
+export function P2PTransactions({ transactions }: { transactions: P2PTransactionsProps[] }) {
+  return (
+    <div className="min-w-full">
+      {(!transactions || transactions.length === 0) ? (
+        <Card title="Recent Transactions">
+          <div className="mx-2 text-center font-bold py-6 w-full text-sm">
+            No Recent transactions
+          </div>
+        </Card>
+      ) : (
+        <Card title="Recent Transactions" IsviewAll>
+          <div className="space-y-2 max-h-60 overflow-y-auto">
+            {transactions.map(tx => (
+              <P2PTransactionStyle transaction={tx} />
+            ))}
+          </div>
+        </Card>
+      )}
+    </div>
+  );
 }
 
 

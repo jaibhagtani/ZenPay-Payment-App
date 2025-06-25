@@ -3,26 +3,26 @@ import { getServerSession } from "next-auth";
 import { NEXT_AUTH } from "../../lib/auth";
 import { prisma } from "@repo/db/client";
 
-export async function getP2PTxns() {
+export async function getContacts() {
   try {
     const session = await getServerSession(NEXT_AUTH);
     const id = session?.user?.id;
-    let collectingContacts = [];
 
     if (id) {
       
       const userAllContacts = await prisma.contacts.findMany({
           where: {
-            userId: id,
+            userId: Number(id),
           },
           include: {
             contact: true     // pura contact hi utha lo 
           }
       })
       const numberOfContacts = userAllContacts.length;
+      let AllMyContacts : any = [];
       if(userAllContacts)
       {
-        collectingContacts = userAllContacts.map((c) => ({
+        AllMyContacts = userAllContacts.map((c) => ({
           contactId: c.contactId,
           contactName: c.contact.name,
           contactEmail: c.contact.email,
@@ -31,7 +31,7 @@ export async function getP2PTxns() {
       }
       
         return {
-          userAllContacts, numberOfContacts
+          AllMyContacts, numberOfContacts
         }
     }
     return { 

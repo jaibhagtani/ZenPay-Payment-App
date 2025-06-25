@@ -22,6 +22,8 @@ model User {
   Balance               Balance[]
   sentTransfers         p2pTransfer[]         @relation(name: "fromUserRelation")
   receivedTransfers     p2pTransfer[]     @relation(name: "toUserRelation")
+  myContacts            contacts[]        @relation(name: "UserToContact")
+  contactOf          contacts[]        @relation(name: "ContactToUser")
 }
 
 model Merchant {
@@ -62,6 +64,18 @@ model p2pTransfer {
   paymentModeP2P PaymentTypeP2P
 }
 
+
+// very very good Concept 
+// 2 way contacts
+model contacts {
+  id          Int     @id  @default(autoincrement())
+  userId      Int
+  contactId   Int
+  user        User    @relation(name: "UserToContact", fields: [userId], references: [id])
+  contact     User    @relation(name: "ContactToUser", fields: [contactId], references: [id])
+
+  @@unique([userId, contactId])
+}
 // Only this can be the types of ramp status not any thing else
 // *******************************************
 // These will be in pending when the request will go,

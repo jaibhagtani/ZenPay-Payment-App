@@ -21,7 +21,7 @@ export function MainCardDashboard({ currency = '₹' }: MainCardDashboardProps) 
   const refreshBalance = async () => {
     try {
       const data = await getBalance();
-      const amt = (Number(data?.balance?.amount) / 100).toFixed(2);
+      const amt = (Number(data?.balance?.amount) / 100).toFixed(2) || "0.00";
       setBalance(amt);
       setUpdatedAt(new Date().toLocaleTimeString());
     } catch (err) {
@@ -62,7 +62,7 @@ export function MainCardDashboard({ currency = '₹' }: MainCardDashboardProps) 
       </div>
 
       <h2 className="text-white text-5xl font-extrabold leading-tight mx-10 break-words word-wrap">
-        {currency} {toShow ? balance : '••••••'}
+        {currency} {toShow ? (`${balance == "NaN" ? "0.00" : balance}`) : '••••••'}
       </h2>
       <p className="text-purple-200 mt-1 text-sm">Available balance</p>
       <p className="text-purple-200 text-xs mt-1">Last updated: {updatedAt}</p>

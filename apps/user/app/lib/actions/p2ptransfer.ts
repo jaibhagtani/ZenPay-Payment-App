@@ -67,6 +67,8 @@ export async function transferP2P(to : string, amount : number)
         // console.log(fromId);
         // console.log("From here to User");
         // console.log(toUser);
+
+
         try {
             await prisma.$transaction(async (tx) => {
             // make sure user has that much money
@@ -143,6 +145,17 @@ export async function transferP2P(to : string, amount : number)
                     toUserName: fromUserDetails?.name || "",
                     paymentModeP2P: "received"
 
+                }
+            })
+            
+            const entry = await tx.contacts.create({
+                data: {
+                    user: {
+                        connect: {id : fromId}
+                    },
+                    contact: {
+                        connect: {id : toUser.id}
+                    }
                 }
             })
         })

@@ -1,6 +1,7 @@
 import { HomeIcon, P2P, Transactions, Transfer } from "@repo/ui/icons";
 import SideBarItems from "@repo/ui/sidebaritems";
 import { ButtonToRedirect } from "./buttons/buttonsUsed";
+import { MdOutlineGroupAdd } from "react-icons/md";
 
 
 
@@ -23,7 +24,7 @@ export default function SidebarPC({type} : {type: "Dashboard" | "Profile"})
                 <SideBarItems href="/p2p" icon={<P2P />} title="P2P Transfer"></SideBarItems>
             </div>
             <div className="pt-4">
-                <SideBarItems href="/sendnreq" icon={<P2P />} title="Send and Request"></SideBarItems>
+                <SideBarItems href="/split-bill" icon={<MdOutlineGroupAdd size={26} />} title="Split Bills"></SideBarItems>
             </div>
             <div className="pt-4">
                 <SideBarItems href="/transactions/deposit" icon={<Transactions />} title="Transactions"></SideBarItems>

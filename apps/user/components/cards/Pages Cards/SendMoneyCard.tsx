@@ -2,13 +2,13 @@
 import { Button } from "@repo/ui/button";
 import { Card } from "@repo/ui/card";
 import LabelledInput from "@repo/ui/labelledinput";
-import React, {useState} from "react"
+import React, {useEffect, useState} from "react"
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { InputOTPGroup } from "../../inputotpgroup";
 import { transferP2P } from "../../../app/lib/actions/p2ptransfer";
-export default function SendCard()
-{
+export default function SendCard({selectedNumber} : {selectedNumber: string})
+{   
     const router = useRouter();
     const [phoneNumber, setPhoneNumber] = useState("");
     const [value, setValue] = useState(0);
@@ -16,6 +16,11 @@ export default function SendCard()
     const [Mpin, setMpin] = useState("");
     const session = useSession();
     const [isLoading, setIsLoading] = useState(false)
+    
+    useEffect(() => {
+        setPhoneNumber(selectedNumber);
+    }, [selectedNumber])
+    console.log(phoneNumber);
     async function validateMpin()
     {
         if(!session.data?.user)
@@ -24,7 +29,7 @@ export default function SendCard()
                 msg: "User Not Loggedin!!"
             })
         }
-
+        
         const res = await fetch("/api/mpin/validate", {
             method: "POST",
             headers: {
@@ -39,6 +44,7 @@ export default function SendCard()
         return res.json();
         
     }
+    // console.log(phoneNumber);
     return (
         <div className="h-max bg-white px-5 rounded-2xl">
             <Card title="Send">

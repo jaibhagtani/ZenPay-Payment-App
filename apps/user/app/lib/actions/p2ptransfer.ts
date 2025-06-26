@@ -68,7 +68,21 @@ export async function transferP2P(to : string, amount : number)
         // console.log("From here to User");
         // console.log(toUser);
 
-
+        const existingContactsRelation1 = await prisma.contacts.findMany({
+            where: {
+                userId: Number(fromId),
+                contactId: toUser.id
+            }
+        })
+        const existingContactsRelation2 = await prisma.contacts.findMany({
+            where: {
+                contactId: Number(fromId),
+                userId: toUser.id
+            }
+        })
+        console.log(existingContactsRelation1);
+        console.log(existingContactsRelation2);
+        
         try {
             await prisma.$transaction(async (tx) => {
             // make sure user has that much money
@@ -147,17 +161,33 @@ export async function transferP2P(to : string, amount : number)
 
                 }
             })
-            
-            const entry = await tx.contacts.create({
-                data: {
-                    user: {
-                        connect: {id : Number(fromId)}
-                    },
-                    contact: {
-                        connect: {id : toUser.id}
+            if(!existingContactsRelation1[0]?.id)
+            {
+                const entry1 = await tx.contacts.create({
+                    data: {
+                        user: {
+                            connect: {id : Number(fromId)}
+                        },
+                        contact: {
+                            connect: {id : toUser.id}
+                        }
                     }
-                }
-            })
+                })
+            }
+            if(!existingContactsRelation2[0]?.id)
+            {
+                const entry2 = await tx.contacts.create({
+                    data: {
+                        user: {
+                            connect: {id : toUser.id}
+                        },
+                        contact: {
+                            connect: {id : Number(fromId)}
+                        }
+                    }
+                })
+            }
+            
         })
         
         return {

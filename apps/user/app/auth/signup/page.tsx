@@ -42,8 +42,7 @@ export default async function RegisterPage() {
         <div className="w-full md:w-1/2 flex flex-col justify-center items-center px-6 py-10 sm:px-12">
           {/* <div className="md:hidden mb-8 w-full text-left">
             <h1 className="text-3xl font-extrabold text-gray-900">Welcome to ZenPay</h1>
-          </div> */}
-
+            </div> */}
           <FormPageSignup />
         </div>
       </div>

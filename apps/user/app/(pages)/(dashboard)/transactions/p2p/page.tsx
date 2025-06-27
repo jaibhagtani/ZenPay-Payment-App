@@ -2,7 +2,7 @@ import { getServerSession } from "next-auth";
 
 import { prisma } from "@repo/db/client";
 
-import P2PTransactionStyle from "@repo/ui/p2ptransactionbox";
+// import P2PTransactionStyle from "@repo/ui/p2ptransactionbox";
 import { NEXT_AUTH } from "../../../../lib/auth";
 
 
@@ -51,9 +51,9 @@ export default async function()
                 {transactions && transactions.length > 0 ? 
                 <div className="grid grid-cols-9 p-2 mr-2 gap-4 bg-white rounded-3xl lg:px-14 py-6">
                     <div className="col-start-1 col-span-5 lg:col-start-1 col-span-9">
-                        {transactions.map(transaction => (
-                            <P2PTransactionStyle transaction={transaction}></P2PTransactionStyle>
-                        ))}
+                        {/* {transactions.map(transaction => (
+                            // <P2PTransactionStyle transaction={transaction}></P2PTransactionStyle>
+                        ))} */}
                     </div>
                 </div> : <div></div>}
             </div>

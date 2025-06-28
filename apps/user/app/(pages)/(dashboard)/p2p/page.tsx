@@ -1,40 +1,40 @@
 import { getServerSession } from "next-auth";
 import { NEXT_AUTH } from "../../../lib/auth";
 import { prisma } from "@repo/db/client";
-import SendCard from "../../../../components/cards/Pages Cards/SendMoneyCard";
 import { P2PTransactions } from "../../../../components/transactions folder/Dashboard-Pages/TxnsRedirectingBox";
 import { getContacts } from "../../../lib/actions/getContacts";
-import { getP2PTxns } from "../../../lib/actions/getP2P-txns";
 import { SendAndSearchContacts } from "../../../../components/cards/sendAndSearch";
+import { getP2PTxns } from "../../../lib/actions/getP2P-txns";
 
-async function getTransactions() {
-  const session = await getServerSession(NEXT_AUTH);
-  const id = session?.user?.id;
-  if (id) {
-    const p2ptransactions = await prisma.p2pTransfer.findMany({
-      where: { fromUserId: Number(id) },
-      orderBy: {
-        timestamp: 'desc'
-      },
-      include: {
-        toUser: true
-      }
-    });
+// async function getTransactions() {
+//   const session = await getServerSession(NEXT_AUTH);
+//   const id = session?.user?.id;
+//   if (id) {
+//     const p2ptransactions = await prisma.p2pTransfer.findMany({
+//       where: { fromUserId: Number(id) },
+//       orderBy: {
+//         timestamp: 'desc'
+//       },
+//       include: {
+//         toUser: true
+//       }
+//     });
     
-    return p2ptransactions.map(t => ({
-      amount: t.amount,
-      time: t.timestamp,
-      toUserId: Number(t.toUserId),
-      toUserName: t.toUser.name?.toString() || "",
-      paymentModeP2P: t.paymentModeP2P
-    }));
-  }
+//     return p2ptransactions.map(t => ({
+//       amount: t.amount,
+//       time: t.timestamp,
+//       toUserId: Number(t.toUserId),
+//       toUserName: t.toUser.name?.toString() || "",
+//       paymentModeP2P: t.paymentModeP2P
+//     }));
+//   }
 
-  return null;
-}
+//   return null;
+// }
 
 export default async function P2PTransferPage() {
-  const txns = await getTransactions();
+  // const txns = await getTransactions();
+  const txns = await getP2PTxns();
   const contacts = await getContacts();
   return (
     <div className="w-full px-4 sm:px-6">
@@ -49,7 +49,7 @@ export default async function P2PTransferPage() {
 
         <div className="col-span-1 lg:col-span-1">
           <div className="bg-white rounded-3xl p-6 w-max shadow-sm">
-            <P2PTransactions transactions={txns || []} />
+            <P2PTransactions transactions={txns?.tx || []} />
           </div>
         </div>
       </div>

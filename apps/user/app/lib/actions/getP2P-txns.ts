@@ -11,7 +11,13 @@ export async function getP2PTxns() {
     let totalReceived = 0;
     if (id) {
       const txns = await prisma.p2pTransfer.findMany({
-        where: { fromUserId: Number(id) }
+        where: { fromUserId: Number(id) },
+        orderBy: {
+          timestamp: 'desc'
+        },
+        include: {
+          toUser: true
+        }
       });
       
       txns.forEach((t) => {
@@ -22,7 +28,7 @@ export async function getP2PTxns() {
         }
       });
       
-      const txs = txns.map(t => ({
+      const tx = txns.map(t => ({
         id: t.id,
         time: t.timestamp,
         amount: t.amount,
@@ -30,11 +36,10 @@ export async function getP2PTxns() {
         toUserName: t.toUserName,
         paymentModeP2P: t.paymentModeP2P
       }));
-      const tx = [...txs].reverse();
       
-        return {
-            tx, totalPaid, totalReceived 
-        }
+      return {
+          tx, totalPaid, totalReceived 
+      }
     }
     return { 
         error: "Unauthorized"
@@ -45,4 +50,6 @@ export async function getP2PTxns() {
         error: "Internal Server Error" 
     };
   }
+  return null;
 }
+

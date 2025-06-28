@@ -98,7 +98,7 @@ export default async function Dashboard() {
                   <GrTransaction className="text-indigo-600" />
                 </div>
                 <div>
-                  <p className="font-medium text-gray-800">{txn.toUserId || ""}</p>
+                  <p className="font-medium text-gray-800">{txn.toUserName || ""}</p>
                   <div className="text-sm text-gray-500">{new Date(txn.time).toLocaleString() || 0 }</div>
                 </div>
               </div>

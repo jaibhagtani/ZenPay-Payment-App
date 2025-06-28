@@ -10,7 +10,7 @@ export async function getContacts() {
 
     if (id) {
       
-      const userAllContacts = await prisma.contacts.findMany({
+      const userAllContacts = await prisma.contact.findMany({
           where: {
             userId: Number(id),
           },
@@ -23,6 +23,7 @@ export async function getContacts() {
       if(userAllContacts)
       {
         AllMyContacts = userAllContacts.map((c) => ({
+          // ye contactId, user ki hi hai jo contact hai
           contactId: c.contactId,
           contactName: c.contact.name,
           contactEmail: c.contact.email,

@@ -9,7 +9,7 @@ interface TransactionCardProps {
     provider : string;
 }
 interface P2PTransactionsProps {
-    // id: number;
+    id: number;
     amount: number; 
     time: Date;
     toUserId: number;

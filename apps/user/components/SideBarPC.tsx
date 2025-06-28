@@ -24,7 +24,10 @@ export default function SidebarPC({type} : {type: "Dashboard" | "Profile"})
                 <SideBarItems href="/p2p" icon={<P2P />} title="P2P Transfer"></SideBarItems>
             </div>
             <div className="pt-4">
-                <SideBarItems href="/split-bill" icon={<MdOutlineGroupAdd size={26} />} title="Split Bills"></SideBarItems>
+                <SideBarItems href="/split-bill" icon={<MdOutlineGroupAdd size={26} />} title="Bills Split"></SideBarItems>
+            </div>
+            <div className="pt-4">
+                <SideBarItems href="/notificationsnpendings" icon={<Transactions />} title="Notifications"></SideBarItems>
             </div>
             <div className="pt-4">
                 <SideBarItems href="/transactions/deposit" icon={<Transactions />} title="Transactions"></SideBarItems>

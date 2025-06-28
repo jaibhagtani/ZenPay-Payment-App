@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import { InputOTPGroup } from "../../inputotpgroup";
 import { transferP2P } from "../../../app/lib/actions/p2ptransfer";
 export default function SendCard({selectedNumber} : {selectedNumber: string})
-{   
+{
     const router = useRouter();
     const [phoneNumber, setPhoneNumber] = useState("");
     const [value, setValue] = useState(0);
@@ -20,7 +20,7 @@ export default function SendCard({selectedNumber} : {selectedNumber: string})
     useEffect(() => {
         setPhoneNumber(selectedNumber);
     }, [selectedNumber])
-    console.log(phoneNumber);
+    // console.log(selectedNumber);
     async function validateMpin()
     {
         if(!session.data?.user)
@@ -50,7 +50,7 @@ export default function SendCard({selectedNumber} : {selectedNumber: string})
             <Card title="Send">
                 <div className="w-full max-w-full mt-8">
                     
-                    <LabelledInput label="Number" placeholder="1231231231" onChangeFunc={(val) => {
+                    <LabelledInput label="Number" placeholder="1231231231" value={phoneNumber} onChangeFunc={(val) => {
                         setPhoneNumber(val);
                     }}></LabelledInput>
                     <div className="mt-5"></div>

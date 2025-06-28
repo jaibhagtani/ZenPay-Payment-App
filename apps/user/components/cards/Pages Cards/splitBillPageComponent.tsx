@@ -10,7 +10,6 @@ import {
   FaListOl,
   FaBolt,
 } from "react-icons/fa";
-import { getSplitDetails } from "../../../app/lib/actions/getSplitDetails";
 import { CreateSplit } from "../../../app/lib/actions/createSplit";
 import SplitBillComponent from "./splitCards";
 

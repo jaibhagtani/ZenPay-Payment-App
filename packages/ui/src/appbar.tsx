@@ -2,6 +2,7 @@
 import { JSX, useState } from "react";
 import Link from "next/link";
 import { Button } from "./button";
+import { useRouter } from "next/navigation";
 
 interface AppbarProps {
   user?: { name?: string | null };
@@ -9,6 +10,7 @@ interface AppbarProps {
   onSignout: any;
   setIsAccountBar: (e: boolean) => void;
   isAccountBar: boolean;
+  notifications : any
 }
 
 export function AppBar({
@@ -17,8 +19,8 @@ export function AppBar({
   onSignout,
   setIsAccountBar,
   isAccountBar,
+  notifications
 }: AppbarProps): JSX.Element {
-  const [showNotifications, setShowNotifications] = useState(false);
 
   let firstch: string | undefined;
   let lastch: string | undefined;
@@ -30,16 +32,7 @@ export function AppBar({
       lastch = username[1]?.[0]?.toUpperCase();
     }
   }
-
-  const mockNotifications = [
-    "₹500 received from Ankit",
-    "You created a new Split",
-    "Pending payment: ₹240",
-    "Pending payment: ₹240",
-    "Pending payment: ₹240",
-    "Pending payment: ₹240",
-    "Pending payment: ₹240",
-  ];
+  const router = useRouter();
 
   return (
     <div className="flex justify-between items-center border-b px-5 py-2 border-slate-300 bg-pink-50">
@@ -48,31 +41,14 @@ export function AppBar({
       <div className="flex items-center space-x-3 relative">
         <div className="relative">
           <button
-            onClick={() => setShowNotifications((prev) => !prev)}
+            onClick={() => router.push("/notificationsnpendings")}
             className="relative bg-white p-2 rounded-full shadow-sm hover:bg-gray-100 transition"
           >
             <BellIcon />
             <span className="absolute top-0.5 right-0.5 bg-red-500 text-white text-xs font-semibold px-1.5 py-0 rounded-full">
-              {mockNotifications.length}
+              {notifications.length}
             </span>
           </button>
-          {showNotifications && (
-            <div className="absolute right-0 top-12 w-72 sm:w-80 bg-white border border-gray-200 rounded-xl shadow-lg z-50 overflow-hidden">
-              <ul className="divide-y text-sm max-h-64 overflow-y-auto">
-                {mockNotifications.map((n, i) => (
-                  <li key={i} className="px-4 py-3 hover:bg-slate-50">
-                    {n}
-                  </li>
-                ))}
-              </ul>
-              <Link
-                href="/notificationsnpendings"
-                className="block text-center py-2 bg-slate-50 hover:bg-slate-100 text-blue-600 font-semibold text-sm"
-              >
-                See all
-              </Link>
-            </div>
-          )}
         </div>
 
         {user && (

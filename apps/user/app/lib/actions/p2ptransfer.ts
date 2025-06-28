@@ -68,20 +68,20 @@ export async function transferP2P(to : string, amount : number)
         // console.log("From here to User");
         // console.log(toUser);
 
-        const existingContactsRelation1 = await prisma.contacts.findMany({
+        const existingContactsRelation1 = await prisma.contact.findMany({
             where: {
                 userId: Number(fromId),
                 contactId: toUser.id
             }
         })
-        const existingContactsRelation2 = await prisma.contacts.findMany({
+        const existingContactsRelation2 = await prisma.contact.findMany({
             where: {
                 contactId: Number(fromId),
                 userId: toUser.id
             }
         })
-        console.log(existingContactsRelation1);
-        console.log(existingContactsRelation2);
+        // console.log(existingContactsRelation1);
+        // console.log(existingContactsRelation2);
         
         try {
             await prisma.$transaction(async (tx) => {
@@ -163,7 +163,7 @@ export async function transferP2P(to : string, amount : number)
             })
             if(!existingContactsRelation1[0]?.id)
             {
-                const entry1 = await tx.contacts.create({
+                const entry1 = await tx.contact.create({
                     data: {
                         user: {
                             connect: {id : Number(fromId)}
@@ -176,7 +176,7 @@ export async function transferP2P(to : string, amount : number)
             }
             if(!existingContactsRelation2[0]?.id)
             {
-                const entry2 = await tx.contacts.create({
+                const entry2 = await tx.contact.create({
                     data: {
                         user: {
                             connect: {id : toUser.id}
@@ -196,7 +196,7 @@ export async function transferP2P(to : string, amount : number)
         
     }
     catch(e) {
-        console.log(e);
+        // console.log(e);
         if(e == "Error: Insufficient funds")
         {
             return {

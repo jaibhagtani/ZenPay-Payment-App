@@ -67,8 +67,7 @@ export async function CreateSplit(
     await prisma.$transaction(async (tx) => {
       const splitBill = await tx.splitBill.create({
         data: {
-          createdAt: new Date(Date.now()),
-          createdByUserId: ownerId,
+          createdByUserId: Number(ownerId),
           totalAmount: totalAmt,
           description: userDesc || null,
         },
@@ -92,6 +91,37 @@ export async function CreateSplit(
       });
 
       await tx.splitEntry.createMany({ data: splitEntries });
+
+      const createdEntries = await tx.splitEntry.findMany({
+        where: {
+          token: {
+            in: splitEntries.map((entry) => entry.token!),
+          },
+        },
+        select: {
+          id: true,
+          userId: true,
+          amount: true,
+          description: true,
+        },
+      });
+      const senderName = session.user.name;
+      const notificationData = createdEntries.map((entry) => ({
+        userId: Number(entry.userId),
+        title: `Split from ${senderName}: ₹${entry.amount} pending`,
+        message: entry.description
+          ? `${entry.description} — split from ${senderName}`
+          : `You've been split ₹${entry.amount} by ${senderName}. Please review and approve.`,
+        type: "SPLIT" as const,
+        action: "APPROVE" as const,
+        createdAt: new Date(),
+        splitId: entry.id, // relation to SplitEntry
+      }));
+
+
+      await tx.notification.createMany({
+        data: notificationData,
+      });
     });
 
     return { msg: "Split successfully created" };
@@ -99,8 +129,5 @@ export async function CreateSplit(
     console.error("CreateSplit error:", e);
     return { msg: "Something went wrong while creating split" };
   }
-  finally{
-    console.error("CreateSplit error:");
-    return { msg: "Something went wrong while creating split" };
-  }
+  return {};
 }

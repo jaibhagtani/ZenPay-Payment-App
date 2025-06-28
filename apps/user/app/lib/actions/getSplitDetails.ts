@@ -59,7 +59,6 @@ export async function getSplitDetails() {
     }))
     );
 
-
     return {
       paymentsPending,
       pendingCredits,

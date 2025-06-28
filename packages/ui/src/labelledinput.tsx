@@ -1,7 +1,7 @@
 
 interface LabelledInputProps {
     label : string;
-    placeholder : string;
+    placeholder ?: string;
     onChangeFunc : (value : string) => void;
     value?: string;
     type ?: string

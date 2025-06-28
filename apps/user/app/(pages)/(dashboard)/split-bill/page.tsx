@@ -1,5 +1,3 @@
-// app/(dashboard)/split/page.tsx
-
 import SplitBillPageComponent from "../../../../components/cards/Pages Cards/splitBillPageComponent";
 import { getSplitDetails } from "../../../lib/actions/getSplitDetails";
 

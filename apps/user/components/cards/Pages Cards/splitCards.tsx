@@ -27,14 +27,12 @@ interface SplitModalProps {
   setAmount: (a: number) => void;
   onClose: () => void;
   onCreateSplit: (group: SplitItem[], creatorDescription: string) => void;
-  setPersonalDescription: (s: string) => void;
 }
 
 export default function SplitBillComponent({
   setAmount,
   onClose,
   onCreateSplit,
-  setPersonalDescription,
 }: SplitModalProps) {
   const [contacts, setContacts] = useState<Contact[]>([]);
   const [extraContacts, setExtraContacts] = useState<string[]>([]);
@@ -188,7 +186,6 @@ export default function SplitBillComponent({
             value={creatorDescription}
             onChange={(e) => {
               setCreatorDescription(e.target.value);
-              setPersonalDescription(e.target.value);
             }}
             className="w-full border rounded-md px-3 py-2"
           />

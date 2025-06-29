@@ -27,7 +27,7 @@ export default function SplitBillApproval({ splitDetails, body }: SplitBillAppro
           />
           {userSplit && <YourSplitDetail entry={userSplit} />}
           {userSplit?.status === "PENDING" && (
-            <ActionButtons splitId={userSplit.id} token={body.token} />
+            <ActionButtons splitId={userSplit.id} token={body.token} splitBillId={body.splitBillId} />
           )}
         </div>
       </div>

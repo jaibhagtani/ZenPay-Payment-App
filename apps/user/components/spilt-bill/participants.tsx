@@ -5,7 +5,7 @@ export interface SplitEntry {
   phone: string;
   amount: number;
   description?: string | null;
-  status: "PENDING" | "PROCESSING" | "SUCCESS" | "FAILURE";
+  status: "PENDING" | "PROCESSING" | "SUCCESS" | "FAILURE" | "REJECTED";
 }
 
 export interface SplitDetails {

@@ -173,4 +173,5 @@ enum SplitStatus {
   PROCESSING
   SUCCESS
   FAILURE
+  REJECTED
 }

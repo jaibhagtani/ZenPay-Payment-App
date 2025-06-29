@@ -29,7 +29,7 @@ interface SplitModalProps {
   onCreateSplit: (group: SplitItem[], creatorDescription: string) => void;
 }
 
-export default function SplitBillComponent({
+export function SplitBillModal({
   setAmount,
   onClose,
   onCreateSplit,
@@ -141,7 +141,6 @@ export default function SplitBillComponent({
         <FaTimes className="absolute top-4 right-4 cursor-pointer" onClick={onClose} />
         <h2 className={`text-2xl font-bold ${themeAccent}`}>Split Bill</h2>
 
-        {/* Controls */}
         <div className="flex flex-wrap gap-4 items-center">
           <div>
             <label className="block text-sm">Split Mode</label>
@@ -191,7 +190,6 @@ export default function SplitBillComponent({
           />
         </div>
 
-        {/* Search & Extra */}
         <div className="flex flex-wrap items-end gap-4">
           <div className="flex-1">
             <label className="block mb-1">Search Contacts</label>
@@ -219,7 +217,6 @@ export default function SplitBillComponent({
           </div>
         </div>
 
-        {/* All Contacts Table */}
         <div>
           <h3 className="text-lg font-semibold mb-2">All Contacts</h3>
           <div className="overflow-x-auto">
@@ -248,7 +245,6 @@ export default function SplitBillComponent({
           </div>
         </div>
 
-        {/* Selected Split Table */}
         <div>
           <h3 className="text-lg font-semibold mt-6 mb-2">Split Details</h3>
           {selectedContacts.length === 0 ? (
@@ -299,7 +295,6 @@ export default function SplitBillComponent({
           )}
         </div>
 
-        {/* Confirm */}
         <div className="flex justify-between items-center pt-4">
           <p className="text-lg font-semibold">Grand Total:</p>
           <p className="text-lg font-bold">₹{totalAmt.toFixed(2)}</p>

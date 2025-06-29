@@ -1,33 +1,41 @@
-// File: app/notifications/page.tsx
 import { prisma } from "@repo/db/client";
+import NotificationsCards from "../../../../components/notificationsnpendings/NotificationCards";
+import NotificationsTable from "../../../../components/notificationsnpendings/NotificationTable";
 import { getServerSession } from "next-auth";
-import { redirect } from "next/navigation";
 import { NEXT_AUTH } from "../../../lib/auth";
-import NotificationsAndPendingsClient from "../../../../components/notificationsnpendings/NotificationsAndPendingsClient";
+import { redirect } from "next/navigation";
 
-export default async function NotificationsAndPendingsPage() {
+export default async function NotificationsPage() {
   const session = await getServerSession(NEXT_AUTH);
 
   if (!session?.user?.id) {
-    redirect("/api/auth/signin");
-    return <p>Unauthenticated request</p>;
+    redirect("/auth/signin");
   }
-
-  const userId = Number(session.user.id);
-  // console.log(userId);
+  const userId = session?.user?.id;
   const notifications = await prisma.notification.findMany({
-    where: { userId: userId },
-    orderBy: { createdAt: "desc" },
+    where: {
+      userId: Number(userId),
+    },
+    include: {
+      splitEntry:{
+        select:{
+          status: true
+        }
+      }
+    }
   });
 
-  // console.log(notifications);
-
+  // console.log(notifications)
   return (
-    <div className="flex-auto mt-20 p-6 sm:p-10 bg-[#fdf0f6] min-h-screen">
-      <h1 className="text-3xl font-bold text-[#a259ff] mb-6">
+    <div className="w-full mx-auto px-4 sm:px-6 mt-8">
+      <h1 className="mt-12 py-2 mb-8 text-3xl sm:text-4xl bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 inline-block text-transparent bg-clip-text font-bold">
         Notifications & Pendings
       </h1>
-      <NotificationsAndPendingsClient initialNotifications={notifications || []} />
+
+      <div className="space-y-6">
+        <NotificationsTable notifications={notifications} />
+        <NotificationsCards notifications={notifications} />
+      </div>
     </div>
   );
 }

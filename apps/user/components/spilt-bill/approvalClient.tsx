@@ -1,14 +1,55 @@
+import { prisma } from "@repo/db/client";
 import ActionButtons from "./actionButtons";
 import YourSplitDetail from "./detailsCards";
 import Header from "./header";
 import Metadata from "./metaData";
 import ParticipantList, { SplitBillApprovalProps } from "./participants";
 
-export default function SplitBillApproval({ splitDetails, body }: SplitBillApprovalProps) {
+interface checkBodyProps {
+  token: string;
+  splitId: number;
+  splitBillId: number;
+}
+
+async function checkBody(body: checkBodyProps)
+{
+  
+  const token = await prisma.splitEntry.findFirst({
+      where: {
+        token: body.token,
+        id: Number(body.splitId),
+        splitBill: {
+          id: Number(body.splitBillId)
+        }
+      }
+  })
+
+  if(!token)
+  {
+    return {
+      msg: "wrong Credentials"
+    }
+  }
+
+  return {
+    msg: "Continue with credentials"
+  }
+}
+
+export default async function SplitBillApproval({ splitDetails, body }: SplitBillApprovalProps) {
   if (!splitDetails) {
     return <div className="p-6 text-center">Split not found...</div>;
   }
 
+  const res = await checkBody(body);  
+  if(res?.msg == "wrong Credentials")
+  {
+      return (
+        <div className="mt-16 flex-auto">
+          Sorry Wrong Credentails, TRY AGAIN !!
+        </div>
+      )
+  }
   const userSplit = splitDetails.splits.find((entry) => entry.id === Number(body.splitId));
 
   return (

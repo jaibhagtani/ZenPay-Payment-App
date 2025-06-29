@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import { SplitItem, Tab } from "../../../app/(pages)/(dashboard)/split-bill/page";
 import { SplitBillList } from "./splitBillList";
 import { SplitBillModal } from "./SplitBillModal";
-
+import { BsPlusLg } from "react-icons/bs";
 
 export function SplitBillTabs({
   allSplits,
@@ -38,7 +38,8 @@ export function SplitBillTabs({
           onClick={() => setShowForm(true)}
           className="bg-[#6e3cbc] hover:bg-[#593397] text-white px-6 py-3 rounded-lg flex items-center space-x-2 shadow-md"
         >
-          + <span>Create Split</span>
+          <BsPlusLg className="text-lg" />
+          <span>Create Split</span>
         </button>
       </div>
 

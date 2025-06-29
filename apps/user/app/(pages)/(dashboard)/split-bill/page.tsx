@@ -8,6 +8,7 @@ export type Tab = "All" | "Pending" | "Completed";
 export interface SplitItem {
   userId: number;
   name: string;
+  status: "PENDING" | "REJECTED" | "FAILURE" | "SUCCESS" | "PROCESSING";
   email: string;
   phoneNumber: string;
   amount: number;

@@ -2,6 +2,7 @@
 import React, { useState, useMemo, useEffect } from "react";
 import { FaTimes, FaPlus } from "react-icons/fa";
 import { getContacts } from "../../../app/lib/actions/getContacts";
+import { CreateSplit } from "../../../app/lib/actions/createSplit";
 
 const themeAccent = "text-[#6e3cbc]";
 const themeBtn = "bg-[#6e3cbc] hover:bg-[#593397] text-white";
@@ -99,7 +100,7 @@ export function SplitBillModal({
     return +((weight / totalWeight) * totalAmt).toFixed(2);
   };
 
-  const confirmSplit = () => {
+  const confirmSplit = async () => {
     const splitItems: SplitItem[] = selectedContacts.map((c) => ({
       userId: c.userId,
       name: c.name,
@@ -115,7 +116,8 @@ export function SplitBillModal({
       return;
     }
 
-    onCreateSplit(splitItems, creatorDescription);
+    const res = await CreateSplit(splitItems, totalAmt, creatorDescription);
+    alert(res.msg);
     onClose();
   };
 

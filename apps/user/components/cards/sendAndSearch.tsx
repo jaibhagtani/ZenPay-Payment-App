@@ -1,11 +1,9 @@
 "use client";
 import { useState, useEffect } from "react";
-import { FaSearch } from "react-icons/fa";
 import { Card } from "@repo/ui/card";
 import { Button } from "@repo/ui/button";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { InputOTPGroup } from "../inputotpgroup";
 import LabelledInput from "@repo/ui/labelledinput";
 import SearchInput from "../p2p/send/searchInput";
 import { transferP2P } from "../../app/lib/actions/p2ptransfer";
@@ -73,25 +71,40 @@ export function SendAndSearchContacts({ AllMyContacts, numberOfContacts }: SendA
   }
 
   return (
-    <div className="bg-white p-6 rounded-2xl shadow w-full max-w-3xl mx-auto">
+    <div className="bg-white p-4 sm:p-6 rounded-2xl shadow w-full max-w-3xl mx-auto">
       <Card title="Send Money">
-        <SearchInput value={search} onChange={setSearch} />
-        <ContactTable contacts={displayed} selected={selectedNumber} onSelect={setSelectedNumber} />
-        <LabelledInput label="Selected Number" value={selectedNumber} onChangeFunc={setSelectedNumber} />
-        <LabelledInput label="Amount" value={value.toString()} onChangeFunc={val => setValue(Number(val))} />
+        <div className="space-y-4">
+          <SearchInput value={search} onChange={setSearch} />
+          <ContactTable contacts={displayed} selected={selectedNumber} onSelect={setSelectedNumber} />
 
-        {!showMpinBar ? (
-          <div className="flex justify-center pt-10 mt-3">
-            <Button onClickFunc={() => {
-              if (selectedNumber && value > 0) setShowMpinBar(true);
-              else alert("Invalid Details");
-            }}>
-              Next
-            </Button>
+          <div className="flex flex-col sm:flex-row gap-4 w-full">
+            <div className="flex-1">
+              <LabelledInput maxi={10} type="tel" label="Selected Number" value={selectedNumber} onChangeFunc={setSelectedNumber} />
+            </div>
+            <div className="flex-1">
+              <LabelledInput
+                label="Amount"
+                value={value.toString()}
+                onChangeFunc={val => setValue(Number(val))}
+              />
+            </div>
           </div>
-        ) : (
-          <MPinInput isLoading={isLoading} onSubmit={handleTransfer} onChange={setMpin} />
-        )}
+
+          {!showMpinBar ? (
+            <div className="flex justify-center pt-6">
+              <Button
+                onClickFunc={() => {
+                  if (selectedNumber && value > 0) setShowMpinBar(true);
+                  else alert("Invalid Details");
+                }}
+              >
+                Next
+              </Button>
+            </div>
+          ) : (
+            <MPinInput isLoading={isLoading} onSubmit={handleTransfer} onChange={setMpin} />
+          )}
+        </div>
       </Card>
     </div>
   );

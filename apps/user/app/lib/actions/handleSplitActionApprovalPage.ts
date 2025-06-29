@@ -15,14 +15,45 @@ export async function handleSplitActionApproval(formData: FormData): Promise<{ r
   const splitBillId = Number(formData.get("splitBillId"));
   const token = String(formData.get("token"));
   const actionType = String(formData.get("actionType"));
-
   if (actionType === "REJECTED") {
-    await prisma.splitEntry.update({
-      where: { id: splitId },
-      data: { status: "REJECTED" },
+    await prisma.$transaction(async (tx) => {
+      const getDetailsOfEntry = await tx.splitEntry.update({
+        where: { id: splitId },
+        data: { status: "REJECTED" },
+        select: {
+          splitBill: {
+            select: { createdByUserId: true }
+          },
+          description: true,
+          amount: true,
+          notifications: {
+            select: { message: true }
+          },
+          id: true
+        }
+      });
+
+      const initiatorId = Number(getDetailsOfEntry.splitBill.createdByUserId);
+      const rejectedAmount = getDetailsOfEntry.amount ?? 0;
+      const rejectedDesc = getDetailsOfEntry.description ?? "";
+      const originalMsg = getDetailsOfEntry.notifications[0]?.message ?? "";
+
+      await tx.notification.create({
+        data: {
+          userId: initiatorId,
+          title: `Split Rejected: ₹${rejectedAmount} (${session?.user?.name || "Someone"})`,
+          message:
+            originalMsg ||
+            `The split of ₹${rejectedAmount} "${rejectedDesc}" was rejected by ${session?.user?.name || "the user"}.`,
+          type: "SPLIT" as const,
+          action: "VIEW",
+          splitId: getDetailsOfEntry.id
+        }
+      });
     });
-    return { redirect: "/notificationsnpendings" };
-  }
+  return { redirect: "/notificationsnpendings" };
+}
+
 
   if (actionType === "APPROVED") {
     const newToken = crypto.randomUUID();
@@ -34,7 +65,7 @@ export async function handleSplitActionApproval(formData: FormData): Promise<{ r
 
       await tx.splitEntry.updateMany({
         where: { token: token },
-        data: { token: newToken }
+        data: { token: newToken, status: "PROCESSING" }
       });
     });
     return { redirect: `/split-bill/pay/${newToken}/${splitId}/${splitBillId}` };

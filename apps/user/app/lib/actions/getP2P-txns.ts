@@ -34,7 +34,8 @@ export async function getP2PTxns() {
         amount: t.amount,
         toUserId: t.toUserId,
         toUserName: t.toUserName,
-        paymentModeP2P: t.paymentModeP2P
+        paymentModeP2P: t.paymentModeP2P,
+        type: t.type
       }));
       
       return {

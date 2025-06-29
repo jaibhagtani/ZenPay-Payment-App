@@ -16,6 +16,9 @@ export default async function NotificationsPage() {
     where: {
       userId: Number(userId),
     },
+    orderBy: {
+      createdAt: "desc"
+    },
     include: {
       splitEntry:{
         select:{

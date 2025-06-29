@@ -64,6 +64,7 @@ model p2pTransfer {
   toUserId    Int
   toUser      User     @relation(name: "toUserRelation", fields: [toUserId], references: [id])
   toUserName  String
+  type        p2pTransferType?     @default(P2P)
   paymentModeP2P PaymentTypeP2P
 }
 
@@ -174,4 +175,10 @@ enum SplitStatus {
   SUCCESS
   FAILURE
   REJECTED
+}
+
+
+enum p2pTransferType {
+  SPLIT
+  P2P
 }

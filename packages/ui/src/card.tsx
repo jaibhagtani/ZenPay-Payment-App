@@ -5,7 +5,7 @@ export function Card({
   children,
   IsviewAll
 }: {
-  title: string;
+  title?: string;
   children?: ReactNode;
   IsviewAll ?: boolean | false;
 }) {

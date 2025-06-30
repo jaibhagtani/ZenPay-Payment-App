@@ -60,14 +60,14 @@ export default async function Dashboard() {
               to="/p2p"
             />
             <ActionCard
-              icon={<FaQrcode size={26} className="text-indigo-600" />}
-              label="QR Pay"
-              to="/qr-pay"
+              icon={<FaArrowsUpToLine size={26} className="text-indigo-600" />}
+              label="Withdraw Money"
+              to="/transfer/withdraw"
             />
             <ActionCard
               icon={<FaUserFriends size={26} className="text-indigo-600" />}
-              label="Request"
-              to="/p2p/request"
+              label="Account"
+              to="/profile"
             />
             <ActionCard
               icon={<FaGift size={26} className="text-indigo-600" />}

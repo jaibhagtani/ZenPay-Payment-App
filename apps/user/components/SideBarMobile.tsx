@@ -3,6 +3,7 @@ import SideBarItems from "@repo/ui/sidebaritems";
 import { useState } from "react";
 import {HomeIcon, P2P, Transactions, Transfer} from "@repo/ui/icons"
 import { ButtonToRedirect } from "./buttons/buttonsUsed";
+import { MdOutlineGroupAdd } from "react-icons/md";
 
 
 export default function SideBarMobile({type} : {type : "Profile" | "Dashboard"})
@@ -51,17 +52,32 @@ export default function SideBarMobile({type} : {type : "Profile" | "Dashboard"})
                             </span>
                         </a>
                     </li>
+                    
                     <li>
                         <a href="#" className="flex pt-2 hover:text-purple-100">
                             <span className="ms-3 whitespace-nowrap">
-                                <SideBarItems setClickFunc={hideSidebar} href="/transactions/deposit" icon={<Transactions />} title="Transactions"></SideBarItems>
+                                <SideBarItems setClickFunc={hideSidebar} href="/p2p" icon={<P2P />} title="P2P Transfer"></SideBarItems>
                             </span>
                         </a>
                     </li>
                     <li>
                         <a href="#" className="flex pt-2 hover:text-purple-100">
                             <span className="ms-3 whitespace-nowrap">
-                                <SideBarItems setClickFunc={hideSidebar} href="/p2p" icon={<P2P />} title="P2P Transfer"></SideBarItems>
+                                <SideBarItems setClickFunc={hideSidebar} href="/split-bill" icon={<MdOutlineGroupAdd size={26} />} title="Bills Split"></SideBarItems>
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" className="flex pt-2 hover:text-purple-100">
+                            <span className="ms-3 whitespace-nowrap">
+                                <SideBarItems setClickFunc={hideSidebar} href="/transactions/deposit" icon={<Transactions />} title="Notifications"></SideBarItems>
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" className="flex pt-2 hover:text-purple-100">
+                            <span className="ms-3 whitespace-nowrap">
+                                <SideBarItems setClickFunc={hideSidebar} href="/transactions/deposit" icon={<Transactions />} title="Transactions"></SideBarItems>
                             </span>
                         </a>
                     </li>

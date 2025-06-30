@@ -111,7 +111,7 @@ model SplitEntry {
   tokenExpiresAt  DateTime?
   paidAt      DateTime?
   splitBill   SplitBill @relation(fields: [splitBillId], references: [id])
-  splitBillId Int   
+  splitBillId Int
   notifications  Notification[]
   user        User      @relation(fields: [userId], references: [id])
   // @@index([splitBillId])
@@ -129,8 +129,8 @@ model Notification {
   action      NotificationAction      // APPROVE, PAY
   createdAt   DateTime    @default(now())
   
-  splitId     Int
-  splitEntry  SplitEntry @relation(fields: [splitId], references: [id])
+  splitId     Int?
+  splitEntry  SplitEntry? @relation(fields: [splitId], references: [id])
   user        User       @relation(fields: [userId], references: [id])
   // @@index([userId])
 }

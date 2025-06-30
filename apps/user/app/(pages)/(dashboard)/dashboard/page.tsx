@@ -7,6 +7,9 @@ import { getDepositeTxns } from "../../../lib/actions/getDeposite-txns";
 import { FaArrowsDownToLine } from "react-icons/fa6";
 import { FaArrowsUpToLine } from "react-icons/fa6";
 import { ButtonDashboardActionCard } from "../../../../components/buttons/buttonsDashboardActionCards";
+import { getSplitDetails } from "../../../lib/actions/getSplitDetails";
+import { RiP2pFill } from "react-icons/ri";
+import { RiBillFill } from "react-icons/ri";
 // async function getP2PTransactions() {
 //   const session = await getServerSession(NEXT_AUTH);
 //   const userId = session?.user?.id;
@@ -28,8 +31,10 @@ export default async function Dashboard() {
   const p2pData = await getP2PTxns();
   const NumDepositBankTransfers = (await getDepositeTxns()).len;
   const NumWithdrawBankTransfers = (await getDepositeTxns()).len;
-  const NumP2PTransfers = p2pData.tx?.length || 0
-  const monthlySpending = Number(p2pData.totalPaid)/100 || '0.00';
+  const NumP2PTransfers = p2pData?.tx?.length || 0
+  const monthlySpending = Number(p2pData?.totalPaid)/100 || '0.00';
+  const splitDetails = await getSplitDetails();
+  const CountSplits = splitDetails.totalSplits
   // const friends = p2pData.friends || 0;
   // const currency = p2pData.currency || "₹";
 
@@ -79,10 +84,10 @@ export default async function Dashboard() {
         <ButtonDashboardActionCard c={<FaUserFriends className="text-indigo-600" />} to="/transactions/p2p" Num={0}>Friends Paid</ButtonDashboardActionCard>
         <ButtonDashboardActionCard c={<FaArrowsDownToLine className="text-indigo-600" />} to="/transactions/deposit" Num={NumDepositBankTransfers || 0}>Deposits Bank Transfers</ButtonDashboardActionCard>
         <ButtonDashboardActionCard c={<FaArrowsUpToLine className="text-indigo-600" />} to="/transactions/withdraw" Num={NumWithdrawBankTransfers || 0}>Withdrew Bank Transfers</ButtonDashboardActionCard>
-        <ButtonDashboardActionCard c={<FaArrowsUpToLine className="text-indigo-600" />} to="/transactions/p2p" Num={NumP2PTransfers}>P2P Transfers</ButtonDashboardActionCard>
+        <ButtonDashboardActionCard c={<RiP2pFill className="text-indigo-600" size={18} />} to="/transactions/p2p" Num={NumP2PTransfers}>P2P Transfers</ButtonDashboardActionCard>
+        <ButtonDashboardActionCard c={<RiBillFill className="text-indigo-600" size={18}/>} to="/split-bill" Num={Number(CountSplits) || 0}>Bills Split</ButtonDashboardActionCard>
       </div>
 
-      {/* Recent Transactions */}
       <div className="bg-white p-6 rounded-2xl shadow-md border border-indigo-100">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-xl font-semibold text-indigo-700">Recent Transactions</h3>
@@ -91,28 +96,68 @@ export default async function Dashboard() {
           </a>
         </div>
         <ul className="space-y-4">
-          {(p2pData.tx || []).slice(0, 5).map((txn, idx) => (
+          {(p2pData?.tx || []).slice(0, 5).map((txn, idx) => (
             <li key={idx} className="flex items-center justify-between">
               <div className="flex items-center space-x-3">
-                <div className="p-2 rounded-full bg-indigo-50">
-                  <GrTransaction className="text-indigo-600" />
+                <div
+                  className={`p-2 rounded-full ${
+                    txn.type === "P2P"
+                      ? "bg-green-50"
+                      : txn.type === "SPLIT"
+                      ? "bg-purple-50"
+                      : "bg-indigo-50"
+                  }`}
+                >
+                  {txn.type === "P2P" ? (
+                    <RiP2pFill
+                      className={`${
+                        txn.paymentModeP2P === "paid" ? "text-red-500" : "text-green-600"
+                      }`}
+                    />
+                  ) : txn.type === "SPLIT" ? (
+                    <RiBillFill className="text-purple-600" />
+                  ) : (
+                    <GrTransaction className="text-indigo-600" />
+                  )}
                 </div>
                 <div>
-                  <p className="font-medium text-gray-800">{txn.toUserName || ""}</p>
-                  <div className="text-sm text-gray-500">{new Date(txn.time).toLocaleString() || 0 }</div>
+                  <p className="font-medium text-gray-800">
+                    {txn.toUserName || "Unknown"}
+                  </p>
+                  <p className="text-xs text-gray-500">
+                    {txn.type === "P2P"
+                      ? txn.paymentModeP2P === "paid"
+                        ? "Sent via P2P"
+                        : "Received via P2P"
+                      : txn.type === "SPLIT"
+                      ? "Bill Split"
+                      : "Transaction"}
+                  </p>
+                  <p className="text-xs text-gray-400">
+                    {new Date(txn.time).toLocaleDateString()}{" "}
+                    {new Date(txn.time).toLocaleTimeString()}
+                  </p>
                 </div>
               </div>
-              <p
-                className={`font-semibold ₹ {txn.amount > 0 ? "text-green-500" : "text-red-500"}`}
+              <div
+                className={`font-semibold ${
+                  txn.paymentModeP2P === "paid" || txn.amount < 0
+                    ? "text-red-500"
+                    : "text-green-600"
+                }`}
               >
-                {txn.amount > 0 ? "+" : "-"} ₹ {Math.abs((txn.amount)/100).toFixed(2)}
-              </p>
+                {txn.paymentModeP2P === "paid" || txn.amount < 0 ? "-" : "+"} ₹{" "}
+                {Math.abs(txn.amount / 100).toFixed(2)}
+              </div>
             </li>
           ))}
-          {(!p2pData.tx || p2pData.tx.length === 0) && (
-            <li className="text-center text-gray-400">No recent transactions</li>
-          )}
-        </ul>
+        {(!p2pData?.tx || p2pData?.tx.length === 0) && (
+          <li className="text-center text-gray-400">
+            No recent transactions
+          </li>
+        )}
+      </ul>
+
       </div>
     </div>
   );

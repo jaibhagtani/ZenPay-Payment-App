@@ -158,9 +158,20 @@ export async function transferP2P(to : string, amount : number)
                     toUserId: Number(fromId),
                     toUserName: fromUserDetails?.name || "",
                     paymentModeP2P: "received"
-
                 }
             })
+
+            await tx.notification.create({
+                data: {
+                    userId: toUser.id,
+                    title: `Received ₹${(amount / 100).toFixed(2)} from ${fromUserDetails?.name ?? "Someone"}`,
+                    message: `You have received a peer-to-peer transfer of ₹${(amount / 100).toFixed(2)}.`,
+                    type: "PAYMENT",
+                    action: "VIEW",
+                    createdAt: new Date()
+                }
+            });
+
             if(!existingContactsRelation1[0]?.id)
             {
                 const entry1 = await tx.contact.create({
@@ -196,7 +207,7 @@ export async function transferP2P(to : string, amount : number)
         
     }
     catch(e) {
-        // console.log(e);
+        console.log(e);
         if(e == "Error: Insufficient funds")
         {
             return {

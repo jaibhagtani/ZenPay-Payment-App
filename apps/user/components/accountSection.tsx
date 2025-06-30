@@ -27,22 +27,18 @@ export default function AccountSection({
 }: AccountSectionInput) {
   return (
     <div className="mx-auto max-w-screen-xl py-8">
-      {/* Page Heading */}
       <div className="mb-8 px-2">
         <h1 className="mt-12 text-3xl sm:text-4xl bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 inline-block text-transparent bg-clip-text font-bold mb-10">
           Balances and Transactions
         </h1>
       </div>
 
-      {/* Balances Section */}
       <div className="mb-8 px-2">
         <h2 className="text-2xl font-bold bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 inline-block text-transparent bg-clip-text mb-4">
           Balances
         </h2>
 
-        {/* Cards Grid */}
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
-          {/* Withdraw/Deposit Card */}
           <div className="bg-white rounded-xl p-6 shadow-lg hover:shadow-2xl transition-shadow duration-300">
             <WithdrawalAndDepositeCard
               totalWithdrawalAmount={withdrawSum}
@@ -50,7 +46,6 @@ export default function AccountSection({
             />
           </div>
 
-          {/* Balance Card */}
           <div className="bg-white rounded-xl p-6 shadow-lg hover:shadow-2xl transition-shadow duration-300">
             <BalanceCardAccount
               amount={balance.amount}
@@ -58,7 +53,6 @@ export default function AccountSection({
             />
           </div>
 
-          {/* P2P Summary Card */}
           <div className="bg-white rounded-xl p-6 shadow-lg hover:shadow-2xl transition-shadow duration-300">
             <P2PCardAccount
               totalPaid={totalPaidAmount}

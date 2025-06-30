@@ -45,7 +45,7 @@ export default async function SplitBillApproval({ splitDetails, body }: SplitBil
   if(res?.msg == "wrong Credentials")
   {
       return (
-        <div className="mt-16 flex-auto">
+        <div className="mt-16 flex-auto items-center">
           Sorry Wrong Credentails, TRY AGAIN !!
         </div>
       )
@@ -64,7 +64,7 @@ export default async function SplitBillApproval({ splitDetails, body }: SplitBil
           />
           <ParticipantList
             participants={splitDetails.splits}
-            total={splitDetails.totalAmount}
+            total={Number(splitDetails.totalAmount)/100}
           />
           {userSplit && <YourSplitDetail entry={userSplit} />}
           {userSplit?.status === "PENDING" && (

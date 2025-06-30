@@ -278,7 +278,7 @@ export function SplitBillModal({
                           />
                         </td>
                       )}
-                      <td className="p-2">₹{calculateAmount(c.id).toFixed(2)}</td>
+                      <td className="p-2">₹{(calculateAmount(c.id)).toFixed(2)}</td>
                       {!useGlobalDesc && (
                         <td className="p-2">
                           <input
@@ -299,7 +299,7 @@ export function SplitBillModal({
 
         <div className="flex justify-between items-center pt-4">
           <p className="text-lg font-semibold">Grand Total:</p>
-          <p className="text-lg font-bold">₹{totalAmt.toFixed(2)}</p>
+          <p className="text-lg font-bold">₹{(totalAmt).toFixed(2)}</p>
         </div>
         <button onClick={confirmSplit} className={`${themeBtn} w-full py-2 rounded-md`}>
           Confirm Split

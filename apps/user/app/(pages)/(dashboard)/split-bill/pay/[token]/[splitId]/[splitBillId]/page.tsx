@@ -23,7 +23,7 @@ export interface SplitDetailsPay {
   createdAt: Date;
   totalAmount: number;
   description: string | null;
-  split: SplitParticipantPay;  // single participant only
+  split: SplitParticipantPay;
   createdByUser: SplitCreatedByPay;
 }
 
@@ -37,7 +37,6 @@ interface Props {
 }
 
 async function getSplit(body: { token: string; splitId: number; splitBillId: number }): Promise<GetSplitResponsePay> {
-  // only fetch the single splitEntry belonging to this splitBill and splitId
   const splitEntry = await prisma.splitEntry.findFirst({
     where: {
       id: body.splitId,

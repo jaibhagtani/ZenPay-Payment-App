@@ -65,7 +65,7 @@ export default function NotificationsCards({ notifications }: { notifications: a
                         className={`font-semibold ${
                           status === "REJECTED"
                             ? "text-[#dc2626]"
-                            : status === "APPROVED"
+                            : status === "SUCCESS"
                             ? "text-green-600"
                             : "text-gray-700"
                         }`}
@@ -83,6 +83,10 @@ export default function NotificationsCards({ notifications }: { notifications: a
                   {status === "REJECTED" ? (
                     <span className="px-3 py-1 rounded-full text-xs font-semibold bg-[#fee2e2] text-[#dc2626]">
                       Rejected
+                    </span>
+                  ) : status === "SUCCESS" ? (
+                    <span className="px-3 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-700">
+                      Paid
                     </span>
                   ) : item.action !== "VIEW" && (
                     <NotificationsApproveButton

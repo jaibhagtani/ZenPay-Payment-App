@@ -55,7 +55,7 @@ export default function ParticipantList({
               )}
             </div>
             <div className="text-right sm:text-left">
-              <span className="font-semibold text-[#a259ff] block whitespace-nowrap">₹{p.amount}</span>
+              <span className="font-semibold text-[#a259ff] block whitespace-nowrap">₹{(p.amount/100)}</span>
               <p className={`text-xs mt-1 ${p.status === "PENDING" ? "text-yellow-600" : "text-green-600"}`}>
                 {p.status}
               </p>

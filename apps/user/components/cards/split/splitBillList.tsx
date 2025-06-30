@@ -30,7 +30,7 @@ export function SplitBillList({ splits }: { splits?: SplitItem[][] }) {
                 <p className="text-gray-500 text-sm mt-1">
                   {group.length} people • ₹
                   {group
-                    .reduce((a, b) => a + b.amount, 0)
+                    .reduce((a, b) => a + (b.amount)/100, 0)
                     .toFixed(2)}{" "}
                   total
                 </p>
@@ -79,7 +79,7 @@ export function SplitBillList({ splits }: { splits?: SplitItem[][] }) {
                         </div>
                         <div className="text-right">
                           <p className="text-base font-semibold text-gray-900">
-                            ₹{p.amount.toFixed(2)}
+                            ₹{((p.amount)/100).toFixed(2)}
                           </p>
                           <p
                             className={`text-xs mt-1 font-medium ${textClass}`}

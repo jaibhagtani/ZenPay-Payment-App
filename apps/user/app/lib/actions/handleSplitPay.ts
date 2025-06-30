@@ -11,7 +11,6 @@ interface Props {
 
 export async function handleSplitPay(mpin : string, balance : number, b: Props)
 {
-
     const session = await getServerSession(NEXT_AUTH);
     if(!session?.user?.id)
     {
@@ -67,7 +66,6 @@ export async function handleSplitPay(mpin : string, balance : number, b: Props)
         }
     }
     const createrUserId = createdUser?.createdByUser.id;
-    // console.log(fromUser.number);
     if(createdUser && (userId === createdUser.createdByUserId))
     {
         return {
@@ -105,25 +103,19 @@ export async function handleSplitPay(mpin : string, balance : number, b: Props)
         // console.log(fromId);
         // console.log("From here to User");
         // console.log(toUser);
+        // console.log("HERE")
         const PayerUserNumber = createdUser.splits[0]?.phone;
         const CreaterUserNumber = createdUser.createdByUser.number;
         const PayerUserName = createdUser.splits[0].user.name;
         // console.log(existingContactsRelation1);
         // console.log(existingContactsRelation2);
-        
         try {
-            const amount = createdUser.splits[0]?.amount;
-            if(amount <= 0)
-            {
-                return {
-                    msg: "Invalid Amount"
-                }
-            }
             await prisma.$transaction(async (tx) => {
+            const amount = (createdUser.splits[0]?.amount || 0);
             // make sure user has that much money
             // B.E. should block me
             // this could take 1 sec or 20 sec
-
+            
             // THIS IS DONE BY ****** DATABASE LOCKING ******, => at a TIME at that row ONLY one has access to write or read into the DB
             // Until anything accessed, THIS ROW NEEDS to be locked
             // *****  BALANCE PROTECTION *****
@@ -137,13 +129,16 @@ export async function handleSplitPay(mpin : string, balance : number, b: Props)
                     userId: Number(userId)
                 }
             });
+            console.log(PayerUserBalance?.amount || 0);
             // console.log("Before sleep");
             // await new Promise(r => setTimeout(r, 4000));
             // console.log("After sleep");
             // All request were allowed to debit money from 1 account and all were allowed to credit money to Another account
             // This led to 
             // 1st make amount -ve in senders account 
-            if(createdUser.splits[0]?.amount && (!PayerUserBalance || PayerUserBalance.amount < createdUser.splits[0]?.amount))
+            // console.log(amount);
+            // console.log(PayerUserBalance?.amount);
+            if(amount > (PayerUserBalance?.amount || 0))
             {
                 throw new Error("Insufficient funds");
             }
@@ -191,7 +186,7 @@ export async function handleSplitPay(mpin : string, balance : number, b: Props)
             await tx.notification.create({
                 data: {
                     userId: Number(createrUserId),
-                    title: `Received Split Amount of ${amount} by ${PayerUserName}`,
+                    title: `Received Split Amount of ${amount/100} by ${PayerUserName}`,
                     message: createdUser.splits[0]?.notifications[0]?.message || "",
                     type: "SPLIT",
                     action: "VIEW",
@@ -217,7 +212,8 @@ export async function handleSplitPay(mpin : string, balance : number, b: Props)
                     timestamp: new Date(),
                     toUserId: Number(userId),
                     toUserName: PayerUserName || "",
-                    paymentModeP2P: "received"
+                    paymentModeP2P: "received",
+                    type: "SPLIT"
                 }
             })
         })
@@ -228,7 +224,7 @@ export async function handleSplitPay(mpin : string, balance : number, b: Props)
         
     }
     catch(e) {
-        // console.log(e);
+        console.log(e);
         if(e == "Error: Insufficient funds")
         {
             return {

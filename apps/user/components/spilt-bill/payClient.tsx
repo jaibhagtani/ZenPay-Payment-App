@@ -16,13 +16,11 @@ interface Props {
   splitId: number; 
   splitBillId: number 
 };
-
-async function validateMpin(Mpin: string) {
-  const session = useSession();
+async function validateMpin(Mpin: string, email: string) {
   const res = await fetch("/api/mpin/validate", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ Mpin, email: session.data?.user?.email }),
+    body: JSON.stringify({ Mpin, email: email }),
   });
   return res.json();
 }
@@ -41,7 +39,7 @@ export default function SplitBillPayPage({
     async function balance()
     {
       const b = await getBalance();
-      setBalance(Number(b.balance?.amount)/100 || 0.00);
+      setBalance(Number(b.balance?.amount) || 0.00);
     }
     balance();
   })
@@ -49,7 +47,7 @@ export default function SplitBillPayPage({
   const router = useRouter();
   const { data: session } = useSession();
   const [mpin, setMpin] = useState("");
-  const [isPending, startTransition] = useTransition();
+  const [isProcessing, startTransition] = useTransition();
   const [isLoading, setIsLoading] = useState(false);
 
   async function handleSubmit(e: React.FormEvent) {
@@ -70,13 +68,12 @@ export default function SplitBillPayPage({
     }
     else 
     {
-      const resValidationMPin = await validateMpin(mpin);
-
+      const resValidationMPin = await validateMpin(mpin, session?.user?.email || "");
       if (resValidationMPin.msg === "Valid User") {
         const b = await body;
         const res = await handleSplitPay(mpin, balance, b)
         if (res.msg === "Payment Success") {
-          alert("Payment Success");
+          alert("Split Bill Paid Successfully !!")
           router.push("/split-bill");
         } 
         else alert(res.msg);
@@ -94,7 +91,7 @@ export default function SplitBillPayPage({
         <div className="px-4 sm:px-6 md:px-10 xl:px-16 pt-6 pb-4">
           <div className="flex justify-between items-center bg-gray-50 rounded-xl px-6 py-4 shadow-inner">
             <span className="text-gray-700 text-sm font-medium">Available Balance</span>
-            <span className="text-green-600 text-xl font-bold">₹{balance}</span>
+            <span className="text-green-600 text-xl font-bold">₹{balance/100}</span>
           </div>
         </div>
 
@@ -107,7 +104,7 @@ export default function SplitBillPayPage({
 
           <YourSplitDetail entry={userSplit} />
 
-          {userSplit.status === "PENDING" && (
+          {userSplit.status === "PROCESSING" && (
             <form
               onSubmit={(e) =>
                 startTransition(() => {
@@ -130,9 +127,9 @@ export default function SplitBillPayPage({
               <div className="flex justify-end">
                 <button
                   type="submit"
-                  disabled={isPending || isLoading}
+                  disabled={isProcessing || isLoading}
                   className={`w-full sm:w-auto px-6 py-2 text-sm rounded-full
-                    ${isPending || isLoading ? "bg-[#a259ff]/60" : "bg-[#a259ff]"}
+                    ${isProcessing || isLoading ? "bg-[#a259ff]/60" : "bg-[#a259ff]"}
                     text-white hover:bg-[#8a3ee6] transition disabled:opacity-50 mb-6`}
                 >
                   {isLoading ? (

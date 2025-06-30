@@ -61,9 +61,9 @@ function P2PTransactionRow({ transaction }: { transaction: P2PTransactionStylePr
     <tr className="bg-white hover:bg-gray-100 transition-colors text-[11px] sm:text-xs md:text-sm">
       <td className="px-1 sm:px-3 py-2 flex items-center gap-1 max-w-[8rem] sm:max-w-[12rem] truncate">
         {isPaid ? (
-          <RiArrowRightUpLine className="h-3 w-3 text-red-500 shrink-0" />
+          <RiArrowRightUpLine className="h-4 w-4 text-red-500 shrink-0" />
         ) : (
-          <RiArrowRightDownLine className="h-3 w-3 text-green-500 shrink-0" />
+          <RiArrowRightDownLine className="h-4 w-4 text-green-500 shrink-0" />
         )}
         <span className="text-gray-900 font-medium truncate">
           {transaction.toUserName}

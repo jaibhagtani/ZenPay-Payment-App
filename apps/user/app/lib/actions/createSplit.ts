@@ -40,6 +40,11 @@ export async function CreateSplit(
     };
   }
 
+  const contactMap = new Map<string, { name: string; number: string }>();
+  newGroup.forEach(e => {
+    contactMap.set(e.phoneNumber, { name: e.name, number: e.phoneNumber });
+  });
+  const uniqueContacts = Array.from(contactMap.values());
   // Check karna hai ki saare phoneNumbers registered users ke hai
   const existingUsers = await prisma.user.findMany({
     where: { number: { in: phoneNumbers } },
@@ -63,12 +68,27 @@ export async function CreateSplit(
     };
   }
 
+  
+  const newContactsToInsert = newGroup
+    .filter(e => !existingNumberSet.has(e.phoneNumber))
+    .map(e => ({
+      userId: Number(ownerId),
+      contactId: Number(e.userId)
+    }));
+
+    if (newContactsToInsert.length > 0) {
+    await prisma.contact.createMany({
+      data: newContactsToInsert
+    });
+    }
+  
+  
   try {
     await prisma.$transaction(async (tx) => {
       const splitBill = await tx.splitBill.create({
         data: {
           createdByUserId: Number(ownerId),
-          totalAmount: totalAmt,
+          totalAmount: totalAmt * 100,
           description: userDesc || null,
         },
       });
@@ -80,7 +100,7 @@ export async function CreateSplit(
           name: e.name,
           email: e.email,
           phone: e.phoneNumber,
-          amount: e.amount,
+          amount: (e.amount) * 100,
           description: e.description || null,
           status: "PENDING" as const, // Yaha pe enum ka dhyan rakhna
           token: crypto.randomUUID(),
@@ -108,10 +128,10 @@ export async function CreateSplit(
       const senderName = session.user.name;
       const notificationData = createdEntries.map((entry) => ({
         userId: Number(entry.userId),
-        title: `Split from ${senderName}: ₹${entry.amount} pending`,
+        title: `Split from ${senderName}: ₹${(entry.amount)/100} pending`,
         message: entry.description
           ? `${entry.description} — split from ${senderName}`
-          : `You've been split ₹${entry.amount} by ${senderName}. Please review and approve.`,
+          : `You've been split ₹${(entry.amount)/100} by ${senderName}. Please review and approve.`,
         type: "SPLIT" as const,
         action: "APPROVE" as const,
         createdAt: new Date(),

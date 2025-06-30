@@ -34,17 +34,17 @@ export async function handleSplitActionApproval(formData: FormData): Promise<{ r
       });
 
       const initiatorId = Number(getDetailsOfEntry.splitBill.createdByUserId);
-      const rejectedAmount = getDetailsOfEntry.amount ?? 0;
-      const rejectedDesc = getDetailsOfEntry.description ?? "";
-      const originalMsg = getDetailsOfEntry.notifications[0]?.message ?? "";
+      const rejectedAmount = (getDetailsOfEntry.amount) || 0;
+      const rejectedDesc = getDetailsOfEntry.description || "";
+      const originalMsg = getDetailsOfEntry.notifications[0]?.message || "";
 
       await tx.notification.create({
         data: {
           userId: initiatorId,
-          title: `Split Rejected: ₹${rejectedAmount} (${session?.user?.name || "Someone"})`,
+          title: `Split Rejected: ₹${(rejectedAmount/100)} (${session?.user?.name || "Someone"})`,
           message:
             originalMsg ||
-            `The split of ₹${rejectedAmount} "${rejectedDesc}" was rejected by ${session?.user?.name || "the user"}.`,
+            `The split of ₹${(rejectedAmount/100)} "${rejectedDesc}" was rejected by ${session?.user?.name || "the user"}.`,
           type: "SPLIT" as const,
           action: "VIEW",
           splitId: getDetailsOfEntry.id
@@ -55,7 +55,7 @@ export async function handleSplitActionApproval(formData: FormData): Promise<{ r
 }
 
 
-  if (actionType === "APPROVED") {
+  else if (actionType === "APPROVED") {
     const newToken = crypto.randomUUID();
     await prisma.$transaction(async (tx) => {
       await tx.notification.updateMany({

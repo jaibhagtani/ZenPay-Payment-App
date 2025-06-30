@@ -37,7 +37,7 @@ export default function YourSplitDetail({ entry }: { entry: SplitEntry }) {
       <h3 className="text-sm font-semibold mb-2 text-gray-700">Your Contribution</h3>
       <div className="text-sm text-gray-800 space-y-1">
         <div>
-          <span className="font-medium">Amount:</span> ₹{entry.amount}
+          <span className="font-medium">Amount:</span> ₹{(entry.amount)/100}
         </div>
         <div>
           <span className="font-medium">Status:</span> {entry.status}

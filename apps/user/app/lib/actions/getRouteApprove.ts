@@ -42,9 +42,9 @@ export async function getRouterDetails ({id, action}: getRouterDetailsProps) {
     throw new Error("Notification not found or unauthorized");
     }
     return { 
-        token: splitDetailsForRoute?.splitEntry.token,
-        splitId: splitDetailsForRoute?.splitEntry.id,
-        splitBillId: splitDetailsForRoute?.splitEntry.splitBillId
+        token: splitDetailsForRoute?.splitEntry?.token,
+        splitId: splitDetailsForRoute?.splitEntry?.id,
+        splitBillId: splitDetailsForRoute?.splitEntry?.splitBillId
     }
   } catch (e) {
     console.error("CreateSplit error:", e);

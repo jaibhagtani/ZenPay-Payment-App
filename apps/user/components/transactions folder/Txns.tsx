@@ -47,7 +47,7 @@ export function TxnsPageAccountSection({transactions, typeofPayment} : {transact
         <div className="flex">
             <div className="p-2 w-full min-w-60 lg:min-w-72 max-w-full">
                 {transactions.map(transaction => (
-                    <TransactionStyleAccountSection transaction={transaction} typeofPayment={typeofPayment}></TransactionStyleAccountSection>
+                    <TransactionStyleAccountSection transaction={transaction} typeOfPayment={typeofPayment}></TransactionStyleAccountSection>
                 ))}
             </div>
         </div>

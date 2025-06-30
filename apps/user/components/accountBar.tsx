@@ -5,7 +5,6 @@ export function AccountBar() {
       <li className="text-xl hover:text-blue-900 hover:font-semibold">
         <Link href="/dashboard">Home</Link>
       </li>
-      {/* Add other navigation links */}
     </ul>
   );
 }

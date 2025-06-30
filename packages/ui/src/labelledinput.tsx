@@ -4,7 +4,7 @@ interface LabelledInputProps {
   onChangeFunc: (value: string) => void;
   value?: string;
   type?: string;
-  maxi?: number
+  maxi?: number;
 }
 
 export default function LabelledInput({
@@ -16,7 +16,7 @@ export default function LabelledInput({
   maxi
 }: LabelledInputProps) {
   return (
-    <div>
+    <div className="w-full">
       <div className="mb-1 sm:mb-2 text-xs sm:text-sm font-semibold text-gray-900">
         {label}
       </div>

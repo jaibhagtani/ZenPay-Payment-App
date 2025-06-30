@@ -40,17 +40,13 @@ export default async function Dashboard() {
 
   return (
     <div className="min-h-screen bg-pink-50 p-6">
-      {/* Header */}
-      <h1 className="mt-14 text-3xl sm:text-4xl bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 inline-block text-transparent bg-clip-text font-bold mb-6">
+      <h1 className="mt-14 text-3xl ml-20 sm:text-4xl bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 inline-block text-transparent bg-clip-text font-bold mb-6">
         Dashboard
       </h1>
 
-      {/* Top Section: Balance + Quick Actions */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-10">
-        {/* Balance Card */}
         
         <MainCardDashboard></MainCardDashboard>
-        {/* Quick Actions Card */}
         <div className="bg-white rounded-3xl p-6 shadow-md border border-indigo-100">
           <h3 className="text-xl font-semibold mb-5 text-indigo-700">Quick Actions</h3>
           <div className="grid grid-cols-2 gap-5">
@@ -78,7 +74,6 @@ export default async function Dashboard() {
         </div>
       </div>
 
-      {/* Metrics Section */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
         <ButtonDashboardActionCard c={<FaChartLine className="text-indigo-600" />} to="/transactions/p2p" Num={`₹ ${monthlySpending}`}>Total Spent</ButtonDashboardActionCard>
         <ButtonDashboardActionCard c={<FaUserFriends className="text-indigo-600" />} to="/transactions/p2p" Num={0}>Friends Paid</ButtonDashboardActionCard>

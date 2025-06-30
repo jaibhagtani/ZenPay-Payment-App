@@ -11,18 +11,13 @@ export default function FormPageSignin() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [isLoading, setisLoading] = useState(false);
   const [password, setPassword] = useState("");
-  const [searchParams, setSearchParams] = useSearchParams();
+  const searchParams = useSearchParams();
   const router = useRouter();
 
   useEffect(() => {
-    if (searchParams) {
-      const url = searchParams[1];
-      const decodedUrl = decodeURIComponent(url);
-      const urlParams = new URLSearchParams(new URL(decodedUrl).search);
-      const errorParam = urlParams.get("error");
-      if (errorParam) {
-        alert(errorParam);
-      }
+    const errorParam = searchParams.get("error");
+    if (errorParam) {
+      alert(errorParam);
     }
   }, [searchParams]);
 
@@ -51,30 +46,32 @@ export default function FormPageSignin() {
   }
 
   return (
-    <form onSubmit={onSubmit} className="w-full pt-8 pb-4 mx-5 px-10 h-max bg-white rounded-3xl">
-      <div className="pb-1 font-bold text-4xl flex justify-center">
-        ZenPay
+    <form
+      onSubmit={onSubmit}
+      className="w-full max-w-lg mx-auto my-12 px-8 py-10 bg-white rounded-3xl border border-gray-300 shadow-lg"
+    >
+      <div className="flex items-center justify-center gap-3 pb-2 text-purple-700">
+        <span className="font-extrabold text-4xl tracking-tight">ZenPay</span>
       </div>
-      <div className="font-bold text-3xl">Sign in</div>
 
-      <div className="my-20">
-        <div className="my-8">
-          <LabelledInputAuth
-            label="Phone Number"
-            type="tel"
-            placeholder="1231231230"
-            onChangeFunc={(num) => setPhoneNumber(num)}
-          />
-        </div>
+      <div className="text-center text-2xl font-bold text-gray-800 mt-2 mb-10">
+        Sign in
+      </div>
 
-        <div className="my-8">
-          <LabelledInputAuth
-            label="Password (min 6 characters)"
-            placeholder="1@3/4*6"
-            type="password"
-            onChangeFunc={(pass) => setPassword(pass)}
-          />
-        </div>
+      <div className="space-y-8">
+        <LabelledInputAuth
+          label="Phone Number"
+          type="tel"
+          placeholder="1231231230"
+          onChangeFunc={(num) => setPhoneNumber(num)}
+        />
+
+        <LabelledInputAuth
+          label="Password (min 6 characters)"
+          placeholder="1@3/4*6"
+          type="password"
+          onChangeFunc={(pass) => setPassword(pass)}
+        />
 
         <div className="mt-6 flex justify-center">
           <LoginButton state={isLoading} onClickFunc={() => {}}>
@@ -82,7 +79,7 @@ export default function FormPageSignin() {
               <div role="status">
                 <svg
                   aria-hidden="true"
-                  className="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
+                  className="w-6 h-6 text-gray-200 animate-spin dark:text-gray-400 fill-purple-600"
                   viewBox="0 0 100 101"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
@@ -122,7 +119,6 @@ export default function FormPageSignin() {
                     fill="currentFill"
                   />
                 </svg>
-                <span className="sr-only">Loading...</span>
               </div>
             ) : (
               "Sign in"
@@ -130,30 +126,32 @@ export default function FormPageSignin() {
           </LoginButton>
         </div>
 
-        <div className="flex justify-center mt-4">
+        <div className="flex justify-center">
           <button
             type="button"
             onClick={() => onSubmit(undefined, "1212121212", "121212")}
-            className="bg-indigo-400 text-black rounded-xl p-3 px-5 font-medium hover:underline"
+            className="mt-4 bg-indigo-500 text-white rounded-xl py-2 px-6 font-medium hover:bg-indigo-600 transition"
           >
             Use Demo Credentials
           </button>
         </div>
+      </div>
 
-        <div className="flex font-semibold justify-center mt-10">
-          <div>don't Remember Password?</div>
+      <div className="mt-10 text-center text-sm text-gray-700">
+        <div className="flex justify-center">
+          <span>Don't remember password?</span>
           <Link
-            className="text-blue-900 pl-1 hover:underline"
-            href={"/update/password"}
+            className="text-indigo-600 hover:underline ml-1"
+            href="/update/password"
           >
             Forgot password
           </Link>
         </div>
-        <div className="text-base flex justify-center mt-2">
-          <div>don't have an account?</div>
+        <div className="flex justify-center mt-2">
+          <span>Don't have an account?</span>
           <Link
-            className="pl-1 text-blue-900 hover:underline"
-            href={"/auth/signup"}
+            className="text-indigo-600 hover:underline ml-1"
+            href="/auth/signup"
           >
             Sign up
           </Link>

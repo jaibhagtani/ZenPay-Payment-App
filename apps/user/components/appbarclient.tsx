@@ -64,9 +64,6 @@ export function AppBarClient({setIsAccountBar, isAccountBar} : AppBarClient) {
                     router.push("/auth/signin");
                 }}
                 user={session?.data?.user}
-                setIsAccountBar={setIsAccountBar}
-                isAccountBar ={isAccountBar}
-
                 notifications={noti}
             />
         </nav>

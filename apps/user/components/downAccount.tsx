@@ -1,60 +1,105 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AppBarClient } from "./appbarclient";
 import SideBarItems from "@repo/ui/sidebaritems";
 import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 export default function DownAccountBar() {
-    const [isAccountBar, setIsAccountBar] = useState(false);
-    const session = useSession();
-    // const [clicked, setClicked] = useState(false);
-    
-    // useEffect(() => {
-      //   setIsAccountBar(!isAccountBar)
-    // }, [clicked])
-    const [firstName, setFirstName] = useState(session.data?.user?.name);
-    useEffect( () => {
-      if (session.data?.user?.name) {
-        const username = session.data?.user?.name.split(" ");
-        setFirstName(username[0] || "");
-      }
-    }, [])
+  const [isAccountBar, setIsAccountBar] = useState(false);
+  const sidebarRef = useRef<HTMLDivElement>(null);
+  const { data } = useSession();
+  const router = useRouter();
 
-    const hideSidebar = () => {
-      setIsAccountBar(false);
+  const [firstName, setFirstName] = useState("");
+
+  // Set user's first name
+  useEffect(() => {
+    if (data?.user?.name) {
+      const [first] = data.user.name.split(" ");
+      setFirstName(first || "");
+    }
+  }, [data]);
+
+  // Outside click detection
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (sidebarRef.current && !sidebarRef.current.contains(event.target as Node)) {
+        setIsAccountBar(false);
+      }
+    }
+
+    if (isAccountBar) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
     };
+  }, [isAccountBar]);
+
   return (
     <div>
       <AppBarClient setIsAccountBar={setIsAccountBar} isAccountBar={isAccountBar} />
-      
+
       {isAccountBar && (
-        <div className="flex justify-center absolute w-64">
-          <aside
-            id="logo-sidebar"
-            className="fixed y-40 right-16 z-40 transition-transform translate-x-0 delay-50 w-64 min-h-max bg-pink-200 rounded-2xl border-sm py-10"
-            aria-label="Sidebar"
+        <>
+          {/* Mobile-only dark backdrop */}
+          <div className="fixed inset-0 bg-black bg-opacity-30 z-40 lg:hidden" onClick={() => setIsAccountBar(false)}></div>
+
+          {/* Sidebar container */}
+          <div
+            ref={sidebarRef}
+            className={`
+              fixed z-50 transition-transform duration-300 ease-in-out
+              ${isAccountBar ? "translate-x-0" : "translate-x-full"}
+              right-0 top-0
+              w-64
+              bg-pink-200 p-4 border border-pink-300 rounded-2xl shadow-lg
+              lg:absolute lg:right-16 lg:top-20 lg:rounded-xl lg:border lg:bg-white lg:shadow-xl
+            `}
           >
-            <div className="h-full px-3 py-1 overflow-y-auto">
-              <div className="flex justify-center h-max mt-10 mb-2 text-black">
-                <Avatar />
-              </div>
-              <div className="flex justify-center pb-2 font-bold text-2xl">
+            <div className="flex flex-col items-center">
+              <Avatar />
+              <div className="text-xl font-bold mt-2 mb-4 text-gray-800">
                 Hello {firstName},
               </div>
-              <ul className="space-y-2 font-medium">
-                <SideBarItems href="/profile" icon={<ProfileIcon />} title="Profile" setClickFunc={hideSidebar} />
-                <SideBarItems href="/mpin/update" icon={<MPINIcon />} title="MPIN" setClickFunc={hideSidebar} />
-                <SideBarItems href="/balance" icon={<BalanceIcon />} title="Balances & Transfers" setClickFunc={hideSidebar} />
-                <LogOut></LogOut>
+
+              <ul className="space-y-2 font-medium w-full">
+                <SideBarItems
+                  href="/profile"
+                  icon={<ProfileIcon />}
+                  title="Profile"
+                  setClickFunc={() => setIsAccountBar(false)}
+                />
+                <SideBarItems
+                  href="/mpin/update"
+                  icon={<MPINIcon />}
+                  title="MPIN"
+                  setClickFunc={() => setIsAccountBar(false)}
+                />
+                <SideBarItems
+                  href="/balance"
+                  icon={<BalanceIcon />}
+                  title="Balances & Transfers"
+                  setClickFunc={() => setIsAccountBar(false)}
+                />
               </ul>
+
+              <LogOut onClick={async () => {
+                await signOut();
+                router.push("/auth/signin");
+              }} />
             </div>
-          </aside>
-        </div>
+          </div>
+        </>
       )}
     </div>
   );
 }
+
 
 function Avatar() {
   return (
@@ -116,27 +161,23 @@ function LogOutIcon()
         </div>
     )
   }
+type LogOutProps = {
+  onClick: () => void;
+};
 
-function LogOut()
-{
-  const router = useRouter();
+function LogOut({ onClick }: LogOutProps) {
   return (
-    <div className="flex ml-8 p-3 cursor-pointer text-lg text-slate-700 min-w-fit">
-            <button className="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 transition delay-100 duration-200 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-slate-700" onClick={async () => {
-                await signOut();
-                router.push("/auth/signin");
-            }}>
-                <div className="flex">
-                    <LogOutIcon /> 
-                    <div className="pl-4">Logout</div>
-                </div> 
-            </button>
-
-            
-        </div>
-    )
+    <div className="flex justify-center mt-4 w-full">
+      <button
+        onClick={onClick}
+        className="w-full flex items-center justify-center text-white bg-gray-800 hover:bg-gray-900 rounded-lg px-4 py-2 transition-transform hover:-translate-y-0.5 hover:scale-105"
+      >
+        <LogOutIcon />
+        <span className="ml-2">Logout</span>
+      </button>
+    </div>
+  );
 }
-
 
 function BalanceIcon()
 {

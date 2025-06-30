@@ -9,7 +9,7 @@ export default async function P2PTransferPage() {
 
   return (
     <div className="w-full px-4 sm:px-6">
-      <h1 className="mx-4 mt-20 text-3xl sm:text-4xl bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 inline-block text-transparent bg-clip-text font-bold mb-6">
+      <h1 className="mx-4 mt-20 text-3xl ml-20 sm:text-4xl bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 inline-block text-transparent bg-clip-text font-bold mb-6">
         P2P Transfer
       </h1>
       

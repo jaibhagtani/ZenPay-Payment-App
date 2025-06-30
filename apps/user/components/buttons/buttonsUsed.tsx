@@ -18,19 +18,6 @@ export function ButtonSeeAllCard({link, children} : {link:string, children: Reac
     )
 }
 
-export function ButtonToRedirect({children, to} : {children : React.ReactNode, to: string})
-{   
-    const router = useRouter();
-    return (
-        <div>   
-            <Button onClickFunc={() => {
-                router.push(to);
-            }}>{children}</Button>
-        </div>
-    )
-}
-
-
 export function TransferButton({placeholder, path}: {
     placeholder: string,
     path: string

@@ -71,27 +71,32 @@ export function SendAndSearchContacts({ AllMyContacts, numberOfContacts }: SendA
   }
 
   return (
-    <div className="bg-white p-4 sm:p-6 rounded-2xl shadow w-full max-w-3xl mx-auto">
+    <div className="bg-white px-4 py-6 sm:p-6 rounded-2xl shadow w-full max-w-full sm:max-w-xl md:max-w-2xl lg:max-w-3xl mx-auto overflow-hidden">
       <Card title="Send Money">
         <div className="space-y-4">
           <SearchInput value={search} onChange={setSearch} />
-          <ContactTable contacts={displayed} selected={selectedNumber} onSelect={setSelectedNumber} />
 
-          <div className="flex flex-col sm:flex-row gap-4 w-full">
-            <div className="flex-1">
-              <LabelledInput maxi={10} type="tel" label="Selected Number" value={selectedNumber} onChangeFunc={setSelectedNumber} />
-            </div>
-            <div className="flex-1">
-              <LabelledInput
-                label="Amount"
-                value={value.toString()}
-                onChangeFunc={val => setValue(Number(val))}
-              />
-            </div>
+          <div className="overflow-x-auto">
+            <ContactTable contacts={displayed} selected={selectedNumber} onSelect={setSelectedNumber} />
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 w-full">
+            <LabelledInput
+              maxi={10}
+              type="tel"
+              label="Selected Number"
+              value={selectedNumber}
+              onChangeFunc={setSelectedNumber}
+            />
+            <LabelledInput
+              label="Amount"
+              value={value.toString()}
+              onChangeFunc={val => setValue(Number(val))}
+            />
           </div>
 
           {!showMpinBar ? (
-            <div className="flex justify-center pt-6">
+            <div className="pt-6 flex justify-center">
               <Button
                 onClickFunc={() => {
                   if (selectedNumber && value > 0) setShowMpinBar(true);

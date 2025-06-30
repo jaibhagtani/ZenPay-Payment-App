@@ -19,7 +19,6 @@ export interface P2PTransactionStyleProps {
   type: "SPLIT" | "P2P" | null;
 }
 
-// Transaction card (for normal txs)
 export function TransactionCard({
   transactions,
   href,
@@ -50,7 +49,6 @@ export function TransactionCard({
   );
 }
 
-// P2P transactions list
 export function P2PTransactions({
   transactions,
 }: {
@@ -75,9 +73,6 @@ export function P2PTransactions({
                   </th>
                   <th className="px-2 sm:px-3 md:px-4 py-1 sm:py-2 text-left font-semibold text-gray-700">
                     Type
-                  </th>
-                  <th className="px-2 sm:px-3 md:px-4 py-1 sm:py-2 text-left font-semibold text-gray-700">
-                    Payment
                   </th>
                   <th className="px-2 sm:px-3 md:px-4 py-1 sm:py-2 text-left font-semibold text-gray-700">
                     Date
@@ -128,9 +123,6 @@ export default function P2PTransactionStyle({
       </td>
       <td className="px-2 sm:px-3 md:px-4 py-1 sm:py-2 text-gray-600 whitespace-nowrap w-max">
         {transaction.type || "-"}
-      </td>
-      <td className="px-2 sm:px-3 md:px-4 py-1 sm:py-2 text-gray-600 whitespace-nowrap w-max">
-        {actionText}
       </td>
       <td className="px-2 sm:px-3 md:px-4 py-1 sm:py-2 text-gray-600 whitespace-nowrap truncate w-max">
         {formattedDate} • {formattedTime}

@@ -18,7 +18,7 @@ export function P2PTxStyle({
 }) {
   return (
     <div className="w-full">
-      <Card title="Recent Transactions">
+      <Card title="Recent P2P Transactions">
         {(!transactions || transactions.length === 0) ? (
           <div className="mx-2 text-center font-bold py-4 w-full text-xs sm:text-sm">
             No Recent transactions
@@ -50,9 +50,22 @@ export function P2PTxStyle({
 
 function P2PTransactionRow({ transaction }: { transaction: P2PTransactionStyleProps }) {
   const isPaid = transaction.paymentModeP2P === "paid";
-  const sign = isPaid ? "-" : "+";
-  const amountColor = isPaid ? "text-red-600" : "text-green-600";
-  const actionText = isPaid ? "Sent" : "Received";
+  const isReceived = transaction.paymentModeP2P === "received";
+
+  let sign = "";
+  let amountColor = "text-gray-800";  // neutral color for processing
+  let actionText = "Processing";
+
+  if (isPaid) {
+    sign = "-";
+    amountColor = "text-red-600";
+    actionText = "Sent";
+  } else if (isReceived) {
+    sign = "+";
+    amountColor = "text-green-600";
+    actionText = "Received";
+  }
+
   const formattedAmount = Math.abs(transaction.amount / 100).toFixed(2);
   const formattedDate = transaction.time.toLocaleDateString();
   const formattedTime = transaction.time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
@@ -62,8 +75,10 @@ function P2PTransactionRow({ transaction }: { transaction: P2PTransactionStylePr
       <td className="px-1 sm:px-3 py-2 flex items-center gap-1 max-w-[8rem] sm:max-w-[12rem] truncate">
         {isPaid ? (
           <RiArrowRightUpLine className="h-4 w-4 text-red-500 shrink-0" />
-        ) : (
+        ) : isReceived ? (
           <RiArrowRightDownLine className="h-4 w-4 text-green-500 shrink-0" />
+        ) : (
+          <div className="h-4 w-4 rounded-full bg-gray-400 shrink-0" />
         )}
         <span className="text-gray-900 font-medium truncate">
           {transaction.toUserName}
@@ -79,7 +94,7 @@ function P2PTransactionRow({ transaction }: { transaction: P2PTransactionStylePr
         {formattedDate} • {formattedTime}
       </td>
       <td className={`px-1 sm:px-3 py-2 text-right font-semibold ${amountColor} whitespace-nowrap`}>
-        {sign} ₹{formattedAmount}
+        {isPaid ? `- ₹${formattedAmount}` : `${sign} ₹${formattedAmount}`}
       </td>
     </tr>
   );

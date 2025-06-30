@@ -2,7 +2,7 @@ import { getServerSession } from "next-auth";
 
 import { prisma } from "@repo/db/client";
 import { NEXT_AUTH } from "../../../../lib/auth";
-import { TxnsPage } from "../../../../../components/transactions folder/Txns";
+import { TransactionStyle } from "@repo/ui/transactionbox";
 
 
 
@@ -32,28 +32,88 @@ async function getOnRampTransactions()
     }
     return null;
 }
+export default async function Page() {
+  const transactions = await getOnRampTransactions();
 
-export default async function()
-{
-    const transactions = await getOnRampTransactions();
-    return (
-        <div className="flex justify-center">
-            <div className="max-w-fit lg:min-w-fit max-w-screen">
-                <div className="text-2xl flex flex-row justify-center bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 inline-block text-transparent bg-clip-text pt-8 mb-8 font-bold px-4 mt-12">
-                    Recent Deposit Transactions
-                </div>
-                {transactions && transactions.length > 0 ? <div className="flex justify-center text-2xl text-black-600 pt-2 mb-2 font-bold px-4 mt-5 min-w-full">
-                    {transactions?.length} Transaction(s)
-                </div> : 
-                <div className="font-semibold m-10 text-xl flex justify-self-center font-bold">No Recent Transactions</div>}
-                <div className="grid grid-cols-10 p-2 gap-4">
-                    <div className="col-start-1 col-span-7 lg:col-start-2 col-span-8">
-                        {transactions && transactions.length > 0 ? <div className="bg-white min-w-full rounded-3xl py-3 px-10 lg:w-full">
-                            <TxnsPage transactions = {transactions} typeofPayment="deposit"></TxnsPage>
-                        </div> : <div></div>}
-                    </div>
-                </div>
-            </div>
+  return (
+    <div className="w-full max-w-6xl mx-auto px-2 sm:px-4 md:px-6 lg:px-8 py-4">
+        <h1 className="text-center text-2xl sm:text-3xl font-bold text-purple-700 mb-6">
+        Recent Deposit Transactions
+      </h1>
+      {transactions && transactions.length > 0 ? (
+        <>
+          <div className="text-center text-lg font-medium text-gray-700 mb-4">
+            {transactions.length} Transaction(s)
+          </div>
+          <div className="bg-white rounded-2xl shadow-sm p-4 sm:p-6">
+            <TxnsPage transactions={transactions} typeofPayment="deposit" />
+          </div>
+        </>
+      ) : (
+        <div className="text-center font-semibold text-gray-600 py-12">
+          No Recent Transactions
         </div>
-    )
+      )}
+    </div>
+  );
+}
+
+interface TransactionCardProps {
+  id: number;
+  amount: number;
+  time: Date;
+  status: string;
+  provider: string;
+}
+export function TxnsPage({
+  transactions,
+  typeofPayment,
+}: {
+  transactions: TransactionCardProps[];
+  typeofPayment?: "deposit" | "withdraw";
+}) {
+  if (!transactions || transactions.length === 0) {
+    return (
+      <div className="text-center font-semibold py-8 text-gray-600">
+        No Recent Transactions
+      </div>
+    );
+  }
+
+  return (
+    <div className="w-full overflow-x-auto">
+      {/* Desktop/Table view */}
+      <table className="hidden sm:table w-full border-collapse text-sm md:text-base">
+        <thead className="bg-gray-100">
+          <tr>
+            <th className="px-4 py-2 text-left font-medium text-gray-700">Status</th>
+            <th className="px-4 py-2 text-left font-medium text-gray-700">Details</th>
+            <th className="px-4 py-2 text-left font-medium text-gray-700">Provider</th>
+            <th className="px-4 py-2 text-right font-medium text-gray-700">Amount</th>
+          </tr>
+        </thead>
+        <tbody className="divide-y divide-gray-200">
+          {transactions.map(tx => (
+            <TransactionStyle
+              key={tx.id}
+              transaction={tx}
+              typeOfPayment={typeofPayment}
+            />
+          ))}
+        </tbody>
+      </table>
+
+      {/* Mobile/Card view */}
+      <div className="flex flex-col space-y-3 sm:hidden w-full">
+        {transactions.map(tx => (
+          <TransactionStyle
+            key={tx.id}
+            transaction={tx}
+            typeOfPayment={typeofPayment}
+            isMobile
+          />
+        ))}
+      </div>
+    </div>
+  );
 }

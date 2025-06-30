@@ -224,8 +224,8 @@ export default function FormPageSignup() {
 
   return (
     <div onSubmit={handleLogin} className="w-full py-5 mx-5 px-10 h-max bg-white rounded-3xl">
-      <div className="font-bold text-4xl flex justify-center pb-1">
-          ZenPay
+      <div className="flex items-center justify-center gap-3 pb-2 text-purple-700">
+        <span className="font-extrabold text-4xl tracking-tight">ZenPay</span>
       </div>
       <div className="font-bold text-3xl">
           Sign up

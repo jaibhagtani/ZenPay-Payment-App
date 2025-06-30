@@ -12,7 +12,7 @@ export default function SearchInput({
       <h2 className="text-sm sm:text-base font-medium text-gray-800">
         Search Contact
       </h2>
-      <div className="flex items-center border rounded-lg px-3 py-2 sm:px-4 sm:py-3">
+      <div className="flex items-center border rounded-lg px-3 py-2 sm:px-4 sm:py-3 bg-white">
         <FaSearch className="text-gray-400 mr-2 text-xs sm:text-sm" />
         <input
           type="text"

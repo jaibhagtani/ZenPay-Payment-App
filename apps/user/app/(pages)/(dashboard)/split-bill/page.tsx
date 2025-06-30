@@ -35,10 +35,10 @@ export default async function SplitBillPage() {
 
   return (
     <div className="flex-auto mx-10">
-      <h1 className="mt-20 text-4xl sm:text-4xl bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 inline-block text-transparent bg-clip-text font-bold mb-6">
+      <h1 className="mt-20 text-4xl ml-20 sm:text-4xl bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 inline-block text-transparent bg-clip-text font-bold mb-6">
         Bills Split
       </h1>
-      <h5 className="text-md sm:text-2xl bg-purple-700 bg-clip-text text-transparent font-bold mb-6">
+      <h5 className="text-md ml-10 sm:text-2xl bg-purple-700 bg-clip-text text-transparent font-bold mb-6">
         Manage shared expenses
       </h5>
 

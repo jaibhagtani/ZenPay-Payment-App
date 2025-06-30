@@ -1,71 +1,94 @@
-// components/transaction/TransactionStyle.tsx
-'use client';
-import React from 'react';
-import { MdOutlineArrowDownward, MdOutlineArrowUpward, MdAccessTime } from 'react-icons/md';
-import { motion } from 'framer-motion';
-
-export interface TransactionStyleProps {
+export interface TransactionCardProps {
   id: number;
-  amount: number;   // in paise
+  amount: number;
   time: Date;
   status: string;
   provider: string;
 }
 
+export interface TransactionStyleProps {
+  transaction: TransactionCardProps;
+  typeOfPayment: "deposit" | "withdraw" | undefined;
+  isMobile?: boolean;
+}
 export function TransactionStyle({
   transaction,
-  typeofPayment,
-}: {
-  transaction: TransactionStyleProps;
-  typeofPayment?: string;
-}) {
-  const isDeposit = typeofPayment === 'deposit';
-  const isPending = transaction.status === 'Processing';
-  const isSuccess = transaction.status === 'Success';
-  const Icon = isPending
-    ? MdAccessTime
-    : isDeposit
-    ? MdOutlineArrowDownward
-    : MdOutlineArrowUpward;
+  typeOfPayment,
+  isMobile = false,
+}: TransactionStyleProps) {
+  const statusColors: Record<string, string> = {
+    Processing: "bg-amber-400",
+    Success: "bg-green-400",
+    Failure: "bg-red-400",
+  };
+
+  const dotColor = statusColors[transaction.status] ?? "bg-gray-300";
+
+  const isProcessing = transaction.status === "Processing";
+
+  const amountColor = isProcessing
+    ? "text-gray-800"
+    : typeOfPayment === "deposit"
+      ? "text-green-600"
+      : "text-red-600";
+
+  const amountPrefix = isProcessing
+    ? ""
+    : typeOfPayment === "deposit"
+      ? "+"
+      : "-";
+
+  // Don't round forcibly to 2 decimals if you want raw division
+  const formattedAmount = (transaction.amount / 100);
+
+  const formattedDate = transaction.time.toLocaleDateString();
+  const formattedTime = transaction.time.toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+
+  if (isMobile) {
+    return (
+      <div className="rounded-lg border border-gray-200 p-4 shadow-sm bg-white flex flex-col space-y-2">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-2">
+            <span className={`h-3 w-3 rounded-full ${dotColor}`} />
+            <span className="text-sm font-medium text-gray-700">{transaction.status}</span>
+          </div>
+          <span className={`font-bold ${amountColor}`}>
+            {amountPrefix} ₹{formattedAmount}
+          </span>
+        </div>
+        <div className="text-sm text-gray-600">
+          {typeOfPayment === "deposit" ? "Received" : "Sent"} via {transaction.provider}
+        </div>
+        <div className="text-xs text-gray-400">
+          {formattedDate} • {formattedTime}
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <motion.div
-      layout
-      whileHover={{ y: -2 }}
-      className="flex items-center justify-between p-4 bg-[#1e293b] rounded-2xl shadow-lg"
-    >
-      {/* Icon */}
-      <div className="flex-shrink-0">
-        <div className="p-3 bg-[#334155] rounded-full">
-          <Icon size={24} className="text-[#facc15]" />
+    <tr className="bg-white hover:bg-gray-50 transition-colors">
+      <td className="px-3 py-2">
+        <div className="flex items-center space-x-2">
+          <span className={`h-3 w-3 rounded-full ${dotColor}`} />
+          <span className="text-sm text-gray-700">{transaction.status}</span>
         </div>
-      </div>
-
-      {/* Details */}
-      <div className="flex-1 px-4">
-        <div className="text-white font-semibold">
-          {isDeposit ? 'Received INR from' : 'Withdrew INR on'}{' '}
-          <span className="font-bold">{transaction.provider}</span>
+      </td>
+      <td className="px-3 py-2">
+        <div className="text-sm text-gray-700">
+          {typeOfPayment === "deposit" ? "Received" : "Sent"} via {transaction.provider}
         </div>
-        <div className="text-gray-400 text-sm mt-1">
-          {transaction.time.toLocaleDateString()} •{' '}
-          {transaction.time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+        <div className="text-xs text-gray-400">
+          {formattedDate} • {formattedTime}
         </div>
-      </div>
-
-      {/* Amount & Status */}
-      <div className="flex flex-col items-end space-y-1">
-        <div className={`font-bold text-lg ${isDeposit ? 'text-green-400' : 'text-red-400'}`}> 
-          {isPending ? '--' : `${isDeposit ? '+' : '-'}₹${(transaction.amount / 100).toFixed(2)}`}
-        </div>
-        <div className={`inline-block px-4 py-1 text-xs rounded-full ${
-          isPending
-            ? 'bg-[#fde68a] text-[#92400e]'
-            : isSuccess
-            ? 'bg-[#86efac] text-[#064e3b]'
-            : 'bg-[#fecaca] text-[#7f1d1d]'
-        }`}>{transaction.status}</div>
-      </div>
-    </motion.div>
+      </td>
+      <td className="px-3 py-2 text-sm text-gray-700">{transaction.provider}</td>
+      <td className={`px-3 py-2 text-right font-semibold ${amountColor}`}>
+        {amountPrefix} ₹{formattedAmount}
+      </td>
+    </tr>
   );
 }

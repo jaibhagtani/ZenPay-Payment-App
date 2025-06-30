@@ -1,27 +1,21 @@
 "use client";
-import { JSX, useState } from "react";
-import Link from "next/link";
-import { Button } from "./button";
+import { JSX } from "react";
 import { useRouter } from "next/navigation";
+import { Button } from "./button";
 
 interface AppbarProps {
   user?: { name?: string | null };
   onSignin: any;
   onSignout: any;
-  setIsAccountBar: (e: boolean) => void;
-  isAccountBar: boolean;
-  notifications : any
+  notifications: any;
 }
 
 export function AppBar({
   user,
   onSignin,
   onSignout,
-  setIsAccountBar,
-  isAccountBar,
-  notifications
+  notifications,
 }: AppbarProps): JSX.Element {
-
   let firstch: string | undefined;
   let lastch: string | undefined;
 
@@ -32,53 +26,45 @@ export function AppBar({
       lastch = username[1]?.[0]?.toUpperCase();
     }
   }
+
   const router = useRouter();
 
   return (
-    <div className="flex justify-between items-center border-b px-5 py-2 border-slate-300 bg-pink-50">
+    <div className="flex justify-between items-center border-b px-4 md:px-8 py-2 border-slate-300 bg-pink-50">
       <div className="text-xl md:text-3xl font-bold text-slate-800">ZenPay</div>
 
-      <div className="flex items-center space-x-3 relative">
-        <div className="relative">
-          <button
-            onClick={() => router.push("/notificationsnpendings")}
-            className="relative bg-white p-2 rounded-full shadow-sm hover:bg-gray-100 transition"
-          >
-            <BellIcon />
-            <span className="absolute top-0.5 right-0.5 bg-red-500 text-white text-xs font-semibold px-1.5 py-0 rounded-full">
+      <div className="flex items-center gap-3 md:gap-5">
+        <button
+          onClick={() => router.push("/notificationsnpendings")}
+          className="relative bg-white p-2 rounded-full shadow-sm hover:bg-gray-100 transition"
+        >
+          <BellIcon />
+          {notifications?.length > 0 && (
+            <span className="absolute top-0.5 right-0.5 bg-red-500 text-white text-[10px] md:text-xs font-semibold px-1.5 py-0 rounded-full">
               {notifications.length}
             </span>
-          </button>
-        </div>
+          )}
+        </button>
 
         {user && (
           <div
-            className="hidden lg:flex rounded-full justify-center items-center text-white font-semibold text-sm md:text-xl size-11 bg-slate-400 cursor-pointer hover:border-2 border-black border-solid"
-            onClick={() => setIsAccountBar(!isAccountBar)}
+            className="flex justify-center items-center text-white font-semibold text-sm md:text-base h-9 w-9 md:h-11 md:w-11 rounded-full bg-slate-400"
+            title={user.name || ""}
           >
             {firstch}
             {lastch}
           </div>
         )}
-
-        <button
-          onClick={() => setIsAccountBar(!isAccountBar)}
-          aria-controls="logo-sidebar"
-          type="button"
-          className="h-11 px-5 py-2.5 flex items-center text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm transition hover:-translate-y-0.5 hover:scale-105 hover:bg-slate-700"
-        >
-          <span className="sr-only">Open sidebar</span>
-          Account Details
-        </button>
-
-        <Button onClickFunc={user ? onSignout : onSignin}>
-          <div className="flex items-center">
-            <LogOutIcon />
-            <span className="hidden md:block ml-2">
-              {user ? "Log Out" : "Login"}
-            </span>
-          </div>
-        </Button>
+        <div>
+          <Button onClickFunc={user ? onSignout : onSignin}>
+            <div className="flex items-center">
+              <LogOutIcon />
+              <span className="hidden sm:inline ml-2">
+                {user ? "Log Out" : "Login"}
+              </span>
+            </div>
+          </Button>
+        </div>
       </div>
     </div>
   );

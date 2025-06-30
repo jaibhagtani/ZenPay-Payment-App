@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useMemo, useEffect } from "react";
-import { FaTimes, FaPlus } from "react-icons/fa";
+import { FaTimes, FaPlus, FaSpinner } from "react-icons/fa";
 import { getContacts } from "../../../app/lib/actions/getContacts";
 import { CreateSplit } from "../../../app/lib/actions/createSplit";
 
@@ -48,14 +48,21 @@ export function SplitBillModal({
   const [globalDesc, setGlobalDesc] = useState("");
   const [creatorDescription, setCreatorDescription] = useState("");
 
+  // Loader states
+  const [loadingContacts, setLoadingContacts] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
+
   useEffect(() => {
     async function fetchContacts() {
       try {
+        setLoadingContacts(true);
         const res = await getContacts();
         const AllMyContacts = res?.AllMyContacts ?? [];
         setContacts(AllMyContacts);
       } catch (err) {
         console.error("Failed to fetch contacts", err);
+      } finally {
+        setLoadingContacts(false);
       }
     }
     fetchContacts();
@@ -116,9 +123,18 @@ export function SplitBillModal({
       return;
     }
 
-    const res = await CreateSplit(splitItems, totalAmt, creatorDescription);
-    alert(res.msg);
-    onClose();
+    try {
+      setSubmitting(true);
+      const res = await CreateSplit(splitItems, totalAmt, creatorDescription);
+      alert(res.msg);
+      onCreateSplit(splitItems, creatorDescription);
+      onClose();
+    } catch (error) {
+      console.error("Split creation failed", error);
+      alert("Failed to create split.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const addExtra = () => {
@@ -140,6 +156,13 @@ export function SplitBillModal({
   return (
     <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-50">
       <div className="bg-white p-6 rounded-2xl max-w-6xl w-full max-h-[95vh] overflow-y-auto space-y-6 relative">
+        {/* Loader overlay while loading contacts */}
+        {loadingContacts && (
+          <div className="absolute inset-0 bg-white/80 flex items-center justify-center rounded-2xl">
+            <FaSpinner className="animate-spin text-3xl text-gray-500" />
+          </div>
+        )}
+
         <FaTimes className="absolute top-4 right-4 cursor-pointer" onClick={onClose} />
         <h2 className={`text-2xl font-bold ${themeAccent}`}>Split Bill</h2>
 
@@ -185,9 +208,7 @@ export function SplitBillModal({
           <input
             type="text"
             value={creatorDescription}
-            onChange={(e) => {
-              setCreatorDescription(e.target.value);
-            }}
+            onChange={(e) => setCreatorDescription(e.target.value)}
             className="w-full border rounded-md px-3 py-2"
           />
         </div>
@@ -273,18 +294,22 @@ export function SplitBillModal({
                           <input
                             type="number"
                             value={customDist[c.id] ?? ""}
-                            onChange={(e) => setCustomDist((prev) => ({ ...prev, [c.id]: Number(e.target.value) }))}
+                            onChange={(e) =>
+                              setCustomDist((prev) => ({ ...prev, [c.id]: Number(e.target.value) }))
+                            }
                             className="w-20 border rounded-md px-2 py-1"
                           />
                         </td>
                       )}
-                      <td className="p-2">₹{(calculateAmount(c.id)).toFixed(2)}</td>
+                      <td className="p-2">₹{calculateAmount(c.id).toFixed(2)}</td>
                       {!useGlobalDesc && (
                         <td className="p-2">
                           <input
                             type="text"
                             value={splitDescriptions[c.id] ?? ""}
-                            onChange={(e) => setSplitDescriptions((prev) => ({ ...prev, [c.id]: e.target.value }))}
+                            onChange={(e) =>
+                              setSplitDescriptions((prev) => ({ ...prev, [c.id]: e.target.value }))
+                            }
                             className="w-full border rounded-md px-2 py-1"
                           />
                         </td>
@@ -299,10 +324,21 @@ export function SplitBillModal({
 
         <div className="flex justify-between items-center pt-4">
           <p className="text-lg font-semibold">Grand Total:</p>
-          <p className="text-lg font-bold">₹{(totalAmt).toFixed(2)}</p>
+          <p className="text-lg font-bold">₹{totalAmt.toFixed(2)}</p>
         </div>
-        <button onClick={confirmSplit} className={`${themeBtn} w-full py-2 rounded-md`}>
-          Confirm Split
+
+        <button
+          onClick={confirmSplit}
+          className={`${themeBtn} w-full py-2 rounded-md flex items-center justify-center gap-2`}
+          disabled={submitting}
+        >
+          {submitting ? (
+            <>
+              <FaSpinner className="animate-spin" /> Submitting...
+            </>
+          ) : (
+            "Confirm Split"
+          )}
         </button>
       </div>
     </div>

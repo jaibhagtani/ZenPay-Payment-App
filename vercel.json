@@ -1,6 +1,3 @@
 {
-  "build": {
-    "env": {},
-    "rootDirectory": "apps/user"
-  }
+  "rootDirectory": "apps/user"
 }

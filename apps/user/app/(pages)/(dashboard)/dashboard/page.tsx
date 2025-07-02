@@ -1,15 +1,13 @@
 import React from "react";
-import { FaQrcode, FaUserFriends, FaGift, FaChartLine } from "react-icons/fa";
+import { FaUserFriends, FaGift, FaChartLine } from "react-icons/fa";
 import { GrTransaction } from "react-icons/gr";
 import { getP2PTxns } from "../../../lib/actions/getP2P-txns";
 import { ActionCard, MainCardDashboard } from "../../../../components/cards/Dashboard Cards/clientSideDashboard";
 import { getDepositeTxns } from "../../../lib/actions/getDeposite-txns";
-import { FaArrowsDownToLine } from "react-icons/fa6";
-import { FaArrowsUpToLine } from "react-icons/fa6";
+import { FaArrowsDownToLine, FaArrowsUpToLine } from "react-icons/fa6";
 import { ButtonDashboardActionCard } from "../../../../components/buttons/buttonsDashboardActionCards";
 import { getSplitDetails } from "../../../lib/actions/getSplitDetails";
-import { RiP2pFill } from "react-icons/ri";
-import { RiBillFill } from "react-icons/ri";
+import { RiP2pFill, RiBillFill } from "react-icons/ri";
 // async function getP2PTransactions() {
 //   const session = await getServerSession(NEXT_AUTH);
 //   const userId = session?.user?.id;

@@ -32,7 +32,7 @@ export default function ActionButtons({ splitId, token, splitBillId }: Props) {
     const valid = await validateMpin();
     if (valid.msg !== "Valid User") {
       alert("Invalid MPIN");
-      setIsLoading(false);
+      // setIsLoading(false);
       return;
     }
 

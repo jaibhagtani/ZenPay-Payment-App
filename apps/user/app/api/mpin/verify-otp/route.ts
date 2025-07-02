@@ -1,4 +1,3 @@
-// app/api/auth/otp/send-otp/route.ts
 import { NextResponse } from "next/server";
 import { connectRedis, redisclient } from "../../../../redis";
 

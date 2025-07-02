@@ -1,10 +1,8 @@
-// app/api/auth/otp/send-otp/route.ts
 import { prisma } from "@repo/db/client";
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 import { connectRedis, redisclient } from "../../../../redis";
 
-// Remove unused global
 const generateOTP = (): string => {
   let OTP = "";
   for (let i = 0; i < 4; i++) {

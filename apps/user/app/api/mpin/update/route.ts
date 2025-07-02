@@ -19,7 +19,6 @@ export async function POST(request: Request) {
 
     try {
         const { email, mpin } = await request.json();
-        // Validate email and mpin here as needed
         const hashedMpin = await bcrypt.hash(mpin, 10);
         const user = await prisma.user.update({
             where: {

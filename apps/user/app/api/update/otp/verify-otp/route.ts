@@ -1,6 +1,6 @@
 // app/api/auth/otp/send-otp/route.ts
 import { NextResponse } from "next/server";
-import { redisclient } from "../../../../../redis";
+import { connectRedis, redisclient } from "../../../../../redis";
 
 // const client = require("twilio")(
 //   process.env.TWILIO_ACCOUNT_SID,
@@ -18,6 +18,8 @@ export async function POST(req: Request) {
         //   to: `+91${email}`,
         //   code: otp,
         // });
+        await connectRedis();
+        
         const redisOTP = await redisclient.get(email)
         if(otp === redisOTP)
         {

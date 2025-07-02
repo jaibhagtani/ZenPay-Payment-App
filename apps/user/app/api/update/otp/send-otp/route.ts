@@ -1,8 +1,7 @@
-// app/api/auth/otp/send-otp/route.ts
 import { prisma } from "@repo/db/client";
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
-import { redisclient } from "../../../../../redis";
+import { connectRedis, redisclient } from "../../../../../redis";
 
 let OTPFinal;
 const generateOTP = (): string => {
@@ -38,7 +37,10 @@ const sendVerificationEmail = async (email: string, otp: string, username: strin
 
               ZenPay | Safe. Fast. Effortless.`,
     });
-    redisclient.set(email, otp);
+    await connectRedis();
+    await redisclient.set(email, otp, {
+      EX: 300 // 5 minutes
+    });
     return info.messageId;
   } catch (error) {
     console.error("Error sending email:", error);

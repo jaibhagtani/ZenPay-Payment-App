@@ -193,15 +193,18 @@ export function SplitBillModal({
           <label className="block mb-1">Total Amount</label>
           <input
             type="number"
-            value={totalAmt}
+            value={totalAmt === 0 ? "" : totalAmt}
             onChange={(e) => {
-              const val = Number(e.target.value);
+              const raw = e.target.value;
+              const cleaned = raw.replace(/^0+(?=\d)/, "");
+              const val = Number(cleaned || "0");
               setTotalAmt(val);
               setAmount(val);
             }}
             className="w-full border rounded-md px-3 py-2"
           />
         </div>
+
 
         <div>
           <label className="block mb-1">Your Description</label>

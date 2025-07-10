@@ -18,7 +18,9 @@ model User {
   number     String    @unique
   password   String
   MPIN        String    @default("0202")
+  accounts              Account[]
   OnRampTransaction     OnRampTransaction[]
+  OffRampTransaction    OffRampTransaction[]
   Balance               Balance[]
   sentTransfers         p2pTransfer[]         @relation(name: "fromUserRelation")
   receivedTransfers     p2pTransfer[]     @relation(name: "toUserRelation")
@@ -27,6 +29,15 @@ model User {
   notifications         Notification[]
   splitBills            SplitBill[]
   splitEntries          SplitEntry[]
+}
+
+model Account {
+  id        Int       @id   @default(autoincrement())
+  userId    Int
+  accessToken   String?   @unique
+  accountNumber     String    @unique
+  ifsc      String
+  user      User    @relation(fields: [userId], references: [id])
 }
 
 model Merchant {
@@ -39,10 +50,25 @@ model Merchant {
 model OnRampTransaction {
   id          Int     @id    @default(autoincrement())
   status      OnRampStatus
-  token       String  @unique
+  walletToken String    @unique
+  bankToken   String?    @unique
   provider    String
   amount      Int
-  startTime   DateTime
+  accountNumber String    @default("")
+  startTime   DateTime   @default(now())
+  userId      Int  
+  user        User   @relation(fields: [userId], references: [id])
+}
+
+
+model OffRampTransaction {
+  id          Int     @id    @default(autoincrement())
+  status      OffRampStatus
+  withdrawToken String    @unique
+  toBank      String
+  amount      Int
+  accountNumber String    @default("")
+  startTime   DateTime   @default(now())
   userId      Int  
   user        User   @relation(fields: [userId], references: [id])
 }
@@ -145,6 +171,13 @@ enum OnRampStatus {
   Failure
   Processing
 }
+
+enum OffRampStatus {
+  Success
+  Failure
+  Processing
+}
+
 
 enum AuthType {
   Google

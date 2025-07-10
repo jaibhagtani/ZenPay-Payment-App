@@ -4,7 +4,7 @@ import { ReactNode } from "react";
 
 interface ButtonProps {
   children: ReactNode;
-  onClickFunc: () => void;
+  onClickFunc?: () => void;
   state?: boolean;
   className?: string;
 }

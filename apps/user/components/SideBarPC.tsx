@@ -1,6 +1,7 @@
 import { HomeIcon, P2P, Transactions, Transfer } from "@repo/ui/icons";
 import SideBarItems from "@repo/ui/sidebaritems";
 import { MdOutlineGroupAdd } from "react-icons/md";
+import { FaRegCreditCard } from "react-icons/fa";
 
 
 
@@ -9,10 +10,6 @@ export default function SidebarPC({type} : {type: "Dashboard" | "Profile"})
     if(type === "Dashboard")
     {
         return ( <div className="disable lg:fixed top-20 left-0 z-30 font-medium">
-            <div className="flex justify-center text-2xl bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 text-transparent bg-clip-text font-bold pb-6 pt-6 pl-5">
-                DASHBOARD
-            </div>
-            
             <div className="pt-4">
                 <SideBarItems href="/dashboard" icon={<HomeIcon/>} title="Home"></SideBarItems>
             </div>
@@ -30,6 +27,9 @@ export default function SidebarPC({type} : {type: "Dashboard" | "Profile"})
             </div>
             <div className="pt-4">
                 <SideBarItems href="/transactions/deposit" icon={<Transactions />} title="Transactions"></SideBarItems>
+            </div>
+            <div className="pt-4">
+                <SideBarItems href="/accounts" icon={<FaRegCreditCard size={26}/>} title="Cards"></SideBarItems>
             </div>
             <div className="pt-4">
                 <SideBarItems href="/profile" icon={<ProfileIcon/>} title="Profile"></SideBarItems>

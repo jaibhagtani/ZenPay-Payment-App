@@ -1,142 +1,230 @@
-"use client"
-import { Card } from "@repo/ui/card"
-import LabelledInput from "@repo/ui/labelledinput"
-import Select from "@repo/ui/select"
-import {useState} from "react"
-import { useSession } from "next-auth/react"
-import { Button } from "@repo/ui/button"
-import { InputOTPGroup } from "../../inputotpgroup"
-import { createOnRampTrans } from "../../../app/lib/actions/createOnRampTransactions"
+"use client";
+import { Card } from "@repo/ui/card";
+import LabelledInput from "@repo/ui/labelledinput";
+import { useState } from "react";
+import { useSession } from "next-auth/react";
+import { Button } from "@repo/ui/button";
+import { InputOTPGroup } from "../../inputotpgroup";
+import { createOnRampTrans } from "../../../app/lib/actions/createOnRampTransactions";
+import Link from "next/link";
+import { createOffRampTrans } from "../../../app/lib/actions/createOffRampTransactions";
+import dotenv from "dotenv";
+dotenv.config();
+const SUPPORTED_BANKS = [
+  { name: "HDFC Bank", redirectUrl: "https://netbanking.hdfcbank.com" },
+  { name: "Axis Bank", redirectUrl: "https://www.axisbank.com" },
+  { name: "ZenBank", redirectUrl: `${process.env.NEXT_PUBLIC_ZENBANK_URL}` },
+];
 
+export function AddMoney({
+  title,
+  buttonThing,
+  accounts,
+}: {
+  title: string;
+  buttonThing: string;
+  accounts: { bank: string; accountNumber: string; ifsc: string }[];
+}) {
+  const [value, setValue] = useState(0);
+  const [selectedAccount, setSelectedAccount] = useState("");
+  const [provider, setProvider] = useState("");
+  const [redirectUrl, setRedirectUrl] = useState("");
+  const [filter, setFilter] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [showMpinBar, setShowMpinBar] = useState(false);
+  const [Mpin, setMpin] = useState("");
+  const session = useSession();
 
-const SUPPORTED_BANKS = [{
-    name: "HDFC Bank",
-    redirectUrl : "https://netbanking.hdfcbank.com"
-},
-{
-    name: "Axis Bank",
-    redirectUrl : "https://www.axisbank.com"
-},
-{
-    name: "Zen Bank",
-    redirectUrl: ""
-}]
+  const filteredAccounts = accounts.filter((acc) =>
+    acc.bank.toLowerCase().includes(filter.toLowerCase())
+  );
 
+  async function validateMpin() {
+    setIsLoading(true);
+    if (!session.data?.user) return { msg: "User Not Loggedin!!" };
 
-export function AddMoney({title, buttonThing} : {title: string, buttonThing: string}) {
+    const res = await fetch("/api/mpin/validate", {
+      method: "POST",
+      headers: { Accept: "application/json", "Content-Type": "application/json" },
+      body: JSON.stringify({
+        Mpin: Mpin,
+        email: session.data.user.email,
+      }),
+    });
 
-    const [redirectUrl, setRedirectUrl] = useState(SUPPORTED_BANKS[0]?.redirectUrl);
-    const [provider, setProvider] = useState(SUPPORTED_BANKS[0]?.name || "");
-    const [value, setValue] = useState(0);
-    const [bool, setBool] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
-    const session = useSession();
-    const [showMpinBar, setShowMpinBar] = useState(false);
-    const [Mpin, setMpin] = useState("");
+    return res.json();
+  }
 
-    async function validateMpin()
-    {
-        setIsLoading(true)
-        if(!session.data?.user)
-        {
-            return Response.json({
-                msg: "User Not Loggedin!!"
-            })
-        }
+  return (
+    <div className="min-h-fit mx-2 sm:mx-5">
+      <Card title={title}>
+        <div className="mt-6 sm:mt-10">
+          <div className="flex justify-between items-center mb-2">
+            <div className="text-base sm:text-xl font-bold flex">Your Accounts (Select Account)</div>
+            
+            <Link href="/link-account">
+              <Button className="bg-black text-white hover:bg-gray-800 text-sm sm:text-base px-4 py-2 rounded">
+                Link Account
+              </Button>
+            </Link>
+          </div>
 
-        const res = await fetch("/api/mpin/validate", {
-            method: "POST",
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                Mpin: Mpin,
-                email: session.data.user.email
-            }),
-        })
-        setIsLoading(false)
-        return res.json();
-        
-    }
+          <input
+            type="text"
+            placeholder="Search bank..."
+            className="w-full mb-4 p-2 border text-sm sm:text-base rounded-lg"
+            value={filter}
+            onChange={(e) => setFilter(e.target.value)}
+          />
 
+          <div className="w-full overflow-x-auto rounded-lg shadow border text-sm sm:text-base">
+  <div className="min-w-full">
+    <table className="min-w-full divide-y divide-gray-200">
+      <thead className="bg-gray-50 sticky top-0 z-10">
+        <tr>
+          <th className="px-3 sm:px-6 py-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase">
+            Bank
+          </th>
+          <th className="px-3 sm:px-6 py-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase">
+            Account Number
+          </th>
+          <th className="px-3 sm:px-6 py-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase">
+            IFSC
+          </th>
+        </tr>
+      </thead>
+    </table>
 
+    <div className="max-h-40 overflow-y-auto">
+      <table className="min-w-full divide-y divide-gray-200">
+        <tbody className="bg-white divide-y divide-gray-200">
+          {filteredAccounts.length > 0 ? (
+            filteredAccounts.map((acc, idx) => (
+              <tr
+                key={idx}
+                className={`cursor-pointer hover:bg-gray-100 ${
+                  selectedAccount === acc.accountNumber ? "bg-blue-100" : ""
+                }`}
+                onClick={() => {
+                  setSelectedAccount(acc.accountNumber);
+                  setProvider(acc.bank);
+                  const meta = SUPPORTED_BANKS.find((b) => b.name === acc.bank);
+                  setRedirectUrl(meta?.redirectUrl || "");
+                }}
+              >
+                <td className="px-3 sm:px-6 py-3 whitespace-nowrap">{acc.bank}</td>
+                <td className="px-3 sm:px-6 py-3 whitespace-nowrap font-mono">{acc.accountNumber}</td>
+                <td className="px-3 sm:px-6 py-3 whitespace-nowrap">{acc.ifsc}</td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td className="px-6 py-4 text-center" colSpan={3}>
+                No matching accounts
+              </td>
+            </tr>
+          )}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
 
-    return (
-        <div className="min-h-fit mx-5">
-            <div className="pt-2"></div>
-                <Card title={`${title}`}>
-                    <div className="ml-4 mt-10 w-full pr-4">
-                    <LabelledInput label="Amount" placeholder="Amount" onChangeFunc={(val) => {
-                        setValue(Number(val));
-                        {Number(val) > 0 ? setBool(true) : setBool(false)}
-                    }}></LabelledInput>
-                    <div className="pb-2 text-sm font-semibold mt-4">
-                        Bank
-                    </div>
-                    {/* IMP LOGIC  */}
-                    <Select onSelect={(value) => {
-                        setRedirectUrl(SUPPORTED_BANKS.find(x => x.name === value)?.redirectUrl || "");
-                        setProvider(SUPPORTED_BANKS.find(x => x.name === value)?.name || "");
-                    }} options={SUPPORTED_BANKS.map(bank => ({
-                        key: bank.name,
-                        value: bank.name
-                    }))}></Select>
-                    {/* The window.location object in JavaScript provides information about the current URL */}
-                    <div className="flex flex-row justify-center">
-                        <div className="flex justify-center mt-10 pb-8">
-                            {!showMpinBar ? (<Button onClickFunc={async () => {
-                                if(provider !== "" && value !== 0 && bool)
-                                {
-                                    setShowMpinBar(true)
-                                }
-                                else 
-                                {
-                                    alert("Invalid Details and Amount")
-                                }
-                                
-                            }}>Next</Button>)
-                        : (
-                            <div> 
-                                <div className="font-sm font-bold flex justify-start py-1 border-b border-lg">Enter MPIN</div>
-                                    <div className="py-2 flex justify-center">
-                                        <InputOTPGroup type="password" onChangeFunc={(pin) => {
-                                            setMpin(pin);
-                                        }}></InputOTPGroup>
-                                    </div>
-                                <div className="flex justify-center py-2 pt-2">
-                                    <Button state={isLoading} onClickFunc={async () => {
-                                        setIsLoading(true)
-                                        const validateRes = await validateMpin();
-                                        setIsLoading(false)
-                                        if(validateRes.msg === "Valid User")
-                                        {
-                                            // const provider:string = SUPPORTED_BANKS.find(x => x.redirectUrl === redirectUrl)?.name || "";
-                                            await createOnRampTrans(provider, value);
-                                            window.location.href = redirectUrl || "";
-                                        }
-                                        else 
-                                        {
-                                            alert("Invalid MPIN")
-                                        }
-                                    }}>{ isLoading ? 
-                                    
-                                        <div role="status">
-                                            <svg aria-hidden="true" className="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
-                                                <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/>
-                                            </svg>
-                                            <span className="sr-only">Loading...</span>
-                                        </div>
-
-                                    :"Transfer"}</Button>
-                            </div>
-                        </div>)}
-                    </div> 
-                </div> 
-            </div> 
-
-            </Card>
         </div>
-    )
+
+        <div className="ml-2 sm:ml-4 mt-6 sm:mt-8 w-full pr-2 sm:pr-4">
+          <LabelledInput
+            label="Amount"
+            placeholder="Amount"
+            onChangeFunc={(val) => {
+              setValue(Number(val));
+            }}
+          />
+        </div>
+
+        <div className="px-2 sm:px-4 pt-4">
+          <label className="block text-sm font-semibold mb-1">Selected Account Number</label>
+          <input
+            type="text"
+            value={selectedAccount}
+            readOnly
+            className="w-full p-2 border rounded-lg bg-gray-100 text-sm"
+            placeholder="Click on an account above"
+          />
+        </div>
+
+        <div className="flex justify-center">
+          <div className="flex justify-center mt-8 sm:mt-10 pb-6 sm:pb-8">
+            {!showMpinBar ? (
+              <Button
+                onClickFunc={() => {
+                  if (provider && value > 0 && selectedAccount) {
+                    setShowMpinBar(true);
+                  } else {
+                    alert("Please enter all valid details.");
+                  }
+                }}
+                className="bg-black text-white hover:bg-gray-800 text-sm sm:text-base px-6 py-2 rounded"
+              >
+                Next
+              </Button>
+            ) : (
+              <div>
+                <div className="text-sm font-bold flex justify-start py-1 border-b border-lg">Enter MPIN</div>
+                <div className="py-2 flex justify-center">
+                  <InputOTPGroup type="password" onChangeFunc={(pin) => setMpin(pin)} />
+                </div>
+                <div className="flex justify-center py-2 pt-2">
+                  <Button
+                    state={isLoading}
+                    onClickFunc={async () => {
+
+                      if(title === "Deposit")
+                      {
+                        setIsLoading(true)
+                        const res = await validateMpin();
+                        if (res.msg === "Valid User") {
+                          const result = await createOnRampTrans(provider, value, selectedAccount);
+  
+                          if (result?.bankToken) {
+                            // console.log(redirectUrl)
+                            window.location.href = `${redirectUrl}/deposit-to-wallet/${result.bankToken}`;
+                          } else {
+                            alert("Deposit failed: " + (result?.msg || "Unknown error"));
+                          }
+                        } else {
+                          alert("Invalid MPIN");
+                        }
+                        setIsLoading(false);
+                      }
+                      else if(title === "Withdraw"){
+                        setIsLoading(true)
+                        const res = await validateMpin();
+                        if (res.msg === "Valid User") {
+                          const result = await createOffRampTrans(provider, value, selectedAccount);
+  
+                          if (result?.msg === "Withdrawal request is in Progress !!") {
+                            // console.log(redirectUrl)
+                            alert(result.msg);
+                          } else {
+                            alert("Deposit failed: " + (result?.msg || "Unknown error"));
+                          }
+                        } else {
+                          alert("Invalid MPIN");
+                        }
+                        setIsLoading(false);
+                      }
+                    }}
+                    className="bg-black text-white hover:bg-gray-800 text-sm sm:text-base px-6 py-2 rounded"
+                  >
+                    {isLoading ? "Transferring..." : "Transfer"}
+                  </Button>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </Card>
+    </div>
+  );
 }

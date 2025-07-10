@@ -84,7 +84,7 @@ export function SendAndSearchContacts({ AllMyContacts, numberOfContacts }: SendA
             <LabelledInput
               maxi={10}
               type="tel"
-              label="Selected Number"
+              label="Enter Number or Selected Number"
               value={selectedNumber}
               onChangeFunc={setSelectedNumber}
             />

@@ -1,161 +1,151 @@
+import { NextAuthOptions, DefaultSession } from "next-auth";
+import NextAuth from "next-auth";
+import CredentialsProvider from "next-auth/providers/credentials";
+import bcrypt from "bcrypt";
+import { z } from "zod";
 import { prisma } from "@repo/db/client";
-import CredentialsProvider from "next-auth/providers/credentials"
-import bcrypt from "bcrypt" 
-import { z } from "zod"
+
+declare module "next-auth" {
+  interface Session {
+    user: {
+      id: string;
+      phoneNumber?: string;
+    } & DefaultSession["user"];
+  }
+}
+declare module "next-auth/jwt" {
+  interface JWT {
+    phoneNumber?: string;
+  }
+}
+
+const cookiePrefix = process.env.NODE_ENV === "production" ? "__Secure-" : "";
+const useSecureCookies = process.env.NODE_ENV === "production";
 
 const signinObj = z.object({
   phone: z.string().min(10),
-  password: z.string().min(6).max(20)
-})
-
+  password: z.string().min(6).max(20),
+});
 
 const signupObj = z.object({
   phone: z.string().min(10),
   password: z.string().min(6).max(20),
   name: z.string().min(1),
-  email: z.string().email().min(6)
-})
-export const NEXT_AUTH = {
-    
-    providers: [
-    CredentialsProvider({
-        id: "signin",
-        name: 'Credentials',
-       
-        credentials: {
-          phone: { label: "Phone Number", type: "text", placeholder: "1231231231", required: true},
-          password: { label: "Password", type: "password", required: true}
-        },
+  email: z.string().email(),
+});
 
-        // The whole logic will be here 
-        async authorize(credentials: any) {
-
-          // Do Zod validations, OTP validation here
-          // console.log(credentials);
-
-          if(!(signinObj.safeParse(credentials).success))
-          {
-            return null;
-          }
-          // *************************
-          // We don't do like hash this password and compare with the password comming form DB,
-          // because, This will always give you a new Hash
-          const hashedPassword = await bcrypt.hash(credentials.password, 10);
-
-          const existingUser = await prisma.user.findFirst({
-            where: {
-              number: credentials.phone
-            }
-          });
-
-          if(existingUser)
-          { 
-            const passwordValidation = await bcrypt.compare(credentials.password, existingUser.password);
-            if(passwordValidation)
-            {
-              // now nextauth will take care of making and maintaining cookies 
-              return {
-                id: existingUser.id.toString(),
-                name: existingUser.name,
-                email: existingUser.email,
-                number: credentials.phone
-              }
-            }
-            return null;
-          }
-          return null;
-        },
-        
-      },
-    ),
-    CredentialsProvider({
-      id:"signup",
-      name: "Credentials",
-     
-      credentials: {
-
-        name: { label: "First Name", type: "string", required: true },
-        phone: { label: "Phone Number", type: "text", placeholder: "1231231231", required: true},
-        password: { label: "Password", type: "password", required: true},
-        email: { label: "Email", type: "email", required: true }
-      },
-
-      // The whole logic will be here 
-      async authorize(credentials: any) {
-
-        // Do Zod validations, OTP validation here
-        // console.log(credentials);
-        // *************************
-        // We don't do like hash this password and compare with the password comming form DB,
-        // because, This will always give you a new Hash
-
-        if(!(signupObj.safeParse(credentials).success))
-        {
-          return null;
-        }
-        const existingUser = await prisma.user.findFirst({
-          where: {
-            number: credentials.phone
-          }
-        });
-        
-        if(existingUser)
-        {
-          return null;
-        }
-        else 
-        {
-          // you should send the otp to the user's Phone number here
-          try {
-            const hashedPassword = await bcrypt.hash(credentials.password, 10);
-            const user = await prisma.user.create({
-              data: {
-                number: credentials.phone,
-                password: hashedPassword,
-                name: credentials.name,
-                email: credentials.email,
-                MPIN: ""
-              }
-            });
-            await prisma.balance.create({
-              data: {
-                userId: user.id,
-                amount: 0,
-                locked: 0
-              }
-            })
-            return {
-              id: user.id.toString(),
-              name: user.name,
-              email: user.email,
-              number: user.number
-            }
-          }
-          catch(e)
-          {
-            console.error(e);
-          }
-        }
-        return null;
-      },
-    },
-    ),
-  ],
-  secret: process.env.NEXTAUTH_SECRET || "secret",
-  callbacks: {
-    // fix the type here
-    async session({ token, session }: any) {
-      
-      // console.log(token.sub);
-      session.user.id = token.sub
-      
-      // console.log(session);
-      return session;
-    }
-  },
-  pages: {
-    signIn: '/auth/signin',
-    signUp: '/auth/signup',
-    // error: '/auth/error',
-  }
+function getAccountNumber(): string {
+  const digits = "0123456789";
+  return Array.from({ length: 4 })
+    .map(() =>
+      Array.from({ length: 4 })
+        .map(() => digits[Math.floor(Math.random() * digits.length)])
+        .join("")
+    )
+    .join("-");
 }
+
+export const NEXT_AUTH: NextAuthOptions = {
+  providers: [
+    CredentialsProvider({
+      id: "signin",
+      name: "Sign In",
+      credentials: {
+        phone: { label: "Phone", type: "text" },
+        password: { label: "Password", type: "password" },
+      },
+      async authorize(credentials) {
+        const parsed = signinObj.safeParse(credentials);
+        if (!parsed.success) return null;
+        const { phone, password } = parsed.data;
+
+        const user = await prisma.user.findFirst({ where: { number: phone } });
+        if (!user) return null;
+        const valid = await bcrypt.compare(password, user.password);
+        if (!valid) return null;
+
+        return {
+          id: user.id.toString(),
+          name: user.name,
+          email: user.email,
+          number: user.number,
+        };
+      },
+    }),
+
+    CredentialsProvider({
+      id: "signup",
+      name: "Sign Up",
+      credentials: {
+        name: { label: "Name", type: "text" },
+        phone: { label: "Phone", type: "text" },
+        password: { label: "Password", type: "password" },
+        email: { label: "Email", type: "email" },
+      },
+      async authorize(credentials) {
+        const parsed = signupObj.safeParse(credentials);
+        if (!parsed.success) return null;
+        const { name, phone, password, email } = parsed.data;
+
+        const exists = await prisma.user.findFirst({ where: { number: phone } });
+        if (exists) return null;
+
+        const hashed = await bcrypt.hash(password, 10);
+        const user = await prisma.user.create({ data: { name, number: phone, email, password: hashed, MPIN: "" } });
+        await prisma.balance.create({ data: { userId: user.id, amount: 0, locked: 0 } });
+
+        return { id: user.id.toString(), name: user.name, email: user.email, number: user.number };
+      },
+    }),
+  ],
+
+  secret: process.env.NEXTAUTH_SECRET as string,
+
+  cookies: {
+    sessionToken: {
+      name: `${cookiePrefix}next-auth.session-token`,
+      options: { httpOnly: true, sameSite: "lax", path: "/", secure: useSecureCookies },
+    },
+    callbackUrl: {
+      name: `${cookiePrefix}next-auth.callback-url`,
+      options: { httpOnly: true, sameSite: "lax", path: "/", secure: useSecureCookies },
+    },
+    csrfToken: {
+      name: `${useSecureCookies ? "__Host-" : ""}next-auth.csrf-token`,
+      options: { httpOnly: true, sameSite: "lax", path: "/", secure: useSecureCookies },
+    },
+    pkceCodeVerifier: {
+      name: `${cookiePrefix}next-auth.pkce.code_verifier`,
+      options: { httpOnly: true, sameSite: "lax", path: "/", secure: useSecureCookies, maxAge: 900 },
+    },
+    state: {
+      name: `${cookiePrefix}next-auth.state`,
+      options: { httpOnly: true, sameSite: "lax", path: "/", secure: useSecureCookies, maxAge: 900 },
+    },
+    nonce: {
+      name: `${cookiePrefix}next-auth.nonce`,
+      options: { httpOnly: true, sameSite: "lax", path: "/", secure: useSecureCookies },
+    },
+  },
+
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        token.phoneNumber = (user as any).number;
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      session.user.id = token.sub!;
+      session.user.phoneNumber = token.phoneNumber;
+      return session;
+    },
+  },
+
+  pages: {
+    signIn: "/auth/signin",
+    signUp: "/auth/signup",
+  } as any,
+};
+
+export default NextAuth(NEXT_AUTH)

@@ -53,7 +53,7 @@ function P2PTransactionRow({ transaction }: { transaction: P2PTransactionStylePr
   const isReceived = transaction.paymentModeP2P === "received";
 
   let sign = "";
-  let amountColor = "text-gray-800";  // neutral color for processing
+  let amountColor = "text-gray-800";
   let actionText = "Processing";
 
   if (isPaid) {
@@ -84,16 +84,16 @@ function P2PTransactionRow({ transaction }: { transaction: P2PTransactionStylePr
           {transaction.toUserName}
         </span>
       </td>
-      <td className="px-1 sm:px-3 py-2 text-gray-600 whitespace-nowrap">
+      <td className="px-1 sm:px-3 py-2 text-gray-600 whitespace-nowrap font-semibold">
         {transaction.type || "-"}
       </td>
       <td className="px-1 sm:px-3 py-2 text-gray-600 whitespace-nowrap">
         {actionText}
       </td>
-      <td className="px-1 sm:px-3 py-2 text-gray-600 whitespace-nowrap truncate">
+      <td className="px-1 sm:px-3 py-2 text-gray-600 whitespace-nowrap truncate font-semibold">
         {formattedDate} • {formattedTime}
       </td>
-      <td className={`px-1 sm:px-3 py-2 text-right font-semibold ${amountColor} whitespace-nowrap`}>
+      <td className={`px-1 sm:px-3 py-2 text-right font-semibold ${amountColor} whitespace-nowrap font-bold`}>
         {isPaid ? `- ₹${formattedAmount}` : `${sign} ₹${formattedAmount}`}
       </td>
     </tr>

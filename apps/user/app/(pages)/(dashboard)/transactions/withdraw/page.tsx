@@ -7,16 +7,16 @@ import { TransactionStyle } from "@repo/ui/transactionbox";
 
 
 
-async function getOnRampTransactions()
+async function getOffRampTransactions()
 {
     const session = await getServerSession(NEXT_AUTH);
     const id = session?.user?.id;
     if(id)
     {
         // console.log("HERE");
-        const txns = await prisma.onRampTransaction.findMany({
+        const txns = await prisma.offRampTransaction.findMany({
             where: {
-                userId: Number(id)
+              userId: Number(id)
             }
         })
     
@@ -25,8 +25,9 @@ async function getOnRampTransactions()
             id: t.id,
             time: t.startTime,
             amount: t.amount,
+            accountNumber: t.accountNumber,
             status: t.status,
-            provider: t.provider
+            provider: t.toBank
         }))
         var tx = [...txs].reverse();
         return tx;
@@ -34,7 +35,7 @@ async function getOnRampTransactions()
     return null;
 }
 export default async function WithdrawPage() {
-  const transactions = await getOnRampTransactions();
+  const transactions = await getOffRampTransactions();
 
   return (
     <div className="w-full max-w-6xl mx-auto px-2 sm:px-4 md:px-6 lg:px-8 py-4">
@@ -67,6 +68,7 @@ interface TransactionCardProps {
   id: number;
   amount: number;
   time: Date;
+  accountNumber: string;
   status: string;
   provider: string;
 }
@@ -87,13 +89,13 @@ export function TxnsPage({
 
   return (
     <div className="w-full overflow-x-auto">
-      {/* Desktop/Table view */}
       <table className="hidden sm:table w-full border-collapse text-sm md:text-base">
         <thead className="bg-gray-100">
           <tr>
             <th className="px-4 py-2 text-left font-medium text-gray-700">Status</th>
             <th className="px-4 py-2 text-left font-medium text-gray-700">Details</th>
             <th className="px-4 py-2 text-left font-medium text-gray-700">Provider</th>
+            <th className="px-4 py-2 text-left font-medium text-gray-700">Account Number</th>
             <th className="px-4 py-2 text-right font-medium text-gray-700">Amount</th>
           </tr>
         </thead>

@@ -8,6 +8,8 @@ import { FaArrowsDownToLine, FaArrowsUpToLine } from "react-icons/fa6";
 import { ButtonDashboardActionCard } from "../../../../components/buttons/buttonsDashboardActionCards";
 import { getSplitDetails } from "../../../lib/actions/getSplitDetails";
 import { RiP2pFill, RiBillFill } from "react-icons/ri";
+import { RiArrowRightUpLine, RiArrowRightDownLine } from "react-icons/ri";
+
 // async function getP2PTransactions() {
 //   const session = await getServerSession(NEXT_AUTH);
 //   const userId = session?.user?.id;
@@ -27,14 +29,56 @@ import { RiP2pFill, RiBillFill } from "react-icons/ri";
 
 export default async function Dashboard() {
   const p2pData = await getP2PTxns();
-  const NumDepositBankTransfers = (await getDepositeTxns()).len;
-  const NumWithdrawBankTransfers = (await getDepositeTxns()).len;
+  const DepositBankTransfers = await getDepositeTxns();
+  const WithdrawBankTransfers = await getDepositeTxns();
+  const NumDepositBankTransfers = (DepositBankTransfers).len;
+  const NumWithdrawBankTransfers = (WithdrawBankTransfers).len;
   const NumP2PTransfers = p2pData?.tx?.length || 0
   const monthlySpending = Number(p2pData?.totalPaid)/100 || '0.00';
   const splitDetails = await getSplitDetails();
-  const CountSplits = splitDetails.totalSplits
+  const CountSplits = splitDetails.totalSplits;
+  const depositBankTx = DepositBankTransfers.tx;
+  const withdrawBankTx = WithdrawBankTransfers.tx;
+
   // const friends = p2pData.friends || 0;
   // const currency = p2pData.currency || "₹";
+  const normalizedP2P = (p2pData?.tx || []).map(tx => ({
+    ...tx,
+    type: tx.type || "P2P",
+    time: tx.time,
+    title: tx.toUserName || "Unknown",
+    subtext:
+      tx.type === "SPLIT"
+        ? "Bill Split"
+        : tx.paymentModeP2P === "paid"
+        ? "Sent via P2P"
+        : "Received via P2P",
+    direction:
+      tx.paymentModeP2P === "paid" || tx.amount < 0 ? "debit" : "credit",
+  }));
+
+  const normalizedDeposit = (depositBankTx || []).map(tx => ({
+    ...tx,
+    type: "DEPOSIT",
+    time: tx.time,
+    title: tx.provider || "Bank",
+    subtext: "Bank Deposit",
+    direction: "credit",
+  }));
+
+  const normalizedWithdraw = (withdrawBankTx || []).map(tx => ({
+    ...tx,
+    type: "WITHDRAW",
+    time: tx.time,
+    title: tx.provider || "Bank",
+    subtext: "Bank Withdrawal",
+    direction: "debit",
+  }));
+
+  // Merge and sort by time
+  const combinedTxns = [...normalizedP2P, ...normalizedDeposit, ...normalizedWithdraw]
+    .sort((a, b) => new Date(b.time).getTime() - new Date(a.time).getTime())
+    .slice(0, 10);
 
   return (
     <div className="min-h-screen bg-pink-50 p-6">
@@ -60,8 +104,8 @@ export default async function Dashboard() {
             />
             <ActionCard
               icon={<FaUserFriends size={26} className="text-indigo-600" />}
-              label="Account"
-              to="/profile"
+              label="Accounts"
+              to="/accounts"
             />
             <ActionCard
               icon={<FaGift size={26} className="text-indigo-600" />}
@@ -89,43 +133,35 @@ export default async function Dashboard() {
           </a>
         </div>
         <ul className="space-y-4">
-          {(p2pData?.tx || []).slice(0, 5).map((txn, idx) => (
-            <li key={idx} className="flex items-center justify-between">
+          {combinedTxns.map((txn, idx) => (
+            <li key={idx} className="flex items-center justify-between border-b pb-1">
               <div className="flex items-center space-x-3">
                 <div
                   className={`p-2 rounded-full ${
                     txn.type === "P2P"
-                      ? "bg-green-50"
+                      ? "bg-white"
                       : txn.type === "SPLIT"
                       ? "bg-purple-50"
-                      : "bg-indigo-50"
+                      : txn.type === "DEPOSIT"
+                      ? "bg-white"
+                      : "bg-white"
                   }`}
                 >
-                  {txn.type === "P2P" ? (
-                    <RiP2pFill
-                      className={`${
-                        txn.paymentModeP2P === "paid" ? "text-red-500" : "text-green-600"
-                      }`}
-                    />
+                  {txn.type === "P2P" && txn.direction==="credit"? (
+                    <RiArrowRightDownLine className="text-green-600" size={20} />
+                  ) : txn.type === "P2P" && txn.direction==="debit" ? (
+                    <RiArrowRightUpLine className="text-red-600" size={20} />
                   ) : txn.type === "SPLIT" ? (
                     <RiBillFill className="text-purple-600" />
+                  ) : txn.type === "DEPOSIT" ? (
+                    <RiArrowRightDownLine className="text-green-600" size={20}/>
                   ) : (
-                    <GrTransaction className="text-indigo-600" />
+                    <RiArrowRightUpLine className="text-red-600" size={20}/>
                   )}
                 </div>
                 <div>
-                  <p className="font-medium text-gray-800">
-                    {txn.toUserName || "Unknown"}
-                  </p>
-                  <p className="text-xs text-gray-500">
-                    {txn.type === "P2P"
-                      ? txn.paymentModeP2P === "paid"
-                        ? "Sent via P2P"
-                        : "Received via P2P"
-                      : txn.type === "SPLIT"
-                      ? "Bill Split"
-                      : "Transaction"}
-                  </p>
+                  <p className="font-medium text-gray-800 font-bold">{txn.title}</p>
+                  <p className="text-xs text-gray-500 font-semibold">{txn.subtext}</p>
                   <p className="text-xs text-gray-400">
                     {new Date(txn.time).toLocaleDateString()}{" "}
                     {new Date(txn.time).toLocaleTimeString()}
@@ -134,22 +170,19 @@ export default async function Dashboard() {
               </div>
               <div
                 className={`font-semibold ${
-                  txn.paymentModeP2P === "paid" || txn.amount < 0
-                    ? "text-red-500"
-                    : "text-green-600"
+                  txn.direction === "debit" ? "text-red-500" : "text-green-600"
                 }`}
               >
-                {txn.paymentModeP2P === "paid" || txn.amount < 0 ? "-" : "+"} ₹{" "}
+                {txn.direction === "debit" ? "-" : "+"} ₹{" "}
                 {Math.abs(txn.amount / 100).toFixed(2)}
               </div>
             </li>
           ))}
-        {(!p2pData?.tx || p2pData?.tx.length === 0) && (
-          <li className="text-center text-gray-400">
-            No recent transactions
-          </li>
-        )}
-      </ul>
+          {combinedTxns.length === 0 && (
+            <li className="text-center text-gray-400">No recent transactions</li>
+          )}
+        </ul>
+
 
       </div>
     </div>

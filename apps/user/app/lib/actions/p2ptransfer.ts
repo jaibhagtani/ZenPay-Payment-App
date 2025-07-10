@@ -8,7 +8,7 @@ export async function transferP2P(to : string, amount : number)
 {
 
     const session = await getServerSession(NEXT_AUTH);
-    const fromUser = session.user;
+    const fromUser = session?.user;
     const fromId = session?.user?.id;
     if(!fromId)
     {

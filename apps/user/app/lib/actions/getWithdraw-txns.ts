@@ -9,8 +9,11 @@ export async function getWithdrawTxns() {
     const id = session?.user?.id;
     if (id) {
 
-      const txns = await prisma.onRampTransaction.findMany({
-        where: { userId: Number(id) }
+      const txns = await prisma.offRampTransaction.findMany({
+        where: { userId: Number(id) },
+        orderBy: {
+          startTime: "desc"
+        }
       });
 
       let totalWithdrawalAmount = 0;
@@ -21,16 +24,14 @@ export async function getWithdrawTxns() {
         }
       });
 
-      const txs = txns.map(t => ({
+      const tx = txns.map(t => ({
         id: t.id,
         time: t.startTime,
         amount: t.amount,
         status: t.status,
-        provider: t.provider
+        provider: t.toBank
       }));
 
-      const tx = [...txs].reverse();
-      
         return { 
             tx, totalWithdrawalAmount 
         }

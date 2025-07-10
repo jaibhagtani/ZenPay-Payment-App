@@ -132,7 +132,7 @@ export function MpinCard({ title, type }: MpinCardInput) {
     if (res.ok) {
       if(type === "set")
       {
-        router.push("/dashboard");
+        router.push("/accounts");
       }
       else 
       {

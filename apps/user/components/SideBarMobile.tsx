@@ -3,7 +3,7 @@ import SideBarItems from "@repo/ui/sidebaritems";
 import { useState, useRef, useEffect } from "react";
 import { HomeIcon, P2P, Transactions, Transfer } from "@repo/ui/icons";
 import { MdOutlineGroupAdd } from "react-icons/md";
-
+import { FaRegCreditCard } from "react-icons/fa";
 export default function SideBarMobile({ type }: { type: "Profile" | "Dashboard" }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const sidebarRef = useRef<HTMLDivElement>(null);
@@ -101,6 +101,7 @@ export default function SideBarMobile({ type }: { type: "Profile" | "Dashboard" 
           <li><SideBarItems setClickFunc={hideSidebar} href="/split-bill" icon={<MdOutlineGroupAdd size={24} />} title="Bills Split" /></li>
           <li><SideBarItems setClickFunc={hideSidebar} href="/notificationsnpendings" icon={<Transactions />} title="Notifications" /></li>
           <li><SideBarItems setClickFunc={hideSidebar} href="/transactions/deposit" icon={<Transactions />} title="Transactions" /></li>
+          <li><SideBarItems setClickFunc={hideSidebar} href="/accounts" icon={<FaRegCreditCard size={24} />} title="Cards" /></li>
           <li><SideBarItems setClickFunc={hideSidebar} href="/profile" icon={<ProfileIcon />} title="Profile" /></li>
           <li><SideBarItems setClickFunc={hideSidebar} href="/mpin/update" icon={<MPINIcon />} title="MPIN" /></li>
         </ul>

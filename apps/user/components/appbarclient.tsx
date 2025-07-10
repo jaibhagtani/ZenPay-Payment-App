@@ -50,7 +50,7 @@ export function AppBarClient({setIsAccountBar, isAccountBar} : AppBarClient) {
 
     const noti = getNoti();
     return (
-        <nav
+        <div
             className={`fixed top-0 w-full z-50 transition-shadow duration-300 bg-pink-50 ${
                 isScrolled ? "shadow-xl backdrop-blur-xl bg-pink-50/70" : "bg-transparent"
             }`}
@@ -66,6 +66,6 @@ export function AppBarClient({setIsAccountBar, isAccountBar} : AppBarClient) {
                 user={session?.data?.user}
                 notifications={noti}
             />
-        </nav>
+        </div>
     )
 }

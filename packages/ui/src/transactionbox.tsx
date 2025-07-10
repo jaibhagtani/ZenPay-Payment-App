@@ -2,6 +2,7 @@ export interface TransactionCardProps {
   id: number;
   amount: number;
   time: Date;
+  accountNumber: string;
   status: string;
   provider: string;
 }
@@ -62,6 +63,9 @@ export function TransactionStyle({
         <div className="text-sm text-gray-600">
           {typeOfPayment === "deposit" ? "Received" : "Sent"} via {transaction.provider}
         </div>
+        <div className="text-xs text-gray-600 font-bold">
+          Ac No.: {transaction.accountNumber}
+        </div>
         <div className="text-xs text-gray-400">
           {formattedDate} • {formattedTime}
         </div>
@@ -74,7 +78,7 @@ export function TransactionStyle({
       <td className="px-3 py-2">
         <div className="flex items-center space-x-2">
           <span className={`h-3 w-3 rounded-full ${dotColor}`} />
-          <span className="text-sm text-gray-700">{transaction.status}</span>
+          <span className="text-sm text-gray-700 font-semibold">{transaction.status}</span>
         </div>
       </td>
       <td className="px-3 py-2">
@@ -85,8 +89,9 @@ export function TransactionStyle({
           {formattedDate} • {formattedTime}
         </div>
       </td>
-      <td className="px-3 py-2 text-sm text-gray-700">{transaction.provider}</td>
-      <td className={`px-3 py-2 text-right font-semibold ${amountColor}`}>
+      <td className="px-3 py-2 text-sm text-gray-700 font-bold">{transaction.provider}</td>
+      <td className="px-3 py-2 text-sm text-gray-700 font-bold">{transaction.accountNumber}</td>
+      <td className={`px-3 py-2 text-right font-bold ${amountColor}`}>
         {amountPrefix} ₹{formattedAmount}
       </td>
     </tr>

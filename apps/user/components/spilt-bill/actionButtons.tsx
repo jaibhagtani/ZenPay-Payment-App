@@ -4,6 +4,7 @@ import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { handleSplitActionApproval } from "../../app/lib/actions/handleSplitActionApprovalPage";
 import MPinInput from "../p2p/send/mPinInputs";
+import { useSession } from "next-auth/react";
 
 interface Props {
   splitId: number;
@@ -17,12 +18,12 @@ export default function ActionButtons({ splitId, token, splitBillId }: Props) {
   const [showMpinBar, setShowMpinBar] = useState(false);
   const [mPin, setMpin] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-
+  const session = useSession();
   async function validateMpin() {
     const res = await fetch("/api/mpin/validate", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ Mpin: mPin }),
+      body: JSON.stringify({ Mpin: mPin, email: session.data?.user.email }),
     });
     return res.json();
   }
@@ -62,7 +63,7 @@ export default function ActionButtons({ splitId, token, splitBillId }: Props) {
     startTransition(async () => {
       const result = await handleSplitActionApproval(formData);
       if (result?.redirect) {
-        alert("Split Approved");
+        alert("Split Rejected !!");
         router.push(result.redirect);
       }
     });

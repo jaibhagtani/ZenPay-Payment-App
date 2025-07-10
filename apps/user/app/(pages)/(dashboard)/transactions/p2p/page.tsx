@@ -10,6 +10,9 @@ async function getp2pTransactions() {
 
   const txns = await prisma.p2pTransfer.findMany({
     where: { fromUserId: Number(id) },
+    orderBy: {
+      timestamp: "desc"
+    }
   });
 
   return txns.map(t => ({
@@ -20,7 +23,7 @@ async function getp2pTransactions() {
     toUserName: t.toUserName,
     paymentModeP2P: t.paymentModeP2P,
     type: t.type
-  })).reverse();
+  }))
 }
 
 export default async function() {

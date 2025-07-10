@@ -8,13 +8,16 @@ import { NEXT_AUTH } from "../../../lib/auth";
 
 async function getDetails() {
   const session = await getServerSession(NEXT_AUTH);
-  if (!session?.user) {
+  if (!session?.user.email) {
     throw new Error("User not logged in!");
   }
 
   const userDetails = await prisma.user.findUnique({
     where: {
-      email: session.user.email,
+      email: session?.user.email,
+    },
+    include: {
+      accounts: true, // get linked accounts
     },
   });
   return userDetails;
@@ -44,8 +47,6 @@ export default async function ProfilePage() {
     );
   }
 
-  const userNumber = userDetails?.number;
-
   return (
     <div className="flex-auto">
       <h1 className="mx-4 mt-20 text-3xl ml-20 sm:text-4xl bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 inline-block text-transparent bg-clip-text font-bold mb-6">
@@ -54,7 +55,6 @@ export default async function ProfilePage() {
       <div className="flex-auto bg-[#fdf0f6] flex justify-center items-center px-4">
         <div className="bg-white rounded-3xl shadow-xl w-full max-w-6xl flex flex-col md:flex-row overflow-hidden">
           
-          {/* Left user summary */}
           <div className="bg-purple-50 flex flex-col items-center justify-center p-10 w-full md:w-1/3">
             <FaUserCircle size={100} className="text-purple-600 mb-4" />
             <h2 className="text-2xl font-bold text-gray-800 mb-2">
@@ -71,7 +71,6 @@ export default async function ProfilePage() {
             </AccountButton>
           </div>
 
-          {/* Right details */}
           <div className="flex-1 p-10 space-y-8">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
@@ -107,20 +106,43 @@ export default async function ProfilePage() {
                   className="w-full shadow-sm py-0.5 px-2"
                 />
               </div>
+
               <div className="md:col-span-2">
-                <label className="block text-sm font-medium text-gray-600 mb-1">
-                  Account Number
-                </label>
-                <input
-                  type="text"
-                  value="7838909398300nuidfn"
-                  disabled
-                  className="w-full shadow-sm py-0.5 px-2"
-                />
+                <div className="flex justify-between">
+                  <label className="block text-sm font-medium text-gray-600 mb-1">
+                    Accounts Linked
+                  </label>
+                  <AccountButton
+                    to="accounts"
+                    className="block text-xs font-medium text-blue-600 mb-1 mx-2 hover:underline cursor-pointer"
+                  >See All</AccountButton>
+                </div>
+                <div className="space-y-2">
+                  {userDetails?.accounts && userDetails?.accounts?.length > 0 ? (
+                    userDetails.accounts.map((account, idx) => (
+                      <input
+                        key={idx}
+                        type="text"
+                        value={`${account.accountNumber} (${account.ifsc})`}
+                        disabled
+                        className="w-full shadow-sm py-0.5 px-2"
+                      />
+                    ))
+                  ) : (
+                    <div className="text-gray-500">No accounts linked.</div>
+                  )}
+                </div>
+                <div className="mt-4 flex justify-end">
+                  <a
+                    href="/link-account"
+                    className="bg-purple-600 text-white px-4 py-2 rounded-full shadow hover:bg-purple-700 transition text-sm"
+                  >
+                    + Add Account
+                  </a>
+                </div>
               </div>
             </div>
 
-            {/* Password / MPIN change */}
             <div className="space-y-4">
               <div className="flex justify-between items-center bg-gray-50 rounded-xl px-6 py-4 shadow-inner">
                 <div>
@@ -147,6 +169,7 @@ export default async function ProfilePage() {
                 </AccountButton>
               </div>
             </div>
+
           </div>
         </div>
       </div>

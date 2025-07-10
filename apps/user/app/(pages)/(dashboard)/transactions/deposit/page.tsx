@@ -15,7 +15,10 @@ async function getOnRampTransactions()
         // console.log("HERE");
         const txns = await prisma.onRampTransaction.findMany({
             where: {
-                userId: Number(id)
+              userId: Number(id)
+            },
+            orderBy: {
+              startTime: "desc"
             }
         })
     
@@ -24,11 +27,11 @@ async function getOnRampTransactions()
             id: t.id,
             time: t.startTime,
             amount: t.amount,
+            accountNumber: t.accountNumber,
             status: t.status,
             provider: t.provider
         }))
-        var tx = [...txs].reverse();
-        return tx;
+        return txs;
     }
     return null;
 }
@@ -62,6 +65,7 @@ interface TransactionCardProps {
   id: number;
   amount: number;
   time: Date;
+  accountNumber: string;
   status: string;
   provider: string;
 }
@@ -82,13 +86,13 @@ export function TxnsPage({
 
   return (
     <div className="w-full overflow-x-auto">
-      {/* Desktop/Table view */}
       <table className="hidden sm:table w-full border-collapse text-sm md:text-base">
         <thead className="bg-gray-100">
           <tr>
             <th className="px-4 py-2 text-left font-medium text-gray-700">Status</th>
             <th className="px-4 py-2 text-left font-medium text-gray-700">Details</th>
             <th className="px-4 py-2 text-left font-medium text-gray-700">Provider</th>
+            <th className="px-4 py-2 text-left font-medium text-gray-700">Account Number</th>
             <th className="px-4 py-2 text-right font-medium text-gray-700">Amount</th>
           </tr>
         </thead>
@@ -103,7 +107,6 @@ export function TxnsPage({
         </tbody>
       </table>
 
-      {/* Mobile/Card view */}
       <div className="flex flex-col space-y-3 sm:hidden w-full">
         {transactions.map(tx => (
           <TransactionStyle

@@ -67,7 +67,7 @@ We don't currently have contacts with this bank`)
       const resMpin = await fetch("/api/mpin/validate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ mpin, email })
+        body: JSON.stringify({ Mpin: mpin, email })
       });
       if (!resMpin.ok) throw new Error("MPIN validation failed");
 

@@ -9,9 +9,7 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "db:generate": "cd packages/db && npx prisma generate",
     "start-user-app": "cd ./apps/user && npm run start",
-    "start-merchant-app": "cd ./apps/merchant && npm run start",
-    "start-bank-webhook" : "cd ./apps/bank-webhook && npm run dev",
-    "start-user-withdrawal-sweeper" : "cd ./apps/user-withdrawal-sweeper && npm run dev"
+    "start-merchant-app": "cd ./apps/merchant && npm run start"
   },
   "devDependencies": {
     "@types/jquery": "^3.5.32",

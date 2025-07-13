@@ -14,6 +14,7 @@
   "description": "",
   "devDependencies": {
     "@repo/db": "*",
+    "@types/cors": "^2.8.19",
     "@types/express": "^5.0.3",
     "esbuild": "^0.20.2",
     "express": "^4.19.1"

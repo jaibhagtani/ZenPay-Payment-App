@@ -9,6 +9,7 @@ import { ButtonDashboardActionCard } from "../../../../components/buttons/button
 import { getSplitDetails } from "../../../lib/actions/getSplitDetails";
 import { RiP2pFill, RiBillFill } from "react-icons/ri";
 import { RiArrowRightUpLine, RiArrowRightDownLine } from "react-icons/ri";
+import { getWithdrawTxns } from "../../../lib/actions/getWithdraw-txns";
 
 // async function getP2PTransactions() {
 //   const session = await getServerSession(NEXT_AUTH);
@@ -30,9 +31,9 @@ import { RiArrowRightUpLine, RiArrowRightDownLine } from "react-icons/ri";
 export default async function Dashboard() {
   const p2pData = await getP2PTxns();
   const DepositBankTransfers = await getDepositeTxns();
-  const WithdrawBankTransfers = await getDepositeTxns();
+  const WithdrawBankTransfers = await getWithdrawTxns();
   const NumDepositBankTransfers = (DepositBankTransfers).len;
-  const NumWithdrawBankTransfers = (WithdrawBankTransfers).len;
+  const NumWithdrawBankTransfers = WithdrawBankTransfers.tx?.length;
   const NumP2PTransfers = p2pData?.tx?.length || 0
   const monthlySpending = Number(p2pData?.totalPaid)/100 || '0.00';
   const splitDetails = await getSplitDetails();
@@ -55,6 +56,7 @@ export default async function Dashboard() {
         : "Received via P2P",
     direction:
       tx.paymentModeP2P === "paid" || tx.amount < 0 ? "debit" : "credit",
+    status: "Success"
   }));
 
   const normalizedDeposit = (depositBankTx || []).map(tx => ({
@@ -64,6 +66,7 @@ export default async function Dashboard() {
     title: tx.provider || "Bank",
     subtext: "Bank Deposit",
     direction: "credit",
+    status: tx.status
   }));
 
   const normalizedWithdraw = (withdrawBankTx || []).map(tx => ({
@@ -73,6 +76,7 @@ export default async function Dashboard() {
     title: tx.provider || "Bank",
     subtext: "Bank Withdrawal",
     direction: "debit",
+    status: tx.status
   }));
 
   // Merge and sort by time
@@ -147,17 +151,34 @@ export default async function Dashboard() {
                       : "bg-white"
                   }`}
                 >
-                  {txn.type === "P2P" && txn.direction==="credit"? (
+                  {txn.status === "Processing" ? <div>
+                    {txn.type === "P2P" && txn.direction==="credit"? (
+                      <RiArrowRightDownLine className="text-black" size={20} />
+                    ) : txn.type === "P2P" && txn.direction==="debit"? (
+                      
+                      <RiArrowRightUpLine className="text-black" size={20} />
+                    ) : txn.type === "SPLIT" ? (
+                      <RiBillFill className="text-black" />
+                    ) : txn.type === "DEPOSIT" ? (
+                      <RiArrowRightDownLine className="text-black" size={20}/>
+                    ) : (
+                      <RiArrowRightUpLine className="text-black" size={20}/>
+                    )}
+                  </div> : <div>
+                    {txn.type === "P2P" && txn.direction==="credit"? (
                     <RiArrowRightDownLine className="text-green-600" size={20} />
-                  ) : txn.type === "P2P" && txn.direction==="debit" ? (
-                    <RiArrowRightUpLine className="text-red-600" size={20} />
-                  ) : txn.type === "SPLIT" ? (
-                    <RiBillFill className="text-purple-600" />
-                  ) : txn.type === "DEPOSIT" ? (
-                    <RiArrowRightDownLine className="text-green-600" size={20}/>
-                  ) : (
-                    <RiArrowRightUpLine className="text-red-600" size={20}/>
-                  )}
+                    ) : txn.type === "P2P" && txn.direction==="debit"? (
+                      
+                      <RiArrowRightUpLine className="text-red-600" size={20} />
+                    ) : txn.type === "SPLIT" ? (
+                      <RiBillFill className="text-purple-600" />
+                    ) : txn.type === "DEPOSIT" ? (
+                      <RiArrowRightDownLine className="text-green-600" size={20}/>
+                    ) : (
+                      <RiArrowRightUpLine className="text-red-600" size={20}/>
+                    )}
+                    </div>}
+                  
                 </div>
                 <div>
                   <p className="font-medium text-gray-800 font-bold">{txn.title}</p>
@@ -168,14 +189,26 @@ export default async function Dashboard() {
                   </p>
                 </div>
               </div>
-              <div
-                className={`font-semibold ${
-                  txn.direction === "debit" ? "text-red-500" : "text-green-600"
-                }`}
-              >
-                {txn.direction === "debit" ? "-" : "+"} ₹{" "}
-                {Math.abs(txn.amount / 100).toFixed(2)}
-              </div>
+              {txn.status === "Processing" ? <div>
+                <div
+                  className={`font-semibold ${
+                    txn.direction === "debit" ? "text-black" : "text-black"
+                  }`}
+                >
+                  ₹{" "}
+                  {Math.abs(txn.amount / 100).toFixed(2)}
+                </div>
+              </div> : <div>
+                <div
+                  className={`font-semibold ${
+                    txn.direction === "debit" ? "text-red-500" : "text-green-600"
+                  }`}
+                >
+                  {txn.direction === "debit" ? "-" : "+"} ₹{" "}
+                  {Math.abs(txn.amount / 100).toFixed(2)}
+                </div>
+                </div>}
+              
             </li>
           ))}
           {combinedTxns.length === 0 && (

@@ -152,6 +152,6 @@ app.get("/health", async (_, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`🌐 Withdraw Worker running at http://localhost:${port}`);
+  // console.log(`🌐 Withdraw Worker running at http://localhost:${port}`);
   processWithdrawForever();
 });

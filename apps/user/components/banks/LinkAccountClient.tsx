@@ -105,7 +105,7 @@ const handleFinalSubmit = async () => {
       return alert("OTP verification failed.");
     }
 
-    const bank_res = await fetch(`${process.env.NEXT_PUBLIC_ZENBANK_URL}/api/link/link-account/get-linking-token`, {
+    const bank_res = await fetch(`${process.env.NEXT_PUBLIC_ZENBANK_URL}api/link/link-account/get-linking-token`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

@@ -84,8 +84,8 @@ We don't currently have contacts with this bank`)
       setLoading(false);
       setStep("otp");
     } catch (err : any) {
-      setLoading(false);
-      return alert("Error: " + err.message);
+      alert("Error: " + err.message);
+      return setLoading(false);
     }
     setLoading(false);
     try {

@@ -75,6 +75,7 @@ We don't currently have contacts with this bank`)
         setLoading(false);
         throw new Error("MPIN validation failed");
       }
+      setLoading(false);
       setStep("otp");
     } catch (err : any) {
       setLoading(false);

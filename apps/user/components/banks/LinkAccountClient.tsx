@@ -74,6 +74,7 @@ We don't currently have contacts with this bank`)
 
       setStep("otp");
     } catch (err : any) {
+      setLoading(false);
       return alert("Error: " + err.message);
     }
     setLoading(false);
@@ -86,6 +87,7 @@ We don't currently have contacts with this bank`)
       if (!resOtp.ok) throw new Error("Failed to send OTP."); 
     }
     catch (err : any) {
+      setLoading(false);
       alert("Error: " + err.message);
     }
   };

@@ -6,6 +6,7 @@ import { InputOTPGroup } from "../inputotpgroup";
 import { cacheInRedis } from "../../app/lib/actions/cacheLinkUserDetails";
 import dotenv from "dotenv";
 dotenv.config();
+const ZENBANK_URL = process.env.NEXT_PUBLIC_ZENBANK_URL;
 export default function LinkAccountForm({ userId, number, emailUser} : {userId: number, number: string, emailUser:string}) {
   const { data: session } = useSession();
   const [step, setStep] = useState("info");
@@ -105,7 +106,7 @@ const handleFinalSubmit = async () => {
       return alert("OTP verification failed.");
     }
 
-    const bank_res = await fetch(`${process.env.NEXT_PUBLIC_ZENBANK_URL}api/link/link-account/get-linking-token`, {
+    const bank_res = await fetch(`${ZENBANK_URL}api/link/link-account/get-linking-token`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -152,7 +153,7 @@ const handleFinalSubmit = async () => {
       provider: bank,
     });
 
-    window.location.href = `${process.env.NEXT_PUBLIC_ZENBANK_URL}/link-account/${token}`;
+    window.location.href = `${ZENBANK_URL}/link-account/${token}`;
   } catch (err) {
     console.error("[Linking Error]", err);
     alert("Something went wrong. Please try again.");

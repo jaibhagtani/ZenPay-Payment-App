@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-import cors from "cors";
+
 import express from "express"
 import { prisma } from "@repo/db/client"
 const app = express();
@@ -8,14 +8,6 @@ dotenv.config();
 // To put transfer 
 const port = process.env.PORT;
 app.use(express.json())
-
-app.use(
-  cors({
-    origin: `${process.env.BANK_WITHDRAWAL_SWEEPER_URL}`,
-    methods: ["POST"],
-    allowedHeaders: ["Content-Type"],
-  })
-);
 
 // console.log(port)
 app.post("/hdfcWebhook", async (req : any, res: any) => {
@@ -37,7 +29,6 @@ app.post("/hdfcWebhook", async (req : any, res: any) => {
     // console.log(paymentInformation.token);
     // console.log(paymentInformation.userId);
     // console.log(paymentInformation.amount);
-
     // Transactions => Either both update should happen or none can happen
     try {
         

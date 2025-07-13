@@ -70,10 +70,16 @@ We don't currently have contacts with this bank`)
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ Mpin: mpin, email })
       });
+      const response = await resMpin.json();
       if (!resMpin.ok) 
       { 
         setLoading(false);
         throw new Error("MPIN validation failed");
+      }
+      else if(response === "Invalid MPIN")
+      {
+        setLoading(false);
+        return alert(response.msg)
       }
       setLoading(false);
       setStep("otp");

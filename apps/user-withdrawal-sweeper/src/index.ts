@@ -130,9 +130,9 @@ async function processWithdrawForever() {
 
     try {
       const result = await handleWithdraw(txn, txnKey);
-      // if (result !== "Success") {
-      //   await redisclient.RPUSH("withdrawUserQueue:transactions", withdrawToken);
-      // }
+      if (result !== "Success") {
+        await redisclient.RPUSH("withdrawUserQueue:transactions", withdrawToken);
+      }
 
     } finally {
       await redisclient.del(lockKey);
@@ -152,6 +152,5 @@ app.get("/health", async (_, res) => {
 });
 
 app.listen(port, () => {
-  // console.log(`🌐 Withdraw Worker running at http://localhost:${port}`);
   processWithdrawForever();
 });

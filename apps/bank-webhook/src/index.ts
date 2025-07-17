@@ -9,6 +9,12 @@ dotenv.config();
 const port = process.env.PORT;
 app.use(express.json())
 
+app.get("/", async (req : any, res: any) => {
+    res.status(200).json({
+        msg : "Bank Webhook is Running"
+    })
+})
+
 // console.log(port)
 app.post("/hdfcWebhook", async (req : any, res: any) => {
     // *********************************************************

@@ -106,12 +106,13 @@ async function processWithdrawForever() {
   // console.log("[WORKER] Withdraw worker started");
   while (true) {
     if (!redisclient.isOpen) await redisclient.connect();
-
-    const withdrawToken = await redisclient.LPOP("withdrawUserQueue:transactions");
-    if (!withdrawToken) {
+    const result = await redisclient.BLPOP("withdrawUserQueue:transactions", 0);
+    
+    if (!result) {
       await sleep(100);
       continue;
     }
+    const [_, withdrawToken]: any = result;
 
     const txnKey = `withdraw-txn:${withdrawToken}`;
     const txnData = await redisclient.get(txnKey);

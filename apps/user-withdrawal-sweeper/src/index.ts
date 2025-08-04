@@ -118,22 +118,20 @@ async function handleWithdraw(txn: WithdrawPayload, txnKey: string): Promise<"Su
 }
 
 async function processWithdrawForever() {
-  // console.log("[WORKER] Withdraw worker started");
   while (true) {
     try {
-      console.log(process.env.REDIS_URL);
 
       if (!redisclient.isOpen) await redisclient.connect();
 
-      console.log("HERE");
-      const result = await redisclient.blPop(["withdrawUserQueue:transactions"], 0);
-
-      if (!result) {
+      const withdrawToken = await redisclient.lPop("withdrawUserQueue:transactions");
+      
+      // console.log(result);
+      if (!withdrawToken) {
         await sleep(100);
         continue;
       }
-
-      const { element: withdrawToken } = result;
+      console.log(withdrawToken)
+      // const { element: withdrawToken } = result;
       console.log("Processing:", withdrawToken);
 
       const txnKey = `withdraw-txn:${withdrawToken}`;
@@ -165,17 +163,14 @@ async function processWithdrawForever() {
           await redisclient.rPush("withdrawUserQueue:transactions", withdrawToken);
         }
 
-      } catch (err) {
-        console.error(`[ERROR] During handleWithdraw:`, err);
-        await redisclient.rPush("withdrawUserQueue:transactions", withdrawToken);
-      } finally {
+      }
+      finally {
         await redisclient.del(lockKey);
       }
 
     } catch (err) {
       console.error(`[FATAL LOOP ERROR]`, err);
-      // Cannot requeue here because we don't have withdrawToken context
-      await sleep(1000); // Prevent tight loop if Redis is down or something breaks badly
+      await sleep(1000);
     }
   }
 

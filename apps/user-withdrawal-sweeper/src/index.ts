@@ -10,11 +10,11 @@ const MAX_RETRIES = 3;
 const REDIS_URL = process.env.REDIS_URL;
 const redisclient = createClient({
   url: REDIS_URL,
-  // socket: {
-  //   tls: true,
-  //   rejectUnauthorized: false,
-  //   host: "inspired-wahoo-12970.upstash.io",
-  // }
+  socket: {
+    tls: true,
+    rejectUnauthorized: false,
+    host: "inspired-wahoo-12970.upstash.io",
+  }
 });
 
 interface WithdrawPayload {
@@ -84,7 +84,7 @@ async function handleWithdraw(txn: WithdrawPayload, txnKey: string): Promise<"Su
       const retryCount = parseInt((await redisclient.get(retryKey)) || "0");
       if (retryCount < MAX_RETRIES) {
         await redisclient.set(retryKey, retryCount + 1, { EX: 3600 });
-        await redisclient.RPUSH("withdrawUserQueue:transactions", txn.withdrawToken);
+        // await redisclient.RPUSH("withdrawUserQueue:transactions", txn.withdrawToken);
       } else {
         console.warn(`[RETRY_LIMIT] WithdrawToken ${txn.withdrawToken} reached max retries`);
       }
@@ -98,7 +98,7 @@ async function handleWithdraw(txn: WithdrawPayload, txnKey: string): Promise<"Su
     const retryCount = parseInt((await redisclient.get(retryKey)) || "0");
     if (retryCount < MAX_RETRIES) {
       await redisclient.set(retryKey, retryCount + 1, { EX: 3600 });
-      await redisclient.RPUSH("withdrawUserQueue:transactions", txn.withdrawToken);
+      // await redisclient.RPUSH("withdrawUserQueue:transactions", txn.withdrawToken);
     } 
     else {
       await prisma.offRampTransaction.updateMany({
@@ -159,10 +159,10 @@ async function processWithdrawForever() {
         const result = await handleWithdraw(txn, txnKey);
 
         if (result !== "Success") {
-          console.warn(`[RETRY] Withdraw failed for ${withdrawToken}, re-queuing...`);
           await redisclient.rPush("withdrawUserQueue:transactions", withdrawToken);
+          console.error(`[RETRY] Withdraw failed for ${withdrawToken}, re-queuing...`);
         }
-
+        
       }
       finally {
         await redisclient.del(lockKey);

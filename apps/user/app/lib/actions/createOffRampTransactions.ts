@@ -70,11 +70,10 @@ export async function createOffRampTrans(provider: string, amount: number, selec
     // 10 min
     if (!redisclient.isOpen) await redisclient.connect();
     // console.log("HERE");
-    await redisclient.rPush("withdrawUserQueue:transactions", withdrawToken);
-
     // console.log("DONE")
 
     const txnKey = `withdraw-txn:${withdrawToken}`;
+    await redisclient.rPush("withdrawUserQueue:transactions", withdrawToken);
     await redisclient.set(
       txnKey,
       JSON.stringify({
@@ -89,7 +88,6 @@ export async function createOffRampTrans(provider: string, amount: number, selec
         EX: 60 * 10
       }
     );
-
     return {
       msg: "Withdrawal request is in Progress !!",
     };

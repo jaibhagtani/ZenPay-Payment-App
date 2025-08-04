@@ -123,13 +123,14 @@ async function processWithdrawForever() {
 
       if (!redisclient.isOpen) await redisclient.connect();
 
-      const withdrawToken = await redisclient.lPop("withdrawUserQueue:transactions");
+      const result = await redisclient.blPop(["withdrawUserQueue:transactions"], 0);
       
       // console.log(result);
-      if (!withdrawToken) {
+      if (!result) {
         await sleep(100);
         continue;
       }
+      const withdrawToken = result.element;
       console.log(withdrawToken)
       // const { element: withdrawToken } = result;
       console.log("Processing:", withdrawToken);

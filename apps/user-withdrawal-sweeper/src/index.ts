@@ -9,7 +9,12 @@ const port = process.env.PORT;
 const MAX_RETRIES = 3;
 const REDIS_URL = process.env.REDIS_URL;
 const redisclient = createClient({
-  url: REDIS_URL
+  url: REDIS_URL,
+  // socket: {
+  //   tls: true,
+  //   rejectUnauthorized: false,
+  //   host: "inspired-wahoo-12970.upstash.io",
+  // }
 });
 
 interface WithdrawPayload {
@@ -94,7 +99,17 @@ async function handleWithdraw(txn: WithdrawPayload, txnKey: string): Promise<"Su
     if (retryCount < MAX_RETRIES) {
       await redisclient.set(retryKey, retryCount + 1, { EX: 3600 });
       await redisclient.RPUSH("withdrawUserQueue:transactions", txn.withdrawToken);
-    } else {
+    } 
+    else {
+      await prisma.offRampTransaction.updateMany({
+        where: {
+          withdrawToken: txn.withdrawToken,
+          status: { in: ["Processing", "Failure"] }
+        },
+        data: { 
+          status: "Failure"
+        }
+      });
       console.warn(`[RETRY_LIMIT] WithdrawToken ${txn.withdrawToken} reached max retries`);
     }
 
@@ -105,40 +120,65 @@ async function handleWithdraw(txn: WithdrawPayload, txnKey: string): Promise<"Su
 async function processWithdrawForever() {
   // console.log("[WORKER] Withdraw worker started");
   while (true) {
-    if (!redisclient.isOpen) await redisclient.connect();
-    const result = await redisclient.BLPOP("withdrawUserQueue:transactions", 0);
-    
-    if (!result) {
-      await sleep(100);
-      continue;
-    }
-    const [_, withdrawToken]: any = result;
-
-    const txnKey = `withdraw-txn:${withdrawToken}`;
-    const txnData = await redisclient.get(txnKey);
-    if (!txnData) continue;
-
-    const txn: WithdrawPayload = JSON.parse(txnData);
-    const userId = txn.userId.toString();
-    const lockKey = `withdrawUserLock:${userId}`;
-
-    const lock = await redisclient.set(lockKey, "locked", { NX: true, EX: 10 });
-    if (!lock) {
-      await redisclient.RPUSH("withdrawUserQueue:transactions", withdrawToken);
-      await sleep(100);
-      continue;
-    }
-
     try {
-      const result = await handleWithdraw(txn, txnKey);
-      if (result !== "Success") {
-        await redisclient.RPUSH("withdrawUserQueue:transactions", withdrawToken);
+      console.log(process.env.REDIS_URL);
+
+      if (!redisclient.isOpen) await redisclient.connect();
+
+      console.log("HERE");
+      const result = await redisclient.blPop(["withdrawUserQueue:transactions"], 0);
+
+      if (!result) {
+        await sleep(100);
+        continue;
       }
 
-    } finally {
-      await redisclient.del(lockKey);
+      const { element: withdrawToken } = result;
+      console.log("Processing:", withdrawToken);
+
+      const txnKey = `withdraw-txn:${withdrawToken}`;
+      const txnData = await redisclient.get(txnKey);
+
+      if (!txnData) {
+        console.warn(`[WARN] Transaction data not found for token: ${withdrawToken}`);
+        continue;
+      }
+
+      const txn: WithdrawPayload = JSON.parse(txnData);
+      const userId = txn.userId.toString();
+      const lockKey = `withdrawUserLock:${userId}`;
+
+      const lock = await redisclient.set(lockKey, "locked", { NX: true, EX: 10 });
+
+      if (!lock) {
+        console.log(`[LOCK] User ${userId} is already being processed. Re-queuing...`);
+        await redisclient.rPush("withdrawUserQueue:transactions", withdrawToken);
+        await sleep(100);
+        continue;
+      }
+
+      try {
+        const result = await handleWithdraw(txn, txnKey);
+
+        if (result !== "Success") {
+          console.warn(`[RETRY] Withdraw failed for ${withdrawToken}, re-queuing...`);
+          await redisclient.rPush("withdrawUserQueue:transactions", withdrawToken);
+        }
+
+      } catch (err) {
+        console.error(`[ERROR] During handleWithdraw:`, err);
+        await redisclient.rPush("withdrawUserQueue:transactions", withdrawToken);
+      } finally {
+        await redisclient.del(lockKey);
+      }
+
+    } catch (err) {
+      console.error(`[FATAL LOOP ERROR]`, err);
+      // Cannot requeue here because we don't have withdrawToken context
+      await sleep(1000); // Prevent tight loop if Redis is down or something breaks badly
     }
   }
+
 }
 
 app.get("/", (_, res) => {res.send("Withdraw Worker is running")});

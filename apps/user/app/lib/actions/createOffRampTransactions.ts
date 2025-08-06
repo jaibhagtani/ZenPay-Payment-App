@@ -77,7 +77,7 @@ export async function createOffRampTrans(provider: string, amount: number, selec
     try 
     {
       const res = await redisclient.rPush("withdrawUserQueue:transactions", withdrawToken);
-      // console.log(res);
+      console.log(res);
     } 
     catch(err)
     {

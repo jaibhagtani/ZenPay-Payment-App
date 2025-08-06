@@ -73,14 +73,17 @@ export async function createOffRampTrans(provider: string, amount: number, selec
     // console.log("DONE")
 
     const txnKey = `withdraw-txn:${withdrawToken}`;
+    // console.log("HERE");
     try 
     {
       await redisclient.rPush("withdrawUserQueue:transactions", withdrawToken);
     } 
     catch(err)
     {
-      console.error("Failed to push to Redis queue:", err);
+      console.error("Failed to push to Redis queue");
     }
+    // console.log("HERE1");
+
     await redisclient.set(
       txnKey,
       JSON.stringify({

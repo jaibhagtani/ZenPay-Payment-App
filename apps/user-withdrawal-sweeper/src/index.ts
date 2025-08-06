@@ -130,14 +130,15 @@ async function processWithdrawForever() {
         await sleep(100);
         continue;
       }
-      const withdrawToken = result.element;
+      const { element: withdrawToken } = result;
       console.log(withdrawToken)
       // const { element: withdrawToken } = result;
-      console.log("Processing:", withdrawToken);
+      console.log("Processing:",withdrawToken);
 
       const txnKey = `withdraw-txn:${withdrawToken}`;
+      console.log(txnKey)
       const txnData = await redisclient.get(txnKey);
-
+      console.log(txnData);
       if (!txnData) {
         console.warn(`[WARN] Transaction data not found for token: ${withdrawToken}`);
         continue;
@@ -151,7 +152,7 @@ async function processWithdrawForever() {
 
       if (!lock) {
         console.log(`[LOCK] User ${userId} is already being processed. Re-queuing...`);
-        await redisclient.rPush("withdrawUserQueue:transactions", withdrawToken);
+        // await redisclient.rPush("withdrawUserQueue:transactions", withdrawToken);
         await sleep(100);
         continue;
       }

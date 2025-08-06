@@ -6,11 +6,11 @@ const redisURL = process.env.REDIS_URL;
 // console.log(redisURL);
 const redisclient = createClient({
   url: redisURL,
-  socket: {
-    tls: true,
-    rejectUnauthorized: false,
-    host: "proper-tiger-40609.upstash.io",
-  },
+  // socket: {
+  //   tls: true,
+  //   rejectUnauthorized: false,
+  //   host: "proper-tiger-40609.upstash.io",
+  // },
 });
 
 redisclient.on("error", (err) => {

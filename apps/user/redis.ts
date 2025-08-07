@@ -23,4 +23,13 @@ export async function connectRedis() {
   }
 }
 
+export const queueRedisClient = createClient({
+  url: redisURL,
+  // socket: {
+  //   tls: true,
+  //   rejectUnauthorized: false,
+  //   host: "proper-tiger-40609.upstash.io",
+  // },
+});
+
 export { redisclient };

@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 import { NEXT_AUTH } from "../auth";
 import { getServerSession } from "next-auth";
 import crypto from "crypto";
-import { redisclient } from "../../../redis";
+import { queueRedisClient, redisclient } from "../../../redis";
 
 export async function createOffRampTrans(provider: string, amount: number, selectedAccount: string) {
   const session = await getServerSession(NEXT_AUTH);
@@ -69,21 +69,18 @@ export async function createOffRampTrans(provider: string, amount: number, selec
     // Pushing withdraw txns
     // 10 min
     if (!redisclient.isOpen) await redisclient.connect();
+    if (!queueRedisClient.isOpen) await queueRedisClient.connect();
+
     // console.log("HERE");
     // console.log("DONE")
 
     const txnKey = `withdraw-txn:${withdrawToken}`;
     // console.log("HERE");
-    try 
-    {
-      const res = await redisclient.rPush("withdrawUserQueue:transactions", withdrawToken);
-      console.log(res);
-    } 
-    catch(err)
-    {
-      console.error("Failed to push to Redis queue");
-    }
-    // console.log("HERE1");
+    // ***********************************************************************
+    // USED Another client to remove this error of RATE LIMIT 
+
+    // ************** MOST MOST MOST IMP **************
+    await queueRedisClient.rPush("withdrawUserQueue:transactions", withdrawToken);    
 
     await redisclient.set(
       txnKey,

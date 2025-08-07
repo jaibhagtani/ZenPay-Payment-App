@@ -81,7 +81,7 @@ export async function createOffRampTrans(provider: string, amount: number, selec
 
     // ************** MOST MOST MOST IMP **************
     await queueRedisClient.rPush("withdrawUserQueue:transactions", withdrawToken);    
-
+    await new Promise(resolve => setTimeout(resolve, 1000));
     await redisclient.set(
       txnKey,
       JSON.stringify({

@@ -10,11 +10,11 @@ const MAX_RETRIES = 3;
 const REDIS_URL = process.env.REDIS_URL;
 const redisclient = createClient({
   url: REDIS_URL,
-  socket: {
-    tls: true,
-    rejectUnauthorized: false,
-    host: "inspired-wahoo-12970.upstash.io",
-  }
+  // socket: {
+  //   tls: true,
+  //   rejectUnauthorized: false,
+  //   host: "inspired-wahoo-12970.upstash.io",
+  // }
 });
 
 interface WithdrawPayload {

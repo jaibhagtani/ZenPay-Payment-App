@@ -155,6 +155,8 @@ async function processWithdrawForever() {
       console.log(txnKey)
       const txnData = await redisclient.get(txnKey);
       console.log(txnData);
+      const txnData2 = await queueRedisClient.get(txnKey);
+      console.log(txnData2);
       if (!txnData) {
         console.warn(`[WARN] Transaction data not found for token: ${withdrawToken}`);
         continue;

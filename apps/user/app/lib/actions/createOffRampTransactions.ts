@@ -80,8 +80,6 @@ export async function createOffRampTrans(provider: string, amount: number, selec
     // USED Another client to remove this error of RATE LIMIT 
 
     // ************** MOST MOST MOST IMP **************
-    await queueRedisClient.rPush("withdrawUserQueue:transactions", withdrawToken);    
-    await new Promise(resolve => setTimeout(resolve, 1000));
     await redisclient.set(
       txnKey,
       JSON.stringify({
@@ -96,6 +94,9 @@ export async function createOffRampTrans(provider: string, amount: number, selec
         EX: 60 * 10
       }
     );
+    await new Promise(resolve => setTimeout(resolve, 1000));
+
+    await queueRedisClient.rPush("withdrawUserQueue:transactions", withdrawToken);    
     return {
       msg: "Withdrawal request is in Progress !!",
     };

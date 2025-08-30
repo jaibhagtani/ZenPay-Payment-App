@@ -61,12 +61,12 @@ export async function POST(req: Request) {
       where: { email },
     });
 
-    if (existingUser) {
-      return NextResponse.json(
-        { error: "User already exists" },
-        { status: 400 }
-      );
-    }
+    // if (existingUser) {
+    //   return NextResponse.json(
+    //     { error: "User already exists" },
+    //     { status: 400 }
+    //   );
+    // }
 
     const otp = generateOTP();
     await sendVerificationEmail(email, otp, username);

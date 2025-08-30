@@ -1,6 +1,6 @@
 import express from "express";
 import { prisma } from "@repo/db/client";
-import { createClient } from "redis";
+import { createClient, RESP_TYPES } from "redis";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -10,12 +10,27 @@ const MAX_RETRIES = 3;
 const REDIS_URL = process.env.REDIS_URL;
 const redisclient = createClient({
   url: REDIS_URL,
-  socket: {
-    tls: true,
-    rejectUnauthorized: false,
-    host: "proper-tiger-40609.upstash.io",
-  }
+  // socket: {
+  //   tls: true,
+  //   rejectUnauthorized: false,
+  //   host: "proper-tiger-40609.upstash.io",
+  // }
 });
+
+
+const queueRedisClient = createClient({
+  url: REDIS_URL,
+  // socket: {
+  //   tls: true,
+  //   rejectUnauthorized: false,
+  //   host: "proper-tiger-40609.upstash.io",
+  // },
+});
+
+redisclient.on("error", (err) => console.error("Redis Client Error", err));
+queueRedisClient.on("error", (err) => console.error("Queue Redis Client Error", err));
+
+
 
 interface WithdrawPayload {
   withdrawToken: string;
@@ -122,8 +137,9 @@ async function processWithdrawForever() {
     try {
 
       if (!redisclient.isOpen) await redisclient.connect();
+      if (!queueRedisClient.isOpen) await queueRedisClient.connect();
 
-      const result = await redisclient.blPop(["withdrawUserQueue:transactions"], 0);
+      const result = await queueRedisClient.blPop(["withdrawUserQueue:transactions"], 0);
       
       // console.log(result);
       if (!result) {

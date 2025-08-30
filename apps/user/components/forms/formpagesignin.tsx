@@ -22,6 +22,7 @@ export default function FormPageSignin() {
   }, [searchParams]);
 
   async function onSubmit(e?: React.FormEvent, phone?: string, pass?: string) {
+
     if (e) e.preventDefault();
     setisLoading(true);
     try {
@@ -32,8 +33,8 @@ export default function FormPageSignin() {
       });
 
       if (!res?.error) {
-        alert("Signed in Successfully!!");
         router.push("/dashboard");
+        alert("Signed in Successfully!!");
       } else {
         alert("Invalid phone number or password");
       }

@@ -163,8 +163,8 @@ export default function FormPageSignup() {
           }
           else 
           {
-            alert("Signed up successfully!!")
             router.push("/mpin/set")
+            alert("Signed up successfully!!")
             return;
           }
         } 
